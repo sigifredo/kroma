@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nombre del proyecto y lenguaje
-project(SLang CXX)
+project(SLang VERSION 0.0.1 LANGUAGES CXX)
 
-# Estándar de C++ requerido
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-include_directories(include)
+include(config/build.cmake)
+include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
 set(SRC
     src/Token.cpp

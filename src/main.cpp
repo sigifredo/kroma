@@ -1,5 +1,6 @@
 
 // Own
+#include <Version.hpp>
 #include <Token.hpp>
 
 // std
@@ -21,6 +22,8 @@ void runPrompt();
 
 int main(int argc, char **argv)
 {
+    std::printf(PROJECT_NAME ": " PROJECT_VERSION "\n");
+
     if (argc > 2)
     {
         std::cout << "Usage: clox [script]" << std::endl;
