@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Nombre del proyecto y lenguaje
-project(MatterLang CXX)
+project(SLang CXX)
 
 # Estándar de C++ requerido
 set(CMAKE_CXX_STANDARD 17)
@@ -14,4 +14,4 @@ set(SRC
 )
 
 # Agrega el ejecutable desde el archivo fuente
-add_executable(matter src/main.cpp ${SRC})
+add_executable(slang src/main.cpp ${SRC})
