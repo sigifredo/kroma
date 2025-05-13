@@ -1,1 +1,1 @@
-# S-Lang
+# Kroma
