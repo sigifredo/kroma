@@ -15,7 +15,7 @@ std::list<Token> Scanner::scanToken()
     int line = 1;
     int start = 0;
 
-    for (char c : source)
+    for (const char &c : source)
     {
         start = current;
 
