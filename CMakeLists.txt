@@ -8,6 +8,8 @@ include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
 set(SRC
     src/Token.cpp
+    src/TokenType.cpp
+    src/Scanner.cpp
 )
 
 # Agrega el ejecutable desde el archivo fuente

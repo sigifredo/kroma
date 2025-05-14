@@ -3,69 +3,42 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
+// Own
+#include <TokenType.hpp>
+
+// std
 #include <string>
 
 class Token
 {
 public:
-    enum TokenType
-    {
-        // Single character token
-        LEFT_PAREN,
-        RIGHT_PAREN,
-        LEFT_BRACE,
-        RIGHT_BRACE,
-        COMMA,
-        DOT,
-        MINUS,
-        PLUS,
-        SEMICOLON,
-        SLASH,
-        STAR,
-
-        // One or two character token
-        BANG,
-        BANG_EQUAL,
-        EQUAL,
-        EQUAL_EQUAL,
-        GREATER,
-        GREATER_EQUAL,
-        LESS,
-        LESS_EQUAL,
-
-        // Literals
-        IDENTIFIER,
-        STRING,
-        NUMBER,
-
-        // Keywords
-        AND,
-        CLASS,
-        ELSE,
-        FALSE,
-        FUN,
-        FOR,
-        IF,
-        _NULL,
-        OR,
-        PRINT,
-        RETURN,
-        SUPER,
-        THIS,
-        TRUE,
-        VAR,
-        WHILE,
-        _EOF
-    };
-
+    Token(const Token &other);
     Token(const TokenType &type, const std::string &lexeme, const int &line);
 
+    Token &operator=(const Token &other);
     std::string toString();
 
+    std::string lexeme() const;
+    int line() const;
+    TokenType type() const;
+
 private:
-    const TokenType type;
-    const std::string lexeme;
-    const int line;
+    std::string _lexeme;
+    int _line;
+    TokenType _type;
 };
+
+inline std::string Token::lexeme() const
+{
+    return _lexeme;
+}
+inline int Token::line() const
+{
+    return _line;
+}
+inline TokenType Token::type() const
+{
+    return _type;
+}
 
 #endif
