@@ -9,7 +9,7 @@
 
 int main()
 {
-    std::cout << "Bienvenido a tu REPL estilo Bash (usa Ctrl+D para salir)\n";
+    std::cout << "Welcome to kroma (Ctrl+D to exit)\n";
 
     REPL repl;
     DummyListener dl;
