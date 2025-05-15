@@ -2,97 +2,147 @@
 
 // Own
 #include <ArgumentParser.hpp>
-#include <Version.hpp>
 
 // std
+#include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 
-ArgumentParser::ArgumentParser(int argc, char **argv, const std::string &programName) : programName(programName)
+ArgumentParser::ArgumentParser(const std::string &programName)
+    : programName(programName)
 {
-    parse(argc, argv);
+    registerBuiltinHelp();
 }
 
-void ArgumentParser::addArgument(const std::string &name,
+void ArgumentParser::addArgument(const std::vector<std::string> &names,
                                  const std::string &help,
                                  bool required,
                                  const std::string &defaultValue,
                                  bool isFlag)
 {
-    arguments[name] = Argument{name, help, required, defaultValue, isFlag, false, ""};
+    auto arg = std::make_shared<Argument>(Argument{names, help, required, defaultValue, isFlag, false, ""});
+
+    for (const auto &name : names)
+    {
+        if (aliasMap.count(name))
+        {
+            throw std::invalid_argument("Duplicate argument name: " + name);
+        }
+
+        aliasMap[name] = arg;
+    }
+
+    argumentList.push_back(arg);
 }
 
-void ArgumentParser::parse(int argc, char **argv)
+void ArgumentParser::registerBuiltinHelp()
+{
+    addArgument({"-h", "--help"}, "Show this help message and exit", false, "", true);
+}
+
+void ArgumentParser::parse(int argc, char *argv[])
 {
     for (int i = 1; i < argc; ++i)
     {
-        std::string arg = argv[i];
+        std::string token = argv[i];
 
-        if (arguments.find(arg) != arguments.end())
+        if (aliasMap.count(token))
         {
-            Argument &a = arguments[arg];
-            a.set = true;
+            auto &arg = aliasMap[token];
+            arg->set = true;
 
-            if (!a.isFlag)
+            if (!arg->isFlag)
             {
                 if (i + 1 >= argc)
-                    throw std::runtime_error("Missing value for argument: " + arg);
+                {
+                    throw std::runtime_error("Missing value for argument: " + token);
+                }
 
-                a.value = argv[++i];
+                arg->value = argv[++i];
             }
         }
         else
         {
-            for (auto &[key, a] : arguments)
+            // Try assigning to positional (non-flag, no dashes)
+            bool matched = false;
+
+            for (auto &arg : argumentList)
             {
-                if (!a.set && !a.isFlag && a.name[0] != '-')
+                if (arg->names.size() == 1 && arg->names[0][0] != '-' && !arg->set)
                 {
-                    a.value = arg;
-                    a.set = true;
+                    arg->value = token;
+                    arg->set = true;
+                    matched = true;
 
                     break;
                 }
             }
+
+            if (!matched)
+            {
+                throw std::runtime_error("Unknown argument: " + token);
+            }
         }
     }
 
-    // Check required arguments
-    for (const auto &[key, a] : arguments)
+    handleHelpIfRequested();
+
+    // Validate required arguments
+    for (const auto &arg : argumentList)
     {
-        if (a.required && !a.set)
+        if (arg->required && !arg->set)
         {
-            throw std::runtime_error("Missing required argument: " + key);
+            throw std::runtime_error("Missing required argument: " + arg->names[0]);
         }
+    }
+}
+
+void ArgumentParser::handleHelpIfRequested() const
+{
+    auto it = aliasMap.find("--help");
+
+    if (it != aliasMap.end() && it->second->set)
+    {
+        printHelp();
+        std::exit(0);
+    }
+
+    it = aliasMap.find("-h");
+
+    if (it != aliasMap.end() && it->second->set)
+    {
+        printHelp();
+        std::exit(0);
     }
 }
 
 bool ArgumentParser::isSet(const std::string &name) const
 {
-    auto it = arguments.find(name);
-    return it != arguments.end() && it->second.set;
+    auto it = aliasMap.find(name);
+    return it != aliasMap.end() && it->second->set;
 }
 
 std::string ArgumentParser::get(const std::string &name) const
 {
-    auto it = arguments.find(name);
+    auto it = aliasMap.find(name);
 
-    if (it == arguments.end())
+    if (it == aliasMap.end())
     {
         throw std::runtime_error("Unknown argument: " + name);
     }
 
-    const auto &a = it->second;
-
-    if (a.isFlag)
+    const auto &arg = it->second;
+    if (arg->isFlag)
     {
-        return a.set ? "true" : "false";
+        return arg->set ? "true" : "false";
     }
-    else if (a.set)
+    else if (arg->set)
     {
-        return a.value;
+        return arg->value;
     }
     else
     {
-        return a.defaultValue;
+        return arg->defaultValue;
     }
 }
 
@@ -101,15 +151,20 @@ void ArgumentParser::printHelp() const
     std::cout << "Usage: " << programName << " [options] [args]\n\n";
     std::cout << "Arguments:\n";
 
-    for (const auto &[key, a] : arguments)
+    for (const auto &arg : argumentList)
     {
-        std::cout << "  " << key << "\t" << a.help;
-
-        if (!a.defaultValue.empty())
+        std::cout << "  ";
+        for (size_t i = 0; i < arg->names.size(); ++i)
         {
-            std::cout << " (default: " << a.defaultValue << ")";
+            std::cout << arg->names[i];
+            if (i < arg->names.size() - 1)
+                std::cout << ", ";
         }
-
+        std::cout << "\t" << arg->help;
+        if (!arg->defaultValue.empty())
+            std::cout << " (default: " << arg->defaultValue << ")";
+        if (arg->required)
+            std::cout << " [required]";
         std::cout << "\n";
     }
 }
