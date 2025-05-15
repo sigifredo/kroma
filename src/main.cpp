@@ -14,7 +14,6 @@ int main(int argc, char **argv)
     ArgumentParser args(PROJECT_NAME);
 
     args.addArgument({"filename"}, "Input file to read", false);
-    args.addArgument({"-v", "--verbose"}, "Enable verbose mode", false, "", true);
 
     try
     {
