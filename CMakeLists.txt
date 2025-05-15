@@ -7,13 +7,16 @@ include(config/build.cmake)
 include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
 set(SRC
+    src/DummyListener.cpp
+    src/REPL.cpp
+    src/Scanner.cpp
     src/Token.cpp
     src/TokenType.cpp
-    src/Scanner.cpp
 )
 
 # Agrega el ejecutable desde el archivo fuente
 add_executable(kroma src/main.cpp ${SRC})
-add_executable(kroma_repl src/repl.cpp)
+add_executable(kroma_repl src/repl.cpp ${SRC})
 
+target_link_libraries(kroma PRIVATE readline)
 target_link_libraries(kroma_repl PRIVATE readline)
