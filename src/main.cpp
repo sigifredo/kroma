@@ -11,7 +11,7 @@
 int main()
 {
     std::cout << PROJECT_NAME " v" PROJECT_VERSION "\n";
-    std::cout << "Welcome to kroma!\n";
+    std::cout << "Welcome to kroma!\n\n";
 
     REPL repl;
     DummyListener dl;

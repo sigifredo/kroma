@@ -16,7 +16,5 @@ set(SRC
 
 # Agrega el ejecutable desde el archivo fuente
 add_executable(kroma src/main.cpp ${SRC})
-add_executable(kroma_repl src/repl.cpp ${SRC})
 
 target_link_libraries(kroma PRIVATE readline)
-target_link_libraries(kroma_repl PRIVATE readline)
