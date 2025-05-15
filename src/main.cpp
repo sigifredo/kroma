@@ -8,8 +8,9 @@
 // std
 #include <iostream>
 
-int main()
+int main(int argc, char **argv)
 {
+
     std::cout << PROJECT_NAME " v" PROJECT_VERSION "\n";
     std::cout << "Welcome to kroma!\n\n";
 

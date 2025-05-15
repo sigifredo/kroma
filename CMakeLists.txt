@@ -7,6 +7,7 @@ include(config/build.cmake)
 include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
 set(SRC
+    src/ArgumentParser.cpp
     src/DummyListener.cpp
     src/REPL.cpp
     src/Scanner.cpp
