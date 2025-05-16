@@ -26,5 +26,5 @@ Token &Token::operator=(const Token &other)
 
 std::string Token::toString()
 {
-    return std::to_string(static_cast<int>(_type)) + _lexeme;
+    return std::to_string(static_cast<int>(_type)) + " (" + _lexeme + ")";
 }
