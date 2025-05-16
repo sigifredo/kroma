@@ -3,26 +3,38 @@
 // Own
 #include <Scanner.hpp>
 
+// std
+#include <iostream>
+
 Scanner::Scanner(const std::string &src)
 {
     source = src;
 }
 
-std::list<Token> Scanner::scanToken()
+std::list<Token> Scanner::scanTokens()
 {
-    std::list<Token> tokens;
-    int current = 0;
     int line = 1;
-    int start = 0;
 
-    for (const char &c : source)
+    for (size_t i = 0; i < source.length(); ++i)
     {
-        start = current;
+        char c = source[i];
 
-        char2token(c);
+        TokenType type = char2token(c);
+
+        if (type == TokenType::UNKNOWN)
+        {
+            std::cerr << "[Error] Unknown token: \"" << c << "\"" << std::endl;
+        }
+        else
+        {
+            tokens.push_back(Token(type, std::string(1, c), line));
+        }
+
+        if (c == '\n')
+            ++line;
     }
 
-    tokens.push_back(Token(TokenType::_EOF, std::string(), line));
+    tokens.push_back(Token(TokenType::_EOF, "", line));
 
     return tokens;
 }

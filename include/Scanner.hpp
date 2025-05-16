@@ -14,7 +14,7 @@ class Scanner
 public:
     Scanner(const std::string &src);
 
-    std::list<Token> scanToken();
+    std::list<Token> scanTokens();
 
 private:
     std::string source;

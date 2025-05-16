@@ -25,6 +25,7 @@ public:
 private:
     std::string _lexeme;
     int _line;
+    // Object literal
     TokenType _type;
 };
 
