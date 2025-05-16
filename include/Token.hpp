@@ -12,10 +12,10 @@
 class Token
 {
 public:
-    Token(const Token &other);
+    Token(const Token &other) = default;
     Token(const TokenType &type, const std::string &lexeme, const int &line);
 
-    Token &operator=(const Token &other);
+    Token &operator=(const Token &other) = default;
     std::string toString();
 
     std::string lexeme() const;

@@ -6,9 +6,9 @@
 // std
 #include <unordered_map>
 
-TokenType char2token(const char &c)
+namespace
 {
-    static const std::unordered_map<char, TokenType> map = {
+    const std::unordered_map<char, TokenType> map = {
         {'(', TokenType::LEFT_PAREN},
         {')', TokenType::RIGHT_PAREN},
         {'{', TokenType::LEFT_BRACE},
@@ -20,7 +20,10 @@ TokenType char2token(const char &c)
         {';', TokenType::SEMICOLON},
         {'*', TokenType::SLASH},
         {'*', TokenType::STAR}};
+}
 
+TokenType char2token(const char &c)
+{
     auto it = map.find(c);
 
     if (it != map.end())
