@@ -15,22 +15,31 @@ std::list<Token> Scanner::scanTokens()
 {
     int line = 1;
 
-    for (size_t i = 0; i < source.length(); ++i)
+    for (size_t i = 0; i < source.length(); i++)
     {
-        char c = source[i];
+        std::string lexeme = source.substr(i, 2);
+        std::optional<TokenType> type = matchToken(lexeme);
 
-        TokenType type = char2token(c);
-
-        if (type == TokenType::UNKNOWN)
+        if (type.has_value())
         {
-            std::cerr << "[Error] Unknown token: \"" << c << "\"" << std::endl;
+            i++;
         }
         else
         {
-            tokens.push_back(Token(type, std::string(1, c), line));
+            lexeme = source.substr(i, 1);
+            type = matchToken(lexeme);
         }
 
-        if (c == '\n')
+        if (type.has_value())
+        {
+            tokens.push_back(Token(type.value(), lexeme, line));
+        }
+        else
+        {
+            std::cerr << "[Error] Unknown token: \"" << source[i] << "\"" << std::endl;
+        }
+
+        if (lexeme.find('\n') != std::string::npos)
             ++line;
     }
 

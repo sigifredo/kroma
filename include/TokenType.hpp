@@ -3,6 +3,10 @@
 #ifndef TOKENTYPE_HPP
 #define TOKENTYPE_HPP
 
+// std
+#include <optional>
+#include <string>
+
 enum class TokenType
 {
     // Single character token
@@ -55,6 +59,6 @@ enum class TokenType
     UNKNOWN
 };
 
-TokenType char2token(const char &c);
+std::optional<TokenType> matchToken(const std::string &lexeme);
 
 #endif
