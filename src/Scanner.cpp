@@ -43,10 +43,10 @@ std::list<Token> Scanner::scanTokens()
             }
             else
             {
-                std::cerr << "[Error] Unknown token: \"" << source[i] << "\"" << std::endl;
+                std::cerr << "[Error] Unknown token: \"" << lexeme << "\"" << std::endl;
             }
 
-            if (lexeme.find('\n') != std::string::npos)
+            if (lexeme == "\n")
                 ++line;
         }
     }
