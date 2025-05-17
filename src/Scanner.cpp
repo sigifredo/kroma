@@ -15,12 +15,12 @@ std::list<Token> Scanner::scanTokens()
 {
     int line = 1;
 
-    for (size_t i = 0; i < source.length(); i++)
+    for (size_t i = 0; i < source.length(); ++i)
     {
         if (std::isspace(source[i]))
         {
             if (source[i] == '\n')
-                line++;
+                ++line;
         }
         else
         {
@@ -29,7 +29,7 @@ std::list<Token> Scanner::scanTokens()
 
             if (type.has_value())
             {
-                i++;
+                ++i;
             }
             else
             {
