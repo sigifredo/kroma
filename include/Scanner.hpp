@@ -30,7 +30,7 @@ private:
     bool isAtEnd() const;
 
     void scanToken();
-    void scanString();
+    void scanString(const char &delimiter);
 };
 
 #endif

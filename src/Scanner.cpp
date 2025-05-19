@@ -67,9 +67,9 @@ void Scanner::scanToken()
         return;
     }
 
-    if (c == '"')
+    if (c == '"' || c == '\'')
     {
-        scanString();
+        scanString(c);
         return;
     }
 
@@ -91,7 +91,7 @@ void Scanner::scanToken()
     std::cerr << "[Error] Unknown token: '" << c << "' at line " << line << "\n";
 }
 
-void Scanner::scanString()
+void Scanner::scanString(const char &delimiter)
 {
     std::string value;
 
@@ -99,7 +99,7 @@ void Scanner::scanString()
     {
         char c = advance();
 
-        if (c == '"')
+        if (c == delimiter)
         {
             addToken(TokenType::STRING, value);
             return;
@@ -125,6 +125,9 @@ void Scanner::scanString()
             case '"':
                 value += '"';
                 break;
+            case '\'':
+                value += '\'';
+                break;
             case '\\':
                 value += '\\';
                 break;
@@ -132,13 +135,13 @@ void Scanner::scanString()
                 ++line;
                 break;
             default:
-                std::cerr << "[Error] Unknown escape: \\" << next << " at line " << line << "\n";
+                std::cerr << "[Error] Unknown escape sequence: \\" << next << " at line " << line << "\n";
                 break;
             }
         }
         else if (c == '\n')
         {
-            std::cerr << "[Error] Unterminated string at line " << line << "\n";
+            std::cerr << "[Error] Unterminated string (newline) at line " << line << "\n";
             ++line;
             return;
         }
