@@ -9,49 +9,144 @@
 Scanner::Scanner(const std::string &src)
 {
     source = src;
+    current = 0;
+    line = 1;
 }
 
 std::list<Token> Scanner::scanTokens()
 {
-    int line = 1;
+    while (!isAtEnd())
+        scanToken(); // Analiza un solo token
 
-    for (size_t i = 0; i < source.length(); ++i)
+    addToken(TokenType::_EOF, "");
+    return tokens;
+}
+
+char Scanner::advance()
+{
+    return source[current++];
+}
+
+void Scanner::addToken(const TokenType &type, const std::string &lexeme)
+{
+    tokens.emplace_back(type, lexeme, line);
+}
+
+bool Scanner::match(const char &expected)
+{
+    if (isAtEnd() || source[current] != expected)
+        return false;
+
+    ++current;
+    return true;
+}
+
+char Scanner::peek() const
+{
+    return isAtEnd() ? '\0' : source[current];
+}
+
+char Scanner::peekNext() const
+{
+    return (current + 1 >= source.length()) ? '\0' : source[current + 1];
+}
+
+bool Scanner::isAtEnd() const
+{
+    return current >= source.length();
+}
+
+void Scanner::scanToken()
+{
+    char c = advance();
+
+    if (std::isspace(c))
     {
-        if (std::isspace(source[i]))
+        if (c == '\n')
+            ++line;
+        return;
+    }
+
+    if (c == '"')
+    {
+        scanString();
+        return;
+    }
+
+    std::string twoChar = std::string(1, c) + peek();
+    if (auto type = matchToken(twoChar))
+    {
+        advance(); // consumir segundo carácter
+        addToken(type.value(), twoChar);
+        return;
+    }
+
+    std::string oneChar(1, c);
+    if (auto type = matchToken(oneChar))
+    {
+        addToken(type.value(), oneChar);
+        return;
+    }
+
+    std::cerr << "[Error] Unknown token: '" << c << "' at line " << line << "\n";
+}
+
+void Scanner::scanString()
+{
+    std::string value;
+
+    while (!isAtEnd())
+    {
+        char c = advance();
+
+        if (c == '"')
         {
-            if (source[i] == '\n')
+            addToken(TokenType::STRING, value);
+            return;
+        }
+
+        if (c == '\\')
+        {
+            if (isAtEnd())
+            {
+                std::cerr << "[Error] Incomplete escape sequence at end of input\n";
+                return;
+            }
+
+            char next = advance();
+            switch (next)
+            {
+            case 'n':
+                value += '\n';
+                break;
+            case 't':
+                value += '\t';
+                break;
+            case '"':
+                value += '"';
+                break;
+            case '\\':
+                value += '\\';
+                break;
+            case '\n':
                 ++line;
+                break;
+            default:
+                std::cerr << "[Error] Unknown escape: \\" << next << " at line " << line << "\n";
+                break;
+            }
+        }
+        else if (c == '\n')
+        {
+            std::cerr << "[Error] Unterminated string at line " << line << "\n";
+            ++line;
+            return;
         }
         else
         {
-            std::string lexeme = source.substr(i, 2);
-            std::optional<TokenType> type = matchToken(lexeme);
-
-            if (type.has_value())
-            {
-                ++i;
-            }
-            else
-            {
-                lexeme = source.substr(i, 1);
-                type = matchToken(lexeme);
-            }
-
-            if (type.has_value())
-            {
-                tokens.push_back(Token(type.value(), lexeme, line));
-            }
-            else
-            {
-                std::cerr << "[Error] Unknown token: \"" << lexeme << "\"" << std::endl;
-            }
-
-            if (lexeme == "\n")
-                ++line;
+            value += c;
         }
     }
 
-    tokens.push_back(Token(TokenType::_EOF, "", line));
-
-    return tokens;
+    std::cerr << "[Error] Unterminated string at end of file\n";
 }

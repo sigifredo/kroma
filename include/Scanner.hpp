@@ -12,13 +12,25 @@
 class Scanner
 {
 public:
-    Scanner(const std::string &src);
-
+    explicit Scanner(const std::string &src);
     std::list<Token> scanTokens();
 
 private:
     std::string source;
     std::list<Token> tokens;
+
+    size_t current;
+    int line;
+
+    char advance();
+    void addToken(const TokenType &type, const std::string &lexeme);
+    bool match(const char &expected);
+    char peek() const;
+    char peekNext() const;
+    bool isAtEnd() const;
+
+    void scanToken();
+    void scanString();
 };
 
 #endif
