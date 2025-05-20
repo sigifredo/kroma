@@ -29,6 +29,7 @@ private:
     char peekNext() const;
     bool isAtEnd() const;
 
+    void scanNumber(const char &firstDigit);
     void scanToken();
     void scanString(const char &delimiter);
 };

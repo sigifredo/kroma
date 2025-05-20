@@ -56,6 +56,31 @@ bool Scanner::isAtEnd() const
     return current >= source.length();
 }
 
+void Scanner::scanNumber(const char &firstDigit)
+{
+    std::string value(1, firstDigit);
+
+    auto consumeWhile = [&](auto condition)
+    {
+        while (!isAtEnd() && condition(peek()))
+            value += advance();
+    };
+
+    consumeWhile([](char c)
+                 { return std::isdigit(c); });
+
+    // Comprobamos si hay parte decimal
+    if (!isAtEnd() && peek() == '.' && std::isdigit(peekNext()))
+    {
+        value += advance(); // consumir '.'
+
+        consumeWhile([](char c)
+                     { return std::isdigit(c); });
+    }
+
+    addToken(TokenType::NUMBER, value);
+}
+
 void Scanner::scanToken()
 {
     char c = advance();
@@ -70,6 +95,12 @@ void Scanner::scanToken()
     if (c == '"' || c == '\'')
     {
         scanString(c);
+        return;
+    }
+
+    if (std::isdigit(c))
+    {
+        scanNumber(c);
         return;
     }
 
