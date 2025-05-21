@@ -41,10 +41,12 @@ enum class TokenType
     AND,
     CLASS,
     ELSE,
+    _EOF,
     FALSE,
-    FUN,
     FOR,
+    FUN,
     IF,
+    LET,
     _NULL,
     OR,
     PRINT,
@@ -52,9 +54,7 @@ enum class TokenType
     SUPER,
     THIS,
     TRUE,
-    VAR,
     WHILE,
-    _EOF,
 
     UNKNOWN
 };

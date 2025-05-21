@@ -29,7 +29,23 @@ namespace
         {">", TokenType::GREATER},
         {">=", TokenType::GREATER_EQUAL},
         {"<", TokenType::LESS},
-        {"<=", TokenType::LESS_EQUAL}};
+        {"<=", TokenType::LESS_EQUAL},
+        {"and", TokenType::AND},
+        {"class", TokenType::CLASS},
+        {"else", TokenType::ELSE},
+        {"false", TokenType::FALSE},
+        {"fun", TokenType::FUN},
+        {"for", TokenType::FOR},
+        {"if", TokenType::IF},
+        {"null", TokenType::_NULL},
+        {"or", TokenType::OR},
+        {"print", TokenType::PRINT},
+        {"return", TokenType::RETURN},
+        {"super", TokenType::SUPER},
+        {"this", TokenType::THIS},
+        {"true", TokenType::TRUE},
+        {"let", TokenType::LET},
+        {"while", TokenType::WHILE}};
 }
 
 std::optional<TokenType> matchToken(const std::string &lexeme)

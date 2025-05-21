@@ -56,6 +56,20 @@ bool Scanner::isAtEnd() const
     return current >= source.length();
 }
 
+void Scanner::scanIdentifier(const char &firstChar)
+{
+    std::string value(1, firstChar);
+
+    while (!isAtEnd() && (std::isalnum(peek()) || peek() == '_'))
+        value += advance();
+
+    // Verificar si es palabra clave
+    if (auto type = matchToken(value))
+        addToken(type.value(), value);
+    else
+        addToken(TokenType::IDENTIFIER, value);
+}
+
 void Scanner::scanNumber(const char &firstDigit)
 {
     std::string value(1, firstDigit);
@@ -101,6 +115,12 @@ void Scanner::scanToken()
     if (std::isdigit(c))
     {
         scanNumber(c);
+        return;
+    }
+
+    if (std::isalpha(c) || c == '_')
+    {
+        scanIdentifier(c);
         return;
     }
 
