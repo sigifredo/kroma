@@ -22,14 +22,19 @@ std::list<Token> Scanner::scanTokens()
     return tokens;
 }
 
+void Scanner::addToken(const TokenType &type, const std::string &lexeme)
+{
+    tokens.emplace_back(type, lexeme, line);
+}
+
 char Scanner::advance()
 {
     return source[current++];
 }
 
-void Scanner::addToken(const TokenType &type, const std::string &lexeme)
+bool Scanner::isAtEnd() const
 {
-    tokens.emplace_back(type, lexeme, line);
+    return current >= source.length();
 }
 
 bool Scanner::match(const char &expected)
@@ -49,11 +54,6 @@ char Scanner::peek() const
 char Scanner::peekNext() const
 {
     return (current + 1 >= source.length()) ? '\0' : source[current + 1];
-}
-
-bool Scanner::isAtEnd() const
-{
-    return current >= source.length();
 }
 
 void Scanner::scanIdentifier(const char &firstChar)

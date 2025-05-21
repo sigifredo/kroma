@@ -16,18 +16,18 @@ public:
     std::list<Token> scanTokens();
 
 private:
-    std::string source;
-    std::list<Token> tokens;
-
     size_t current;
     int line;
 
-    char advance();
+    std::string source;
+    std::list<Token> tokens;
+
     void addToken(const TokenType &type, const std::string &lexeme);
+    char advance();
+    bool isAtEnd() const;
     bool match(const char &expected);
     char peek() const;
     char peekNext() const;
-    bool isAtEnd() const;
 
     void scanIdentifier(const char &firstChar);
     void scanNumber(const char &firstDigit);
