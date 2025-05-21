@@ -95,53 +95,6 @@ void Scanner::scanNumber(const char &firstDigit)
     addToken(TokenType::NUMBER, value);
 }
 
-void Scanner::scanToken()
-{
-    char c = advance();
-
-    if (std::isspace(c))
-    {
-        if (c == '\n')
-            ++line;
-        return;
-    }
-
-    if (c == '"' || c == '\'')
-    {
-        scanString(c);
-        return;
-    }
-
-    if (std::isdigit(c))
-    {
-        scanNumber(c);
-        return;
-    }
-
-    if (std::isalpha(c) || c == '_')
-    {
-        scanIdentifier(c);
-        return;
-    }
-
-    std::string twoChar = std::string(1, c) + peek();
-    if (auto type = matchToken(twoChar))
-    {
-        advance(); // consumir segundo carácter
-        addToken(type.value(), twoChar);
-        return;
-    }
-
-    std::string oneChar(1, c);
-    if (auto type = matchToken(oneChar))
-    {
-        addToken(type.value(), oneChar);
-        return;
-    }
-
-    std::cerr << "[Error] Unknown token: '" << c << "' at line " << line << "\n";
-}
-
 void Scanner::scanString(const char &delimiter)
 {
     std::string value;
@@ -203,4 +156,51 @@ void Scanner::scanString(const char &delimiter)
     }
 
     std::cerr << "[Error] Unterminated string at end of file\n";
+}
+
+void Scanner::scanToken()
+{
+    char c = advance();
+
+    if (std::isspace(c))
+    {
+        if (c == '\n')
+            ++line;
+        return;
+    }
+
+    if (c == '"' || c == '\'')
+    {
+        scanString(c);
+        return;
+    }
+
+    if (std::isdigit(c))
+    {
+        scanNumber(c);
+        return;
+    }
+
+    if (std::isalpha(c) || c == '_')
+    {
+        scanIdentifier(c);
+        return;
+    }
+
+    std::string twoChar = std::string(1, c) + peek();
+    if (auto type = matchToken(twoChar))
+    {
+        advance(); // consumir segundo carácter
+        addToken(type.value(), twoChar);
+        return;
+    }
+
+    std::string oneChar(1, c);
+    if (auto type = matchToken(oneChar))
+    {
+        addToken(type.value(), oneChar);
+        return;
+    }
+
+    std::cerr << "[Error] Unknown token: '" << c << "' at line " << line << "\n";
 }
