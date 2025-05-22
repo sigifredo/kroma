@@ -12,10 +12,17 @@ class LiteralExpr : public Expr
 public:
     LiteralExpr(const Value &val);
 
-    std::string accept(ExprVisitor &visitor) const override;
+    std::string accept(ExprVisitor &visitor) override;
+
+    const Value &value() const;
 
 private:
-    Value value;
+    Value _value;
 };
+
+inline const Value &LiteralExpr::value() const
+{
+    return _value;
+}
 
 #endif

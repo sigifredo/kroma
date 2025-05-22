@@ -2,6 +2,7 @@
 
 // Own
 #include <DummyListener.hpp>
+#include <Parser.hpp>
 #include <Scanner.hpp>
 
 // std
@@ -25,6 +26,9 @@ void DummyListener::onCommand(const std::string &command)
         {
             std::cout << "Token: " << token.toString() << std::endl;
         }
+
+        Parser parser(tokens);
+        std::unique_ptr<Expr> expression = parser.parse();
     }
 }
 
