@@ -8,11 +8,14 @@ include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
 set(SRC
     src/ArgumentParser.cpp
+    src/BinaryExpression.cpp
     src/DummyListener.cpp
+    src/Expression.cpp
     src/REPL.cpp
     src/Scanner.cpp
     src/Token.cpp
     src/TokenType.cpp
+    src/Value.cpp
 )
 
 # Agrega el ejecutable desde el archivo fuente
