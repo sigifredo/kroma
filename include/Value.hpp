@@ -31,6 +31,7 @@ public:
 
     std::string toString() const;
 
+    Value &operator=(const Value &other);
     bool operator==(const Value &other) const;
 
     friend std::ostream &operator<<(std::ostream &os, const Value &val);
