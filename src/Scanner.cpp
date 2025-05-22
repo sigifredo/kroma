@@ -18,13 +18,13 @@ std::vector<Token> Scanner::scanTokens()
     while (!isAtEnd())
         scanToken();
 
-    addToken(TokenType::_EOF, "");
+    addToken(TokenType::_EOF, "", Value());
     return {tokens.begin(), tokens.end()};
 }
 
-void Scanner::addToken(const TokenType &type, const std::string &lexeme)
+void Scanner::addToken(const TokenType &type, const std::string &lexeme, const Value &value)
 {
-    tokens.emplace_back(type, lexeme, Value(), line);
+    tokens.emplace_back(type, lexeme, value, line);
 }
 
 char Scanner::advance()
@@ -65,9 +65,9 @@ void Scanner::scanIdentifier(const char &firstChar)
 
     // Verificar si es palabra clave
     if (auto type = matchToken(value))
-        addToken(type.value(), value);
+        addToken(type.value(), value, Value());
     else
-        addToken(TokenType::IDENTIFIER, value);
+        addToken(TokenType::IDENTIFIER, value, Value(value));
 }
 
 void Scanner::scanNumber(const char &firstDigit)
@@ -92,7 +92,7 @@ void Scanner::scanNumber(const char &firstDigit)
                      { return std::isdigit(c); });
     }
 
-    addToken(TokenType::NUMBER, value);
+    addToken(TokenType::NUMBER, value, Value(std::stod(value)));
 }
 
 void Scanner::scanString(const char &delimiter)
@@ -105,7 +105,7 @@ void Scanner::scanString(const char &delimiter)
 
         if (c == delimiter)
         {
-            addToken(TokenType::STRING, value);
+            addToken(TokenType::STRING, value, Value(value));
             return;
         }
 
@@ -191,14 +191,14 @@ void Scanner::scanToken()
     if (auto type = matchToken(twoChar))
     {
         advance(); // consumir segundo carácter
-        addToken(type.value(), twoChar);
+        addToken(type.value(), twoChar, Value());
         return;
     }
 
     std::string oneChar(1, c);
     if (auto type = matchToken(oneChar))
     {
-        addToken(type.value(), oneChar);
+        addToken(type.value(), oneChar, Value());
         return;
     }
 

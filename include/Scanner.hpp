@@ -23,7 +23,7 @@ private:
     std::string source;
     std::list<Token> tokens;
 
-    void addToken(const TokenType &type, const std::string &lexeme);
+    void addToken(const TokenType &type, const std::string &lexeme, const Value &value);
     char advance();
     bool isAtEnd() const;
     bool match(const char &expected);
