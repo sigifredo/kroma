@@ -13,18 +13,18 @@ Scanner::Scanner(const std::string &src)
     line = 1;
 }
 
-std::list<Token> Scanner::scanTokens()
+std::vector<Token> Scanner::scanTokens()
 {
     while (!isAtEnd())
-        scanToken(); // Analiza un solo token
+        scanToken();
 
     addToken(TokenType::_EOF, "");
-    return tokens;
+    return {tokens.begin(), tokens.end()};
 }
 
 void Scanner::addToken(const TokenType &type, const std::string &lexeme)
 {
-    tokens.emplace_back(type, lexeme, line);
+    tokens.emplace_back(type, lexeme, Value(), line);
 }
 
 char Scanner::advance()

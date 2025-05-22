@@ -8,12 +8,13 @@
 
 // std
 #include <list>
+#include <vector>
 
 class Scanner
 {
 public:
     explicit Scanner(const std::string &src);
-    std::list<Token> scanTokens();
+    std::vector<Token> scanTokens();
 
 private:
     size_t current;

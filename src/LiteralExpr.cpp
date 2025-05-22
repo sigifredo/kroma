@@ -4,7 +4,7 @@
 #include <LiteralExpr.hpp>
 #include <ExprVisitor.hpp>
 
-LiteralExpr::LiteralExpr(const std::string &val) : value(val) {}
+LiteralExpr::LiteralExpr(const Value &val) : value(val) {}
 
 std::string LiteralExpr::accept(ExprVisitor &visitor) const
 {

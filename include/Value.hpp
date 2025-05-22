@@ -15,6 +15,7 @@ public:
     using VariantType = std::variant<std::monostate, double, std::string, bool>;
 
     Value();
+    Value(const Value &other) = default;
     Value(const double &number);
     Value(const std::string &str);
     Value(const char *cstr);
@@ -31,7 +32,7 @@ public:
 
     std::string toString() const;
 
-    Value &operator=(const Value &other);
+    Value &operator=(const Value &other) = default;
     bool operator==(const Value &other) const;
 
     friend std::ostream &operator<<(std::ostream &os, const Value &val);

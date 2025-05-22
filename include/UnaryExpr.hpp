@@ -5,6 +5,7 @@
 
 // Own
 #include <Expr.hpp>
+#include <Token.hpp>
 
 // std
 #include <memory>
@@ -12,12 +13,12 @@
 class UnaryExpr : public Expr
 {
 public:
-    UnaryExpr(const std::string &o, std::shared_ptr<Expr> r);
+    UnaryExpr(const Token &o, std::shared_ptr<Expr> r);
 
     std::string accept(ExprVisitor &visitor) const;
 
 private:
-    std::string op;
+    Token op;
     std::shared_ptr<Expr> right;
 };
 

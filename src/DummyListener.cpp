@@ -19,7 +19,7 @@ void DummyListener::onCommand(const std::string &command)
         std::cout << "[DummyListener] Received command: " << command << std::endl;
         Scanner scanner(command);
 
-        std::list<Token> tokens = scanner.scanTokens();
+        std::vector<Token> tokens = scanner.scanTokens();
 
         for (auto &token : tokens)
         {

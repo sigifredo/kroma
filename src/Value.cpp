@@ -50,14 +50,6 @@ std::string Value::toString() const
     return "unknown";
 }
 
-Value &Value::operator=(const Value &other)
-{
-    if (this != &other)
-        this->data = other.data;
-
-    return *this;
-}
-
 bool Value::operator==(const Value &other) const
 {
     return data == other.data;

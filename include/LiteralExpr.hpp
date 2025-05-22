@@ -5,16 +5,17 @@
 
 // Own
 #include <Expr.hpp>
+#include <Value.hpp>
 
 class LiteralExpr : public Expr
 {
 public:
-    LiteralExpr(const std::string &val);
+    LiteralExpr(const Value &val);
 
     std::string accept(ExprVisitor &visitor) const override;
 
 private:
-    std::string value;
+    Value value;
 };
 
 #endif

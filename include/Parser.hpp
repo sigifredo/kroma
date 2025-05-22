@@ -1,0 +1,43 @@
+
+
+#ifndef PARSER_HPP
+#define PARSER_HPP
+
+// Own
+#include <Expr.hpp>
+#include <Token.hpp>
+
+// std
+#include <memory>
+#include <vector>
+
+class Parser
+{
+public:
+    Parser(const std::vector<Token> &tokens) : tokens(tokens), current(0) {}
+
+    std::unique_ptr<Expr> parse();
+
+private:
+    const std::vector<Token> &tokens;
+    size_t current = 0;
+
+    std::unique_ptr<Expr> comparison();
+    std::unique_ptr<Expr> equality();
+    std::unique_ptr<Expr> expression();
+    std::unique_ptr<Expr> factor();
+    std::unique_ptr<Expr> primary();
+    std::unique_ptr<Expr> term();
+    std::unique_ptr<Expr> unary();
+
+    // Helpers
+    const Token &advance();
+    bool check(TokenType type) const;
+    const Token &consume(TokenType type, const std::string &message);
+    bool isAtEnd() const;
+    bool match(const std::initializer_list<TokenType> &types);
+    const Token &peek() const;
+    const Token &previous() const;
+};
+
+#endif

@@ -10,6 +10,7 @@ set(SRC
     src/ArgumentParser.cpp
     src/DummyListener.cpp
     src/Expr.cpp
+    src/Parser.cpp
     src/REPL.cpp
     src/Scanner.cpp
     src/Token.cpp

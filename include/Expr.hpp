@@ -14,8 +14,8 @@ public:
     virtual ~Expr() = default;
 
     virtual std::string accept(ExprVisitor &visitor) const = 0;
-    virtual Value evaluate() const = 0;
-    virtual std::string toString() const = 0;
+    // virtual Value evaluate() const = 0;
+    // virtual std::string toString() const = 0;
 };
 
 #endif
