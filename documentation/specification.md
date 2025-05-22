@@ -149,6 +149,87 @@ if is_error(resultado) {
 panic("Error fatal")
 ```
 
+# 📘 Extensión de la Gramática – Kroma
+
+Este documento extiende la gramática del lenguaje **Kroma** para incluir tokens adicionales como llaves, paréntesis, operadores, llamadas a funciones, control de flujo, y declaraciones.
+
+---
+
+## 🧱 Gramática extendida (EBNF)
+
+```ebnf
+program        → declaration* EOF ;
+
+declaration    → varDecl
+               | funDecl
+               | classDecl
+               | statement ;
+
+varDecl        → "let" IDENTIFIER ( "=" expression )? ";" ;
+
+funDecl        → "fun" IDENTIFIER "(" parameters? ")" block ;
+
+classDecl      → "class" IDENTIFIER ( "<" IDENTIFIER )? "{" function* "}" ;
+
+parameters     → IDENTIFIER ( "," IDENTIFIER )* ;
+
+statement      → exprStmt
+               | printStmt
+               | returnStmt
+               | ifStmt
+               | whileStmt
+               | forStmt
+               | block ;
+
+exprStmt       → expression ";" ;
+
+printStmt      → "print" expression ";" ;
+
+returnStmt     → "return" expression? ";" ;
+
+ifStmt         → "if" "(" expression ")" statement ( "else" statement )? ;
+
+whileStmt      → "while" "(" expression ")" statement ;
+
+forStmt        → "for" "(" varDecl | exprStmt | ";" expression? ";" expression? ")" statement ;
+
+block          → "{" declaration* "}" ;
+
+expression     → assignment ;
+
+assignment     → IDENTIFIER "=" assignment
+               | logic_or ;
+
+logic_or       → logic_and ( "or" logic_and )* ;
+
+logic_and      → equality ( "and" equality )* ;
+
+equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+
+comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+
+term           → factor ( ( "-" | "+" ) factor )* ;
+
+factor         → unary ( ( "/" | "*" ) unary )* ;
+
+unary          → ( "!" | "-" ) unary
+               | call ;
+
+call           → primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
+
+arguments      → expression ( "," expression )* ;
+
+primary        → NUMBER
+               | STRING
+               | "true"
+               | "false"
+               | "null"
+               | "this"
+               | IDENTIFIER
+               | "(" expression ")"
+               | "super" "." IDENTIFIER ;
+```
+
 ---
 
 ## 🔌 Planned Native Modules
