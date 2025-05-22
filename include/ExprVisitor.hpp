@@ -14,7 +14,7 @@ class UnaryExpr;
 class ExprVisitor
 {
 public:
-    ExprVisitor();
+    ExprVisitor() = default;
     virtual ~ExprVisitor() = default;
 
     virtual std::string visitBinaryExpr(const BinaryExpr &expr) = 0;

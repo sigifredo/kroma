@@ -15,9 +15,14 @@ class GroupingExpr;
 class LiteralExpr;
 class UnaryExpr;
 
+/**
+ * Abstract Syntax Tree Printer
+ */
 class ATSPrinter : public ExprVisitor
 {
 public:
+    ATSPrinter() = default;
+
     std::string print(Expr *expr);
     std::string visitBinaryExpr(const BinaryExpr &expr) override;
     std::string visitGroupingExpr(const GroupingExpr &expr) override;

@@ -2,6 +2,7 @@
 
 // Own
 #include <DummyListener.hpp>
+#include <ATSPrinter.hpp>
 #include <Parser.hpp>
 #include <Scanner.hpp>
 
@@ -29,6 +30,9 @@ void DummyListener::onCommand(const std::string &command)
 
         Parser parser(tokens);
         std::unique_ptr<Expr> expression = parser.parse();
+
+        ATSPrinter printer;
+        std::cout << printer.print(expression.get()) << std::endl;
     }
 }
 
