@@ -8,13 +8,16 @@ include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
 set(SRC
     src/ArgumentParser.cpp
-    src/BinaryExpression.cpp
+    src/BinaryExpr.cpp
     src/DummyListener.cpp
-    src/Expression.cpp
+    src/Expr.cpp
+    src/GroupingExpr.cpp
+    src/LiteralExpr.cpp
     src/REPL.cpp
     src/Scanner.cpp
     src/Token.cpp
     src/TokenType.cpp
+    src/UnaryExpr.cpp
     src/Value.cpp
 )
 
