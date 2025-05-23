@@ -2,11 +2,13 @@
 
 // Own
 #include <ATSPrinter.hpp>
-#include <BinaryExpr.hpp>
-#include <Expr.hpp>
-#include <GroupingExpr.hpp>
-#include <LiteralExpr.hpp>
-#include <UnaryExpr.hpp>
+#include <expressions/BinaryExpr.hpp>
+#include <expressions/CallExpr.hpp>
+#include <expressions/Expr.hpp>
+#include <expressions/GroupingExpr.hpp>
+#include <expressions/LiteralExpr.hpp>
+#include <expressions/LogicalExpr.hpp>
+#include <expressions/UnaryExpr.hpp>
 
 std::string ATSPrinter::print(Expr *expr)
 {
@@ -18,6 +20,19 @@ std::string ATSPrinter::visitBinaryExpr(const BinaryExpr &expr)
     return parenthesize(expr.op().lexeme(), {expr.left().get(), expr.right().get()});
 }
 
+std::string ATSPrinter::visitCallExpr(const CallExpr &expr)
+{
+    std::string result = "[call " + expr.callee()->accept(*this);
+
+    for (const auto &arg : expr.arguments())
+    {
+        result += " " + arg->accept(*this);
+    }
+
+    result += "]";
+    return result;
+}
+
 std::string ATSPrinter::visitGroupingExpr(const GroupingExpr &expr)
 {
     return parenthesize("group", {expr.expression().get()});
@@ -26,6 +41,16 @@ std::string ATSPrinter::visitGroupingExpr(const GroupingExpr &expr)
 std::string ATSPrinter::visitLiteralExpr(const LiteralExpr &expr)
 {
     return expr.value().toString();
+}
+
+std::string ATSPrinter::visitLogicalExpr(const LogicalExpr &expr)
+{
+    std::string result = "[logical ";
+    result += expr.left()->accept(*this);
+    result += " " + expr.op().lexeme() + " ";
+    result += expr.right()->accept(*this);
+    result += "]";
+    return result;
 }
 
 std::string ATSPrinter::visitUnaryExpr(const UnaryExpr &expr)

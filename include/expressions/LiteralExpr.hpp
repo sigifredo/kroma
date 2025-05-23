@@ -1,10 +1,10 @@
 
 
-#ifndef LITERALEXPR_HPP
-#define LITERALEXPR_HPP
+#ifndef EXPRESSIONS_LITERALEXPR_HPP
+#define EXPRESSIONS_LITERALEXPR_HPP
 
 // Own
-#include <Expr.hpp>
+#include <expressions/Expr.hpp>
 #include <Value.hpp>
 
 class LiteralExpr : public Expr

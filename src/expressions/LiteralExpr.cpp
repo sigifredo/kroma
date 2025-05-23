@@ -1,7 +1,7 @@
 
 
 // Own
-#include <LiteralExpr.hpp>
+#include <expressions/LiteralExpr.hpp>
 #include <ExprVisitor.hpp>
 
 LiteralExpr::LiteralExpr(const Value &val) : _value(val) {}

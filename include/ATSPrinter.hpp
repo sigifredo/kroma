@@ -9,11 +9,7 @@
 // std
 #include <vector>
 
-class BinaryExpr;
 class Expr;
-class GroupingExpr;
-class LiteralExpr;
-class UnaryExpr;
 
 /**
  * Abstract Syntax Tree Printer
@@ -25,8 +21,10 @@ public:
 
     std::string print(Expr *expr);
     std::string visitBinaryExpr(const BinaryExpr &expr) override;
+    std::string visitCallExpr(const CallExpr &expr) override;
     std::string visitGroupingExpr(const GroupingExpr &expr) override;
     std::string visitLiteralExpr(const LiteralExpr &expr) override;
+    std::string visitLogicalExpr(const LogicalExpr &expr) override;
     std::string visitUnaryExpr(const UnaryExpr &expr) override;
 
 private:

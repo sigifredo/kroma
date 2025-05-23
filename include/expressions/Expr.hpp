@@ -1,7 +1,7 @@
 
 
-#ifndef EXPRESSION_HPP
-#define EXPRESSION_HPP
+#ifndef EXPRESSIONS_EXPR_HPP
+#define EXPRESSIONS_EXPR_HPP
 
 // Own
 #include <Value.hpp>

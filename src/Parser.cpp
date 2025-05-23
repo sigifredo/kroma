@@ -2,10 +2,18 @@
 
 // Own
 #include <Parser.hpp>
-#include <BinaryExpr.hpp>
-#include <GroupingExpr.hpp>
-#include <LiteralExpr.hpp>
-#include <UnaryExpr.hpp>
+#include <expressions/AssignExpr.hpp>
+#include <expressions/BinaryExpr.hpp>
+#include <expressions/CallExpr.hpp>
+#include <expressions/GetExpr.hpp>
+#include <expressions/GroupingExpr.hpp>
+#include <expressions/LiteralExpr.hpp>
+#include <expressions/LogicalExpr.hpp>
+#include <expressions/UnaryExpr.hpp>
+#include <expressions/VariableExpr.hpp>
+#include <sstream>
+
+Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens) {}
 
 std::unique_ptr<Expr> Parser::parse()
 {
@@ -43,7 +51,7 @@ std::unique_ptr<Expr> Parser::equality()
 
 std::unique_ptr<Expr> Parser::expression()
 {
-    return equality();
+    return assignment();
 }
 
 std::unique_ptr<Expr> Parser::factor()
@@ -68,12 +76,10 @@ std::unique_ptr<Expr> Parser::primary()
         return std::make_unique<LiteralExpr>(true);
     if (match({TokenType::_NULL}))
         return std::make_unique<LiteralExpr>(nullptr);
-
     if (match({TokenType::NUMBER, TokenType::STRING}))
-    {
         return std::make_unique<LiteralExpr>(previous().literal());
-    }
-
+    if (match({TokenType::IDENTIFIER}))
+        return std::make_unique<VariableExpr>(previous());
     if (match({TokenType::LEFT_PAREN}))
     {
         auto expr = expression();
@@ -88,7 +94,7 @@ std::unique_ptr<Expr> Parser::term()
 {
     auto expr = factor();
 
-    while (match({TokenType::MINUS, TokenType::PLUS}))
+    while (match({TokenType::PLUS, TokenType::MINUS}))
     {
         Token op = previous();
         auto right = factor();
@@ -107,7 +113,7 @@ std::unique_ptr<Expr> Parser::unary()
         return std::make_unique<UnaryExpr>(op, std::move(right));
     }
 
-    return primary();
+    return call();
 }
 
 const Token &Parser::advance()
@@ -157,4 +163,98 @@ const Token &Parser::peek() const
 const Token &Parser::previous() const
 {
     return tokens[current - 1];
+}
+
+std::unique_ptr<Expr> Parser::assignment()
+{
+    auto expr = logicOr();
+
+    if (match({TokenType::EQUAL}))
+    {
+        Token equals = previous();
+        auto value = assignment();
+
+        if (auto *varExpr = dynamic_cast<VariableExpr *>(expr.get()))
+        {
+            return std::make_unique<AssignExpr>(varExpr->name(), std::move(value));
+        }
+
+        error(equals, "Invalid assignment target.");
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::logicOr()
+{
+    auto expr = logicAnd();
+
+    while (match({TokenType::OR}))
+    {
+        Token op = previous();
+        auto right = logicAnd();
+        expr = std::make_unique<LogicalExpr>(std::move(expr), op, std::move(right));
+    }
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::logicAnd()
+{
+    auto expr = equality();
+
+    while (match({TokenType::AND}))
+    {
+        Token op = previous();
+        auto right = equality();
+        expr = std::make_unique<LogicalExpr>(std::move(expr), op, std::move(right));
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::call()
+{
+    auto expr = primary();
+
+    while (true)
+    {
+        if (match({TokenType::LEFT_PAREN}))
+        {
+            expr = finishCall(std::move(expr));
+        }
+        else if (match({TokenType::DOT}))
+        {
+            Token name = consume(TokenType::IDENTIFIER, "Expect property name after '.'.");
+            expr = std::make_unique<GetExpr>(std::move(expr), name);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::finishCall(std::unique_ptr<Expr> callee)
+{
+    std::vector<std::unique_ptr<Expr>> arguments;
+
+    if (!check(TokenType::RIGHT_PAREN))
+    {
+        do
+        {
+            arguments.push_back(expression());
+        } while (match({TokenType::COMMA}));
+    }
+
+    Token paren = consume(TokenType::RIGHT_PAREN, "Expect ')' after arguments.");
+    return std::make_unique<CallExpr>(std::move(callee), paren, std::move(arguments));
+}
+
+void Parser::error(const Token &token, const std::string &message)
+{
+    std::ostringstream oss;
+    oss << "[line " << token.line() << "] Error at '" << token.lexeme() << "': " << message;
+    throw std::runtime_error(oss.str());
 }

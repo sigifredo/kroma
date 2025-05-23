@@ -1,7 +1,7 @@
 
 
 // Own
-#include <GroupingExpr.hpp>
+#include <expressions/GroupingExpr.hpp>
 #include <ExprVisitor.hpp>
 
 GroupingExpr::GroupingExpr(std::shared_ptr<Expr> expr) : _expression(expr) {}
