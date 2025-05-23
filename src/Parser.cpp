@@ -11,7 +11,6 @@
 #include <expressions/LogicalExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
-#include <sstream>
 
 Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens) {}
 
@@ -226,9 +225,7 @@ const Token &Parser::consume(const TokenType &type, const std::string &message)
 
 void Parser::error(const Token &token, const std::string &message)
 {
-    std::ostringstream oss;
-    oss << "[line " << token.line() << "] Error at '" << token.lexeme() << "': " << message;
-    throw std::runtime_error(oss.str());
+    throw std::runtime_error("[line " + std::to_string(token.line()) + "] Error at '" + token.lexeme() + "': " + message);
 }
 
 bool Parser::isAtEnd() const
