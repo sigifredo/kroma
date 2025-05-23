@@ -17,17 +17,8 @@ set(SRC
     src/TokenType.cpp
     src/Value.cpp
 )
-    
-set(SRC_EXPRESSIONS
-    src/expressions/BinaryExpr.cpp
-    src/expressions/CallExpr.cpp
-    src/expressions/Expr.cpp
-    src/expressions/GroupingExpr.cpp
-    src/expressions/LiteralExpr.cpp
-    src/expressions/UnaryExpr.cpp
-)
 
 # Agrega el ejecutable desde el archivo fuente
-add_executable(kroma src/main.cpp ${SRC} ${SRC_EXPRESSIONS})
+add_executable(kroma src/main.cpp ${SRC})
 
 target_link_libraries(kroma PRIVATE readline)

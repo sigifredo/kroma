@@ -10,9 +10,9 @@
 class LiteralExpr : public Expr
 {
 public:
-    LiteralExpr(const Value &val);
+    LiteralExpr(const Value &val) : _value(val) {};
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitLiteralExpr(*this); }
 
     const Value &value() const;
 

@@ -4,6 +4,7 @@
 #define EXPRESSIONS_EXPR_HPP
 
 // Own
+#include <ExprVisitor.hpp>
 #include <Value.hpp>
 
 class ExprVisitor;

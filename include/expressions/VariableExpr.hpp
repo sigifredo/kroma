@@ -12,7 +12,7 @@ class VariableExpr : public Expr
 public:
     explicit VariableExpr(const Token &name) : _name(name) {}
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitVariableExpr(*this); }
 
     const Token &name() const;
 

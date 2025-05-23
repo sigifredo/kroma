@@ -12,9 +12,9 @@
 class GroupingExpr : public Expr
 {
 public:
-    GroupingExpr(std::shared_ptr<Expr> expr);
+    GroupingExpr(std::shared_ptr<Expr> expr) : _expression(expr) {};
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitGroupingExpr(*this); }
 
     const std::shared_ptr<Expr> expression() const;
 

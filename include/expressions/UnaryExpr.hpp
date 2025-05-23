@@ -13,9 +13,9 @@
 class UnaryExpr : public Expr
 {
 public:
-    UnaryExpr(const Token &o, std::shared_ptr<Expr> r);
+    UnaryExpr(const Token &o, std::shared_ptr<Expr> r) : _op(o), _right(r) {}
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitUnaryExpr(*this); }
 
     const Token &op() const;
     const std::shared_ptr<Expr> &right() const;

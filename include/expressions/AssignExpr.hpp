@@ -7,12 +7,15 @@
 #include <expressions/Expr.hpp>
 #include <Token.hpp>
 
+// std
+#include <memory>
+
 class AssignExpr : public Expr
 {
 public:
     AssignExpr(const Token &name, const std::shared_ptr<Expr> &value) : _name(name), _value(value) {}
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitAssignExpr(*this); }
 
     const Token &name() const;
     const std::shared_ptr<Expr> value() const;

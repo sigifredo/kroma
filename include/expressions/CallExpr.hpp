@@ -14,10 +14,10 @@
 class CallExpr : public Expr
 {
 public:
-    explicit CallExpr() = default;
-    CallExpr(std::unique_ptr<Expr> callee, const Token &paren, std::vector<std::unique_ptr<Expr>> arguments);
+    CallExpr(std::unique_ptr<Expr> callee, const Token &paren, std::vector<std::unique_ptr<Expr>> arguments)
+        : _arguments(std::move(arguments)), _callee(std::move(callee)), _paren(std::move(paren)) {}
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitCallExpr(*this); }
 
     const std::vector<std::unique_ptr<Expr>> &arguments() const;
     const std::unique_ptr<Expr> &callee() const;

@@ -13,9 +13,9 @@
 class BinaryExpr : public Expr
 {
 public:
-    BinaryExpr(const std::shared_ptr<Expr> &leftExpr, const Token &oper, std::shared_ptr<Expr> rightExpr);
+    BinaryExpr(const std::shared_ptr<Expr> &leftExpr, const Token &oper, std::shared_ptr<Expr> rightExpr) : _left(leftExpr), _op(oper), _right(rightExpr) {};
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitBinaryExpr(*this); }
 
     const std::shared_ptr<Expr> &left() const;
     const Token &op() const;

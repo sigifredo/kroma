@@ -13,9 +13,9 @@
 class LogicalExpr : public Expr
 {
 public:
-    LogicalExpr(const std::shared_ptr<Expr> &leftExpr, const Token &oper, std::shared_ptr<Expr> rightExpr);
+    LogicalExpr(const std::shared_ptr<Expr> &leftExpr, const Token &oper, std::shared_ptr<Expr> rightExpr) : _left(leftExpr), _op(oper), _right(rightExpr) {};
 
-    std::string accept(ExprVisitor &visitor) override;
+    std::string accept(ExprVisitor &visitor) override { return visitor.visitLogicalExpr(*this); }
 
     const std::shared_ptr<Expr> &left() const;
     const Token &op() const;
