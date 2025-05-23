@@ -5,17 +5,13 @@
 
 // Own
 #include <expressions/Expr.hpp>
-#include <Token.hpp>
-
-// std
-#include <memory>
 
 class UnaryExpr : public Expr
 {
 public:
     UnaryExpr(const Token &o, std::shared_ptr<Expr> r) : _op(o), _right(r) {}
 
-    std::string accept(ExprVisitor &visitor) override { return visitor.visitUnaryExpr(*this); }
+    std::string accept(const ExprVisitor &visitor) const override { return visitor.visitUnaryExpr(*this); }
 
     const Token &op() const;
     const std::shared_ptr<Expr> &right() const;

@@ -5,14 +5,13 @@
 
 // Own
 #include <expressions/Expr.hpp>
-#include <Token.hpp>
 
 class VariableExpr : public Expr
 {
 public:
     explicit VariableExpr(const Token &name) : _name(name) {}
 
-    std::string accept(ExprVisitor &visitor) override { return visitor.visitVariableExpr(*this); }
+    std::string accept(const ExprVisitor &visitor) const override { return visitor.visitVariableExpr(*this); }
 
     const Token &name() const;
 

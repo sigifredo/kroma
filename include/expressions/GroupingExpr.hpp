@@ -6,15 +6,12 @@
 // Own
 #include <expressions/Expr.hpp>
 
-// std
-#include <memory>
-
 class GroupingExpr : public Expr
 {
 public:
     GroupingExpr(std::shared_ptr<Expr> expr) : _expression(expr) {};
 
-    std::string accept(ExprVisitor &visitor) override { return visitor.visitGroupingExpr(*this); }
+    std::string accept(const ExprVisitor &visitor) const override { return visitor.visitGroupingExpr(*this); }
 
     const std::shared_ptr<Expr> expression() const;
 

@@ -5,10 +5,8 @@
 
 // Own
 #include <expressions/Expr.hpp>
-#include <Token.hpp>
 
 // std
-#include <memory>
 #include <vector>
 
 class CallExpr : public Expr
@@ -17,7 +15,7 @@ public:
     CallExpr(std::unique_ptr<Expr> callee, const Token &paren, std::vector<std::unique_ptr<Expr>> arguments)
         : _arguments(std::move(arguments)), _callee(std::move(callee)), _paren(std::move(paren)) {}
 
-    std::string accept(ExprVisitor &visitor) override { return visitor.visitCallExpr(*this); }
+    std::string accept(const ExprVisitor &visitor) const override { return visitor.visitCallExpr(*this); }
 
     const std::vector<std::unique_ptr<Expr>> &arguments() const;
     const std::unique_ptr<Expr> &callee() const;

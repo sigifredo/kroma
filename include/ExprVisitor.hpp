@@ -22,15 +22,15 @@ public:
     ExprVisitor() = default;
     virtual ~ExprVisitor() = default;
 
-    virtual std::string visitAssignExpr(const AssignExpr &expr) = 0;
-    virtual std::string visitBinaryExpr(const BinaryExpr &expr) = 0;
-    virtual std::string visitCallExpr(const CallExpr &expr) = 0;
-    virtual std::string visitGetExpr(const GetExpr &expr) = 0;
-    virtual std::string visitGroupingExpr(const GroupingExpr &expr) = 0;
-    virtual std::string visitLiteralExpr(const LiteralExpr &expr) = 0;
-    virtual std::string visitLogicalExpr(const LogicalExpr &expr) = 0;
-    virtual std::string visitUnaryExpr(const UnaryExpr &expr) = 0;
-    virtual std::string visitVariableExpr(const VariableExpr &expr) = 0;
+    virtual std::string visitAssignExpr(const AssignExpr &expr) const = 0;
+    virtual std::string visitBinaryExpr(const BinaryExpr &expr) const = 0;
+    virtual std::string visitCallExpr(const CallExpr &expr) const = 0;
+    virtual std::string visitGetExpr(const GetExpr &expr) const = 0;
+    virtual std::string visitGroupingExpr(const GroupingExpr &expr) const = 0;
+    virtual std::string visitLiteralExpr(const LiteralExpr &expr) const = 0;
+    virtual std::string visitLogicalExpr(const LogicalExpr &expr) const = 0;
+    virtual std::string visitUnaryExpr(const UnaryExpr &expr) const = 0;
+    virtual std::string visitVariableExpr(const VariableExpr &expr) const = 0;
 };
 
 #endif

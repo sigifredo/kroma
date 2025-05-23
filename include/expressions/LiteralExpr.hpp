@@ -5,14 +5,13 @@
 
 // Own
 #include <expressions/Expr.hpp>
-#include <Value.hpp>
 
 class LiteralExpr : public Expr
 {
 public:
     LiteralExpr(const Value &val) : _value(val) {};
 
-    std::string accept(ExprVisitor &visitor) override { return visitor.visitLiteralExpr(*this); }
+    std::string accept(const ExprVisitor &visitor) const override { return visitor.visitLiteralExpr(*this); }
 
     const Value &value() const;
 
