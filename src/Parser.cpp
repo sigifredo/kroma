@@ -20,6 +20,50 @@ std::unique_ptr<Expr> Parser::parse()
     return expression();
 }
 
+std::unique_ptr<Expr> Parser::assignment()
+{
+    auto expr = logicOr();
+
+    if (match({TokenType::EQUAL}))
+    {
+        Token equals = previous();
+        auto value = assignment();
+
+        if (auto *varExpr = dynamic_cast<VariableExpr *>(expr.get()))
+        {
+            return std::make_unique<AssignExpr>(varExpr->name(), std::move(value));
+        }
+
+        error(equals, "Invalid assignment target.");
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::call()
+{
+    auto expr = primary();
+
+    while (true)
+    {
+        if (match({TokenType::LEFT_PAREN}))
+        {
+            expr = finishCall(std::move(expr));
+        }
+        else if (match({TokenType::DOT}))
+        {
+            Token name = consume(TokenType::IDENTIFIER, "Expect property name after '.'.");
+            expr = std::make_unique<GetExpr>(std::move(expr), name);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    return expr;
+}
+
 std::unique_ptr<Expr> Parser::comparison()
 {
     auto expr = term();
@@ -65,6 +109,49 @@ std::unique_ptr<Expr> Parser::factor()
         expr = std::make_unique<BinaryExpr>(std::move(expr), op, std::move(right));
     }
 
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::finishCall(std::unique_ptr<Expr> callee)
+{
+    std::vector<std::unique_ptr<Expr>> arguments;
+
+    if (!check(TokenType::RIGHT_PAREN))
+    {
+        do
+        {
+            arguments.push_back(expression());
+        } while (match({TokenType::COMMA}));
+    }
+
+    Token paren = consume(TokenType::RIGHT_PAREN, "Expect ')' after arguments.");
+    return std::make_unique<CallExpr>(std::move(callee), paren, std::move(arguments));
+}
+
+std::unique_ptr<Expr> Parser::logicAnd()
+{
+    auto expr = equality();
+
+    while (match({TokenType::AND}))
+    {
+        Token op = previous();
+        auto right = equality();
+        expr = std::make_unique<LogicalExpr>(std::move(expr), op, std::move(right));
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::logicOr()
+{
+    auto expr = logicAnd();
+
+    while (match({TokenType::OR}))
+    {
+        Token op = previous();
+        auto right = logicAnd();
+        expr = std::make_unique<LogicalExpr>(std::move(expr), op, std::move(right));
+    }
     return expr;
 }
 
@@ -137,6 +224,13 @@ const Token &Parser::consume(TokenType type, const std::string &message)
     throw std::runtime_error(message);
 }
 
+void Parser::error(const Token &token, const std::string &message)
+{
+    std::ostringstream oss;
+    oss << "[line " << token.line() << "] Error at '" << token.lexeme() << "': " << message;
+    throw std::runtime_error(oss.str());
+}
+
 bool Parser::isAtEnd() const
 {
     return peek().type() == TokenType::_EOF;
@@ -163,98 +257,4 @@ const Token &Parser::peek() const
 const Token &Parser::previous() const
 {
     return tokens[current - 1];
-}
-
-std::unique_ptr<Expr> Parser::assignment()
-{
-    auto expr = logicOr();
-
-    if (match({TokenType::EQUAL}))
-    {
-        Token equals = previous();
-        auto value = assignment();
-
-        if (auto *varExpr = dynamic_cast<VariableExpr *>(expr.get()))
-        {
-            return std::make_unique<AssignExpr>(varExpr->name(), std::move(value));
-        }
-
-        error(equals, "Invalid assignment target.");
-    }
-
-    return expr;
-}
-
-std::unique_ptr<Expr> Parser::logicOr()
-{
-    auto expr = logicAnd();
-
-    while (match({TokenType::OR}))
-    {
-        Token op = previous();
-        auto right = logicAnd();
-        expr = std::make_unique<LogicalExpr>(std::move(expr), op, std::move(right));
-    }
-    return expr;
-}
-
-std::unique_ptr<Expr> Parser::logicAnd()
-{
-    auto expr = equality();
-
-    while (match({TokenType::AND}))
-    {
-        Token op = previous();
-        auto right = equality();
-        expr = std::make_unique<LogicalExpr>(std::move(expr), op, std::move(right));
-    }
-
-    return expr;
-}
-
-std::unique_ptr<Expr> Parser::call()
-{
-    auto expr = primary();
-
-    while (true)
-    {
-        if (match({TokenType::LEFT_PAREN}))
-        {
-            expr = finishCall(std::move(expr));
-        }
-        else if (match({TokenType::DOT}))
-        {
-            Token name = consume(TokenType::IDENTIFIER, "Expect property name after '.'.");
-            expr = std::make_unique<GetExpr>(std::move(expr), name);
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    return expr;
-}
-
-std::unique_ptr<Expr> Parser::finishCall(std::unique_ptr<Expr> callee)
-{
-    std::vector<std::unique_ptr<Expr>> arguments;
-
-    if (!check(TokenType::RIGHT_PAREN))
-    {
-        do
-        {
-            arguments.push_back(expression());
-        } while (match({TokenType::COMMA}));
-    }
-
-    Token paren = consume(TokenType::RIGHT_PAREN, "Expect ')' after arguments.");
-    return std::make_unique<CallExpr>(std::move(callee), paren, std::move(arguments));
-}
-
-void Parser::error(const Token &token, const std::string &message)
-{
-    std::ostringstream oss;
-    oss << "[line " << token.line() << "] Error at '" << token.lexeme() << "': " << message;
-    throw std::runtime_error(oss.str());
 }
