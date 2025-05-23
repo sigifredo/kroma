@@ -210,14 +210,14 @@ const Token &Parser::advance()
     return previous();
 }
 
-bool Parser::check(TokenType type) const
+bool Parser::check(const TokenType &type) const
 {
     if (isAtEnd())
         return false;
     return peek().type() == type;
 }
 
-const Token &Parser::consume(TokenType type, const std::string &message)
+const Token &Parser::consume(const TokenType &type, const std::string &message)
 {
     if (check(type))
         return advance();

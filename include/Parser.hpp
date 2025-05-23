@@ -35,8 +35,8 @@ private:
     std::unique_ptr<Expr> unary();
 
     const Token &advance();
-    bool check(TokenType type) const;
-    const Token &consume(TokenType type, const std::string &message);
+    bool check(const TokenType &type) const;
+    const Token &consume(const TokenType &type, const std::string &message);
     void error(const Token &token, const std::string &message);
     bool isAtEnd() const;
     bool match(const std::initializer_list<TokenType> &types);
