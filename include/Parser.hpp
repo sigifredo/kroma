@@ -3,11 +3,14 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
+// Own
 #include <expressions/Expr.hpp>
+#include <Token.hpp>
+
+// std
 #include <memory>
 #include <optional>
 #include <stdexcept>
-#include <Token.hpp>
 #include <vector>
 
 class Parser
