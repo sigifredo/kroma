@@ -7,8 +7,8 @@
 #include <Value.hpp>
 
 // std
-#include <unordered_map>
 #include <memory>
+#include <unordered_map>
 
 /**
  * @class Environment
