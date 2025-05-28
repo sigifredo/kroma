@@ -9,6 +9,7 @@ if(BUILD_TESTS)
     enable_testing()
 
     add_executable(kroma_tests
+        ${CMAKE_SOURCE_DIR}/tests/test_argumentparser.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_environment.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_value.cpp
         ${CMAKE_SOURCE_DIR}/tests/test_token.cpp
