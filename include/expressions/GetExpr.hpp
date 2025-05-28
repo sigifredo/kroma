@@ -9,26 +9,20 @@
 class GetExpr : public Expr
 {
 public:
-    GetExpr(const std::shared_ptr<Expr> &object, const Token &name) : _object(object), _name(name) {}
+    GetExpr(std::unique_ptr<Expr> object, const Token &name) : _object(std::move(object)), _name(name) {}
 
-    std::string accept(const ExprVisitor &visitor) const override { return visitor.visitGetExpr(*this); }
+    std::string accept(const ExprVisitor &visitor) const override;
 
-    const std::shared_ptr<Expr> &object() const;
+    const Expr *object() const;
     const Token &name() const;
 
 private:
-    std::shared_ptr<Expr> _object;
+    std::unique_ptr<Expr> _object;
     Token _name;
 };
 
-inline const std::shared_ptr<Expr> &GetExpr::object() const
-{
-    return _object;
-}
-
-inline const Token &GetExpr::name() const
-{
-    return _name;
-}
+inline std::string GetExpr::accept(const ExprVisitor &visitor) const { return visitor.visitGetExpr(*this); }
+inline const Expr *GetExpr::object() const { return _object.get(); }
+inline const Token &GetExpr::name() const { return _name; }
 
 #endif
