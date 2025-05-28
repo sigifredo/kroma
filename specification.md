@@ -36,8 +36,8 @@ const PI = 3.1416
 ### Reassignment
 
 ```kroma
-nombre = "Gifre"   # ✅
-PI = 3.15          # ❌ Error: constant reassignment
+nombre = "Sigfried"     # ✅
+PI = 3.15               # ❌ Error: constant reassignment
 ```
 
 ---
@@ -105,12 +105,12 @@ p.trazar(100, 100)
 
 ## 🎛 Built-in Types
 
-- `texto` (strings)
-- `número` (ints and floats)
+- `text` (strings)
+- `number` (ints and floats)
 - `bool` (`true`, `false`)
-- `lista` (arrays)
-- `mapa` (dictionaries)
-- `objeto` (instances)
+- `list` (arrays)
+- `map` (dictionaries)
+- `object` (instances)
 - `null`
 
 ---
