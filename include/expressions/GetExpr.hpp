@@ -9,7 +9,7 @@
 class GetExpr : public Expr
 {
 public:
-    GetExpr(std::unique_ptr<Expr> object, const Token &name) : _object(std::move(object)), _name(name) {}
+    GetExpr(std::unique_ptr<Expr> object, const Token &name) : object_(std::move(object)), name_(name) {}
 
     std::string accept(const ExprVisitor &visitor) const override;
 
@@ -17,12 +17,12 @@ public:
     const Token &name() const;
 
 private:
-    std::unique_ptr<Expr> _object;
-    Token _name;
+    std::unique_ptr<Expr> object_;
+    Token name_;
 };
 
 inline std::string GetExpr::accept(const ExprVisitor &visitor) const { return visitor.visitGetExpr(*this); }
-inline const Expr *GetExpr::object() const { return _object.get(); }
-inline const Token &GetExpr::name() const { return _name; }
+inline const Expr *GetExpr::object() const { return object_.get(); }
+inline const Token &GetExpr::name() const { return name_; }
 
 #endif

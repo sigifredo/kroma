@@ -9,7 +9,7 @@
 class UnaryExpr : public Expr
 {
 public:
-    UnaryExpr(const Token &o, std::unique_ptr<Expr> r) : _op(o), _right(std::move(r)) {}
+    UnaryExpr(const Token &o, std::unique_ptr<Expr> r) : op_(o), right_(std::move(r)) {}
 
     std::string accept(const ExprVisitor &visitor) const override;
 
@@ -17,12 +17,12 @@ public:
     const Expr *right() const;
 
 private:
-    Token _op;
-    std::unique_ptr<Expr> _right;
+    Token op_;
+    std::unique_ptr<Expr> right_;
 };
 
 inline std::string UnaryExpr::accept(const ExprVisitor &visitor) const { return visitor.visitUnaryExpr(*this); }
-inline const Token &UnaryExpr::op() const { return _op; }
-inline const Expr *UnaryExpr::right() const { return _right.get(); }
+inline const Token &UnaryExpr::op() const { return op_; }
+inline const Expr *UnaryExpr::right() const { return right_.get(); }
 
 #endif

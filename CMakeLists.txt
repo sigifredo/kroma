@@ -10,10 +10,10 @@ set(SRC
     src/ArgumentParser.cpp
     src/ATSPrinter.cpp
     src/DummyListener.cpp
+    src/Environment.cpp
     src/Parser.cpp
     src/REPL.cpp
     src/Scanner.cpp
-    src/Token.cpp
     src/TokenType.cpp
     src/Value.cpp
 )

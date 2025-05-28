@@ -14,7 +14,7 @@ class Token
 {
 public:
     Token(const Token &other) = default;
-    Token(const TokenType &type, const std::string &lexeme, const Value &literal, const int &line);
+    Token(const TokenType &type, const std::string &lexeme, const Value &literal, const int &line) : lexeme_(lexeme), line_(line), literal_(literal), type_(type) {}
 
     Token &operator=(const Token &other) = default;
     std::string toString();
@@ -25,30 +25,16 @@ public:
     TokenType type() const;
 
 private:
-    std::string _lexeme;
-    int _line;
-    Value _literal;
-    TokenType _type;
+    std::string lexeme_;
+    int line_;
+    Value literal_;
+    TokenType type_;
 };
 
-inline std::string Token::lexeme() const
-{
-    return _lexeme;
-}
-
-inline int Token::line() const
-{
-    return _line;
-}
-
-inline const Value &Token::literal() const
-{
-    return _literal;
-}
-
-inline TokenType Token::type() const
-{
-    return _type;
-}
+inline std::string Token::toString() { return std::to_string(static_cast<int>(type_)) + " (" + lexeme_ + ")"; }
+inline std::string Token::lexeme() const { return lexeme_; }
+inline int Token::line() const { return line_; }
+inline const Value &Token::literal() const { return literal_; }
+inline TokenType Token::type() const { return type_; }
 
 #endif
