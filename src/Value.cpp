@@ -1,10 +1,11 @@
 
 
-// Own
+// own
 #include <Value.hpp>
 
 Value::Value() : data(std::monostate{}) {}
 Value::Value(const double &number) : data(number) {}
+Value::Value(const int &number) : data(static_cast<double>(number)) {}
 Value::Value(const std::string &str) : data(str) {}
 Value::Value(const char *cstr) : data(std::string(cstr)) {}
 Value::Value(const bool &boolean) : data(boolean) {}
@@ -42,7 +43,17 @@ std::string Value::toString() const
         return asBool() ? "true" : "false";
 
     if (isNumber())
-        return std::to_string(asNumber());
+    {
+        std::string result = std::to_string(asNumber());
+        result.erase(result.find_last_not_of('0') + 1);
+
+        if (result.back() == '.')
+        {
+            result.pop_back();
+        }
+
+        return result;
+    }
 
     if (isString())
         return asString();

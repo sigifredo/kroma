@@ -3,7 +3,7 @@
 #ifndef REPL_HPP
 #define REPL_HPP
 
-// Own
+// own
 #include <CommandListener.hpp>
 
 // std

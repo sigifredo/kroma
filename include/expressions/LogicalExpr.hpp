@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_LOGICALEXPR_HPP
 #define EXPRESSIONS_LOGICALEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class LogicalExpr : public Expr

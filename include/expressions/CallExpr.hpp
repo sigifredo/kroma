@@ -3,7 +3,7 @@
 #ifndef EXPRESSION_CALLEXPR_HPP
 #define EXPRESSION_CALLEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 // std

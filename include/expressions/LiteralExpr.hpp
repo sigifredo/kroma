@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_LITERALEXPR_HPP
 #define EXPRESSIONS_LITERALEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class LiteralExpr : public Expr

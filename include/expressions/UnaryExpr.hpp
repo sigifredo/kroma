@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_UNARYEXPR_HPP
 #define EXPRESSIONS_UNARYEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class UnaryExpr : public Expr

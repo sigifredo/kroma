@@ -1,6 +1,6 @@
 
 
-// Own
+// own
 #include <ATSPrinter.hpp>
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>

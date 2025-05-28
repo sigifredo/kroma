@@ -1,6 +1,6 @@
 
 
-// Own
+// own
 #include <Parser.hpp>
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>

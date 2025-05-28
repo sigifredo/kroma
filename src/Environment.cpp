@@ -1,5 +1,5 @@
 
-// Own
+// own
 #include <Environment.hpp>
 #include <RuntimeError.hpp>
 

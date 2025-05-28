@@ -16,6 +16,7 @@ public:
 
     Value();
     Value(const Value &other) = default;
+    Value(const int &number);
     Value(const double &number);
     Value(const std::string &str);
     Value(const char *cstr);

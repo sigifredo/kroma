@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_EXPR_HPP
 #define EXPRESSIONS_EXPR_HPP
 
-// Own
+// own
 #include <ExprVisitor.hpp>
 #include <Token.hpp>
 #include <Value.hpp>

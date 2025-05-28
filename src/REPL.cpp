@@ -1,6 +1,6 @@
 
 
-// Own
+// own
 #include <REPL.hpp>
 
 // readline

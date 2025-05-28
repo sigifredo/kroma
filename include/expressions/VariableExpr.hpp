@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_VARIABLEEXPR_HPP
 #define EXPRESSIONS_VARIABLEEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class VariableExpr : public Expr

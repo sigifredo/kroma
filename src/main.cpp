@@ -1,6 +1,6 @@
 
 
-// Own
+// own
 #include <ArgumentParser.hpp>
 #include <DummyListener.hpp>
 #include <REPL.hpp>

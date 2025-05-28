@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_GROUPINGEXPR_HPP
 #define EXPRESSIONS_GROUPINGEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class GroupingExpr : public Expr

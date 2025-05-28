@@ -3,7 +3,7 @@
 #ifndef ATSPRINTER_HPP
 #define ATSPRINTER_HPP
 
-// Own
+// own
 #include <ExprVisitor.hpp>
 
 // std

@@ -1,6 +1,6 @@
 
 
-// Own
+// own
 #include <Scanner.hpp>
 
 // std

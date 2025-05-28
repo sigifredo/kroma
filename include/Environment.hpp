@@ -3,7 +3,7 @@
 #ifndef ENVIRONMENT_HPP
 #define ENVIRONMENT_HPP
 
-// Own
+// own
 #include <Value.hpp>
 
 // std

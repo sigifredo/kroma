@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_ASSIGNEXPR_HPP
 #define EXPRESSIONS_ASSIGNEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class AssignExpr : public Expr

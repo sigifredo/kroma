@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_BINARYEXPR_HPP
 #define EXPRESSIONS_BINARYEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class BinaryExpr : public Expr

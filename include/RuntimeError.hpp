@@ -3,11 +3,6 @@
 #ifndef RUNTIMEERROR_HPP
 #define RUNTIMEERROR_HPP
 
-// #include <iostream>
-// #include <memory>
-// #include <stdexcept>
-// #include <string>
-
 class RuntimeError : public std::runtime_error
 {
 public:

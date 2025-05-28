@@ -3,7 +3,7 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 #include <Token.hpp>
 

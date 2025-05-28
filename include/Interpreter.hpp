@@ -3,7 +3,7 @@
 #ifndef INTERPRETER_HPP
 #define INTERPRETER_HPP
 
-// Own
+// own
 #include <ExprVisitor.hpp>
 
 class Expr;

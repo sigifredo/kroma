@@ -3,7 +3,7 @@
 #ifndef EXPRESSIONS_GETEXPR_HPP
 #define EXPRESSIONS_GETEXPR_HPP
 
-// Own
+// own
 #include <expressions/Expr.hpp>
 
 class GetExpr : public Expr

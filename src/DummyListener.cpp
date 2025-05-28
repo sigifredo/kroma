@@ -1,6 +1,6 @@
 
 
-// Own
+// own
 #include <DummyListener.hpp>
 #include <ATSPrinter.hpp>
 #include <Parser.hpp>

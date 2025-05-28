@@ -3,7 +3,7 @@
 #ifndef SCANNER_HPP
 #define SCANNER_HPP
 
-// Own
+// own
 #include <Token.hpp>
 
 // std

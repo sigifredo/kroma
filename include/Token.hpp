@@ -3,7 +3,7 @@
 #ifndef TOKEN_HPP
 #define TOKEN_HPP
 
-// Own
+// own
 #include <TokenType.hpp>
 #include <Value.hpp>
 
