@@ -42,7 +42,7 @@ private:
 };
 
 // TODO: Organizar métodos inline
-inline void FunctionStmt::accept(StmtVisitor &visitor) const { visitor.visitorFunctionStmt(*this); }
+inline void FunctionStmt::accept(StmtVisitor &visitor) const { visitor.visitFunctionStmt(*this); }
 inline auto FunctionStmt::params() const
 {
     return params_ | std::views::transform([](const unique_ptr<VarStmt> &arg)
