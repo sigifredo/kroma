@@ -9,7 +9,12 @@
 class BinaryExpr : public Expr
 {
 public:
-    BinaryExpr(std::unique_ptr<Expr> leftExpr, const Token &oper, std::unique_ptr<Expr> rightExpr) : left_(std::move(leftExpr)), op_(oper), right_(std::move(rightExpr)) {};
+    BinaryExpr(std::unique_ptr<Expr> leftExpr,
+               const Token &oper,
+               std::unique_ptr<Expr> rightExpr)
+        : left_(std::move(leftExpr)),
+          op_(oper),
+          right_(std::move(rightExpr)) {};
 
     std::string accept(const ExprVisitor &visitor) const override;
 
