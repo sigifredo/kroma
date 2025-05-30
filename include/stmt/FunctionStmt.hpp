@@ -21,7 +21,7 @@ public:
         : name_(name),
           body_(std::move(body)),
           params_(std::move(params)),
-          modifiers_(modifiers),
+          modifiers_(std::move(modifiers)),
           isOperator_(isOperator) {}
 
     void accept(StmtVisitor &visitor) const override;
@@ -30,7 +30,7 @@ public:
     const Token &name() const;
     auto body() const;
     auto params() const;
-    const std::vector<Token> modifiers() const;
+    const std::vector<Token> &modifiers() const;
     bool isOperator() const;
 
 private:
@@ -54,7 +54,7 @@ auto FunctionStmt::body() const
     return body_ | std::views::transform([](const unique_ptr<Stmt> &arg)
                                          { return arg.get(); });
 }
-const std::vector<Token> FunctionStmt::modifiers() const { return modifiers_; }
+const std::vector<Token> &FunctionStmt::modifiers() const { return modifiers_; }
 bool FunctionStmt::isOperator() const { return isOperator_; }
 
 #endif
