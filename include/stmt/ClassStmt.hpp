@@ -7,11 +7,11 @@
 #include <expressions/Expr.hpp>
 #include <stmt/FunctionStmt.hpp>
 #include <stmt/Stmt.hpp>
-#include <stmt/Stmt.hpp>
 #include <stmt/VarStmt.hpp>
 #include <Token.hpp>
 
 // std
+#include <ranges>
 #include <vector>
 
 class ClassStmt : public Stmt
@@ -22,22 +22,39 @@ public:
               std::vector<std::unique_ptr<VarStmt>> fields,
               std::vector<std::unique_ptr<FunctionStmt>> methods,
               std::vector<Token> modifiers)
-        : name(std::move(name)),
-          superclass(std::move(superclass)),
-          fields(std::move(fields)),
-          methods(std::move(methods)),
-          modifiers(std::move(modifiers)) {}
+        : name_(std::move(name)),
+          superclass_(std::move(superclass)),
+          fields_(std::move(fields)),
+          methods_(std::move(methods)),
+          modifiers_(std::move(modifiers)) {}
 
     void accept(StmtVisitor &visitor) const override;
 
+    auto fields() const;
+    auto methods() const;
+    const Token &modifiers() const;
+    const Token &name() const;
+
 private:
-    Token name;
-    std::unique_ptr<Expr> superclass;
-    std::vector<std::unique_ptr<VarStmt>> fields;
-    std::vector<std::unique_ptr<FunctionStmt>> methods;
-    std::vector<Token> modifiers;
+    Token name_;
+    std::unique_ptr<Expr> superclass_;
+    std::vector<std::unique_ptr<VarStmt>> fields_;
+    std::vector<std::unique_ptr<FunctionStmt>> methods_;
+    std::vector<Token> modifiers_;
 };
 
 inline void ClassStmt::accept(StmtVisitor &visitor) const { visitor.visitClassStmt(*this); }
+inline auto ClassStmt::fields() const
+{
+    return fields_ | std::views::transform([](const unique_ptr<Expr> &arg)
+                                           { return arg.get(); });
+}
+inline auto ClassStmt::methods() const
+{
+    return methods_ | std::views::transform([](const unique_ptr<Expr> &arg)
+                                            { return arg.get(); })
+}
+inline const Token &ClassStmt::modifiers() const { return modifiers_; }
+inline const Token &ClassStmt::name() const { return name_; }
 
 #endif
