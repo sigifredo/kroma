@@ -10,6 +10,7 @@
 #include <expressions/GroupingExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
+#include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
 
@@ -67,6 +68,24 @@ std::string ATSPrinter::visitLogicalExpr(const LogicalExpr &expr) const
     result += " " + expr.op().lexeme() + " ";
     result += expr.right()->accept(*this);
     result += "]";
+    return result;
+}
+
+std::string ATSPrinter::visitRangeExpr(const RangeExpr &expr) const
+{
+    std::string result = "(range ";
+
+    result += expr.start() ? expr.start()->accept(*this) : "null";
+    result += " .. ";
+    result += expr.end() ? expr.end()->accept(*this) : "null";
+
+    if (expr.step())
+    {
+        result += " by ";
+        result += expr.step()->accept(*this);
+    }
+
+    result += ")";
     return result;
 }
 

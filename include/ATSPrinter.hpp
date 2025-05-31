@@ -4,7 +4,7 @@
 #define ATSPRINTER_HPP
 
 // own
-#include <ExprVisitor.hpp>
+#include <expressions/ExprVisitor.hpp>
 
 // std
 #include <vector>
@@ -27,6 +27,7 @@ public:
     std::string visitGroupingExpr(const GroupingExpr &expr) const override;
     std::string visitLiteralExpr(const LiteralExpr &expr) const override;
     std::string visitLogicalExpr(const LogicalExpr &expr) const override;
+    std::string visitRangeExpr(const RangeExpr &expr) const override;
     std::string visitUnaryExpr(const UnaryExpr &expr) const override;
     std::string visitVariableExpr(const VariableExpr &expr) const override;
 };

@@ -55,7 +55,9 @@ logic_and      → equality ( "and" equality )* ;
 
 equality       → comparison ( ( "!=" | "==" ) comparison )* ;
 
-comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+comparison     → range ( ( ">" | ">=" | "<" | "<=" ) range )* ;
+
+range          → term ( ".." term ( "by" term )? )* ;
 
 term           → factor ( ( "-" | "+" ) factor )* ;
 

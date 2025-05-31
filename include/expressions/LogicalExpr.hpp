@@ -9,7 +9,10 @@
 class LogicalExpr : public Expr
 {
 public:
-    LogicalExpr(std::unique_ptr<Expr> leftExpr, const Token &oper, std::unique_ptr<Expr> rightExpr) : left_(std::move(leftExpr)), op_(oper), right_(std::move(rightExpr)) {};
+    LogicalExpr(std::unique_ptr<Expr> leftExpr,
+                const Token &oper,
+                std::unique_ptr<Expr> rightExpr)
+        : left_(std::move(leftExpr)), op_(oper), right_(std::move(rightExpr)) {};
 
     std::string accept(const ExprVisitor &visitor) const override;
 

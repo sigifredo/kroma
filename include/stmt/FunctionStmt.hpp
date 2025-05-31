@@ -14,8 +14,8 @@ class FunctionStmt : public Stmt
 {
 public:
     FunctionStmt(const Token &name,
-                 std::vector<unique_ptr<VarStmt>> params,
-                 std::vector<unique_ptr<Stmt>> body,
+                 std::vector<std::unique_ptr<VarStmt>> params,
+                 std::vector<std::unique_ptr<Stmt>> body,
                  std::vector<Token> modifiers = {},
                  isOperator = false)
         : name_(name),
@@ -24,37 +24,35 @@ public:
           modifiers_(std::move(modifiers)),
           isOperator_(isOperator) {}
 
-    void accept(StmtVisitor &visitor) const override;
+    void accept(const StmtVisitor &visitor) const override;
 
-    // TODO: corregir métodos acessores
-    const Token &name() const;
     auto body() const;
-    auto params() const;
-    const std::vector<Token> &modifiers() const;
     bool isOperator() const;
+    auto modifiers() const;
+    const Token &name() const;
+    auto params() const;
 
 private:
-    Token name_;
-    std::vector<unique_ptr<Stmt>> body_;
-    std::vector<unique_ptr<VarStmt>> params_;
-    std::vector<Token> modifiers_;
+    std::vector<std::unique_ptr<Stmt>> body_;
     bool isOperator_;
+    std::vector<std::unique_ptr<VarStmt>> params_;
+    std::vector<Token> modifiers_;
+    Token name_;
 };
 
-// TODO: Organizar métodos inline
 inline void FunctionStmt::accept(StmtVisitor &visitor) const { visitor.visitFunctionStmt(*this); }
+inline auto FunctionStmt::body() const
+{
+    return body_ | std::views::transform([](const unique_ptr<Stmt> &arg)
+                                         { return arg.get(); });
+}
+inline bool FunctionStmt::isOperator() const { return isOperator_; }
+inline const std::vector<Token> &FunctionStmt::modifiers() const { return modifiers_; }
+const Token &FunctionStmt::name() const { return name_; }
 inline auto FunctionStmt::params() const
 {
     return params_ | std::views::transform([](const unique_ptr<VarStmt> &arg)
                                            { return arg.get(); });
 }
-const Token &FunctionStmt::name() const { return name_; }
-auto FunctionStmt::body() const
-{
-    return body_ | std::views::transform([](const unique_ptr<Stmt> &arg)
-                                         { return arg.get(); });
-}
-const std::vector<Token> &FunctionStmt::modifiers() const { return modifiers_; }
-bool FunctionStmt::isOperator() const { return isOperator_; }
 
 #endif

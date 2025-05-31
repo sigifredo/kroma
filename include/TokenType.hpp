@@ -56,6 +56,10 @@ enum class TokenType
     TRUE,
     WHILE,
 
+    // Ranges
+    DOT_DOT,
+    BY,
+
     UNKNOWN
 };
 

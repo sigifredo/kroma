@@ -45,7 +45,9 @@ namespace
         {"this", TokenType::THIS},
         {"true", TokenType::TRUE},
         {"let", TokenType::LET},
-        {"while", TokenType::WHILE}};
+        {"while", TokenType::WHILE},
+        {"..", TokenType::DOT_DOT},
+        {"by", TokenType::BY}};
 }
 
 std::optional<TokenType> matchToken(const std::string &lexeme)

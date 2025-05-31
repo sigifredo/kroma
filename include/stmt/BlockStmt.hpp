@@ -14,7 +14,7 @@ class BlockStmt : public Stmt
 public:
     explicit BlockStmt(std::vector<std::unique_ptr<Stmt>> statements) : statements(std::move(statements)) {}
 
-    void accept(StmtVisitor &visitor) const override;
+    void accept(const StmtVisitor &visitor) const override;
 
 private:
     std::vector<std::unique_ptr<Stmt>> statements;

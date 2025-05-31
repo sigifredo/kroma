@@ -34,6 +34,7 @@ private:
     std::unique_ptr<Expr> logicAnd();
     std::unique_ptr<Expr> logicOr();
     std::unique_ptr<Expr> primary();
+    std::unique_ptr<Expr> range();
     std::unique_ptr<Expr> term();
     std::unique_ptr<Expr> unary();
 

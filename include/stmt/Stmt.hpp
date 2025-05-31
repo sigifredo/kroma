@@ -13,7 +13,7 @@ class Stmt
 public:
     virtual ~Stmt() = default;
 
-    virtual void accept(StmtVisitor &) const = 0;
+    virtual void accept(const StmtVisitor &) const = 0;
 };
 
 #endif

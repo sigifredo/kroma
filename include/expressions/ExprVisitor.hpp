@@ -13,6 +13,7 @@ class GetExpr;
 class GroupingExpr;
 class LiteralExpr;
 class LogicalExpr;
+class RangeExpr;
 class UnaryExpr;
 class VariableExpr;
 
@@ -29,6 +30,7 @@ public:
     virtual std::string visitGroupingExpr(const GroupingExpr &expr) const = 0;
     virtual std::string visitLiteralExpr(const LiteralExpr &expr) const = 0;
     virtual std::string visitLogicalExpr(const LogicalExpr &expr) const = 0;
+    virtual std::string visitRangeExpr(const RangeExpr &expr) const = 0;
     virtual std::string visitUnaryExpr(const UnaryExpr &expr) const = 0;
     virtual std::string visitVariableExpr(const VariableExpr &expr) const = 0;
 };

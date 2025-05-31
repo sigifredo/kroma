@@ -9,6 +9,7 @@
 #include <expressions/GroupingExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
+#include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
 
@@ -65,13 +66,13 @@ std::unique_ptr<Expr> Parser::call()
 
 std::unique_ptr<Expr> Parser::comparison()
 {
-    auto expr = term();
+    auto expr = range();
 
     while (match({TokenType::GREATER, TokenType::GREATER_EQUAL,
                   TokenType::LESS, TokenType::LESS_EQUAL}))
     {
         Token op = previous();
-        auto right = term();
+        auto right = range();
         expr = std::make_unique<BinaryExpr>(std::move(expr), op, std::move(right));
     }
 
@@ -174,6 +175,26 @@ std::unique_ptr<Expr> Parser::primary()
     }
 
     throw std::runtime_error("Expected expression.");
+}
+
+std::unique_ptr<Expr> Parser::range()
+{
+    auto start = term();
+
+    if (match({TokenType::DOT_DOT}))
+    {
+        auto end = term();
+        std::unique_ptr<Expr> step = nullptr;
+
+        if (match({TokenType::BY}))
+        {
+            step = term();
+        }
+
+        return std::make_unique<RangeExpr>(std::move(start), std::move(end), std::move(step));
+    }
+
+    return start;
 }
 
 std::unique_ptr<Expr> Parser::term()

@@ -4,7 +4,7 @@
 #define EXPRESSIONS_EXPR_HPP
 
 // own
-#include <ExprVisitor.hpp>
+#include <expressions/ExprVisitor.hpp>
 #include <Token.hpp>
 #include <Value.hpp>
 
