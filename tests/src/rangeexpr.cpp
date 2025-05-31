@@ -11,6 +11,18 @@
 // std
 #include <memory>
 
+TEST_CASE("RangeExpr stores start, end expressions", "[RangeExpr]")
+{
+    auto start = std::make_unique<LiteralExpr>(1);
+    auto end = std::make_unique<LiteralExpr>(10);
+
+    RangeExpr range(std::move(start), std::move(end));
+
+    REQUIRE(dynamic_cast<const LiteralExpr *>(range.start())->value().asNumber() == 1);
+    REQUIRE(dynamic_cast<const LiteralExpr *>(range.end())->value().asNumber() == 10);
+    REQUIRE(dynamic_cast<const LiteralExpr *>(range.step()) == nullptr);
+}
+
 TEST_CASE("RangeExpr stores start, end, step expressions", "[RangeExpr]")
 {
     auto start = std::make_unique<LiteralExpr>(1);

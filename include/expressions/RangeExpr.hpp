@@ -11,7 +11,7 @@ class RangeExpr : public Expr
 public:
     RangeExpr(std::unique_ptr<Expr> start,
               std::unique_ptr<Expr> end,
-              std::unique_ptr<Expr> step)
+              std::unique_ptr<Expr> step = nullptr)
         : start_(std::move(start)), end_(std::move(end)), step_(std::move(step)) {};
 
     std::string accept(const ExprVisitor &visitor) const override;
