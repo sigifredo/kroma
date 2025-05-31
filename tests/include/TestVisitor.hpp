@@ -21,12 +21,12 @@ public:
     std::string visitVariableExpr(const VariableExpr &) const override { return getVisitedStr(std::string(__func__)); }
 
 private:
-    std::string getVisitedStr(const std::string &functionName);
+    std::string getVisitedStr(const std::string &functionName) const;
 };
 
-inline std::string TestVisitor::getVisitedStr(const std::string &functionName)
+inline std::string TestVisitor::getVisitedStr(const std::string &functionName) const
 {
-    return functionName.substr(5, functionName.size() - 4) + "Visited";
+    return functionName.substr(5, functionName.size() - 9) + "Visited";
 }
 
 #endif
