@@ -8,12 +8,15 @@ if(BUILD_TESTS)
 
     enable_testing()
 
+    include_directories(${CMAKE_SOURCE_DIR}/tests/include)
+
     add_executable(kroma_tests
-        ${CMAKE_SOURCE_DIR}/tests/test_argumentparser.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_environment.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_token.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_tokentype.cpp
-        ${CMAKE_SOURCE_DIR}/tests/test_value.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/argumentparser.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/environment.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/rangeexpr.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/token.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/tokentype.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/value.cpp
     )
 
     target_link_libraries(kroma_tests PRIVATE
