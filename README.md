@@ -8,6 +8,8 @@ Kroma is a personal project dedicated to creating a dynamic, simple, and express
 
 This project uses [Catch2](https://github.com/catchorg/Catch2) (version 3) to implement unit tests in C++.
 
+## Running Unit Tests
+
 To run all unit tests:
 
 ```bash
