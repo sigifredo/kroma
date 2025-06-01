@@ -10,6 +10,7 @@ class ForEachStmt;
 class ForRangeStmt;
 class FunctionStmt;
 class IfStmt;
+class ReturnStmt;
 class VarStmt;
 
 class StmtVisitor
@@ -25,6 +26,7 @@ public:
     virtual void visitForRangeStmt(const ForRangeStmt &stmt) = 0;
     virtual void visitFunctionStmt(const FunctionStmt &stmt) = 0;
     virtual void visitIfStmt(const IfStmt &stmt) = 0;
+    virtual void visitReturnStmt(const ReturnStmt &stmt) = 0;
     virtual void visitVarStmt(const VarStmt &stmt) = 0;
 };
 

@@ -14,7 +14,14 @@ class Token
 {
 public:
     Token(const Token &other) = default;
-    Token(const TokenType &type, const std::string &lexeme, const Value &literal, const int &line) : lexeme_(lexeme), line_(line), literal_(literal), type_(type) {}
+    Token(const TokenType &type,
+          const std::string &lexeme,
+          const Value &literal = Value(),
+          const int &line = 0)
+        : lexeme_(lexeme),
+          line_(line),
+          literal_(literal),
+          type_(type) {}
 
     Token &operator=(const Token &other) = default;
     std::string toString();

@@ -25,6 +25,7 @@ TEST_CASE("matchToken returns correct TokenType for known lexemes", "[matchToken
     REQUIRE(matchToken("for") == TokenType::FOR);
     REQUIRE(matchToken("while") == TokenType::WHILE);
     REQUIRE(matchToken("fun") == TokenType::FUN);
+    REQUIRE(matchToken("return") == TokenType::RETURN);
     REQUIRE(matchToken("false") == TokenType::FALSE);
     REQUIRE(matchToken("by") == TokenType::BY);
 }
@@ -32,6 +33,7 @@ TEST_CASE("matchToken returns correct TokenType for known lexemes", "[matchToken
 TEST_CASE("matchToken returns nullopt for unknown lexemes", "[matchToken]")
 {
     REQUIRE(matchToken("unknown") == std::nullopt);
+    REQUIRE(matchToken("return;") == std::nullopt);
     REQUIRE(matchToken("!@#") == std::nullopt);
     REQUIRE(matchToken("123") == std::nullopt);
     REQUIRE(matchToken("...") == std::nullopt);

@@ -4,7 +4,6 @@
 
 // own
 #include <Token.hpp>
-#include <Value.hpp>
 
 TEST_CASE("Token constructor and getters", "[Token]")
 {
@@ -13,13 +12,19 @@ TEST_CASE("Token constructor and getters", "[Token]")
     Value literal(42);
     int line = 10;
 
-    Token token(type, lexeme, literal, line);
+    Token token1(type, lexeme, literal, line);
+    Token token2(TokenType::IDENTIFIER, "variable", 42, 10);
 
-    REQUIRE(token.type() == type);
-    REQUIRE(token.lexeme() == "variable");
-    REQUIRE(token.literal() == Value(42));
-    REQUIRE(token.literal() == 42);
-    REQUIRE(token.line() == 10);
+    REQUIRE(token1.type() == token2.type());
+    REQUIRE(token1.lexeme() == token2.lexeme());
+    REQUIRE(token1.literal() == token2.literal());
+    REQUIRE(token1.line() == token2.line());
+
+    REQUIRE(token1.type() == type);
+    REQUIRE(token1.lexeme() == "variable");
+    REQUIRE(token1.literal() == Value(42));
+    REQUIRE(token1.literal() == 42);
+    REQUIRE(token1.line() == 10);
 }
 
 TEST_CASE("Token toString produces correct format", "[Token]")
