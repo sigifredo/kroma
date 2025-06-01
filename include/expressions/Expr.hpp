@@ -11,8 +11,6 @@
 // std
 #include <memory>
 
-class ExprVisitor;
-
 class Expr
 {
 public:

@@ -24,7 +24,7 @@ public:
           modifiers_(std::move(modifiers)),
           isOperator_(isOperator) {}
 
-    void accept(const StmtVisitor &visitor) const override;
+    void accept(StmtVisitor &visitor) const override;
 
     auto body() const;
     bool isOperator() const;

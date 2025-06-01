@@ -28,7 +28,7 @@ public:
           methods_(std::move(methods)),
           modifiers_(std::move(modifiers)) {}
 
-    void accept(const StmtVisitor &visitor) const override;
+    void accept(StmtVisitor &visitor) const override;
 
     auto fields() const;
     auto methods() const;

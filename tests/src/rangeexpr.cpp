@@ -6,7 +6,7 @@
 // own
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/RangeExpr.hpp>
-#include <TestVisitor.hpp>
+#include <TestExprVisitor.hpp>
 
 // std
 #include <memory>
@@ -44,7 +44,7 @@ TEST_CASE("RangeExpr accept method works with visitor", "[RangeExpr]")
 
     RangeExpr range(std::move(start), std::move(end), std::move(step));
 
-    TestVisitor visitor;
+    TestExprVisitor visitor;
     std::string result = range.accept(visitor);
 
     REQUIRE(result == "RangeVisited");

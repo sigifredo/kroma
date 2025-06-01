@@ -1,12 +1,12 @@
 
 
-#ifndef TEST_TESTVISITOR_HPP
-#define TEST_TESTVISITOR_HPP
+#ifndef TEST_TESTEXPRVISITOR_HPP
+#define TEST_TESTEXPRVISITOR_HPP
 
 // own
 #include <expressions/ExprVisitor.hpp>
 
-class TestVisitor : public ExprVisitor
+class TestExprVisitor : public ExprVisitor
 {
 public:
     std::string visitAssignExpr(const AssignExpr &) const override { return getVisitedStr(std::string(__func__)); }
@@ -24,7 +24,7 @@ private:
     std::string getVisitedStr(const std::string &functionName) const;
 };
 
-inline std::string TestVisitor::getVisitedStr(const std::string &functionName) const
+inline std::string TestExprVisitor::getVisitedStr(const std::string &functionName) const
 {
     return functionName.substr(5, functionName.size() - 9) + "Visited";
 }

@@ -17,7 +17,7 @@ public:
           thenBranch_(std::move(thenBranch)),
           elseBranch_(std::move(elseBranch)) {}
 
-    void accept(const StmtVisitor &visitor) const override;
+    void accept(StmtVisitor &visitor) const override;
 
     const Expr *condition() const;
     const Stmt *thenBranch() const;

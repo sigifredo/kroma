@@ -17,7 +17,7 @@ class ForEachStmt : public Stmt
     {
     }
 
-    void accept(const StmtVisitor &visitor) const override;
+    void accept(StmtVisitor &visitor) const override;
 
     const Token &iterator() const;
     const Expr *iterable() const;

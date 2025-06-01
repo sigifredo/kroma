@@ -13,6 +13,7 @@ if(BUILD_TESTS)
     add_executable(kroma_tests
         ${CMAKE_SOURCE_DIR}/tests/src/argumentparser.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/environment.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/expressionstmt.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/rangeexpr.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/token.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/tokentype.cpp

@@ -17,7 +17,7 @@ public:
           initializer_(std::move(initializer)),
           modifier_(modifier) {}
 
-    void accept(const StmtVisitor &visitor) const override;
+    void accept(StmtVisitor &visitor) const override;
 
     const Expr *initializer() const;
     const Token &modifier() const;
