@@ -13,6 +13,7 @@
 class Token
 {
 public:
+    Token() = default;
     Token(const Token &other) = default;
     Token(const TokenType &type,
           const std::string &lexeme,

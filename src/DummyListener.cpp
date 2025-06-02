@@ -28,11 +28,12 @@ void DummyListener::onCommand(const std::string &command)
             std::cout << "Token: " << token.toString() << std::endl;
         }
 
-        Parser parser(tokens);
-        std::unique_ptr<Expr> expression = parser.parse();
+        // TODO: reimplementar la llamada al ATSPrinter
+        //  Parser parser(tokens);
+        //  auto expression = parser.parse();
 
-        ATSPrinter printer;
-        std::cout << printer.print(expression.get()) << std::endl;
+        // ATSPrinter printer;
+        // std::cout << printer.print(expression.get()) << std::endl;
     }
 }
 

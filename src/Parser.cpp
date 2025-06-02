@@ -12,12 +12,21 @@
 #include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
+#include <stmt/IfStmt.hpp>
+#include <stmt/VarStmt.hpp>
 
 Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens) {}
 
-std::unique_ptr<Expr> Parser::parse()
+std::vector<std::unique_ptr<Stmt>> Parser::parse()
 {
-    return expression();
+    std::vector<std::unique_ptr<Stmt>> statements;
+
+    while (!isAtEnd())
+    {
+        statements.push_back(declaration());
+    }
+
+    return statements;
 }
 
 std::unique_ptr<Expr> Parser::assignment()
@@ -221,6 +230,51 @@ std::unique_ptr<Expr> Parser::unary()
     }
 
     return call();
+}
+
+std::unique_ptr<Stmt> Parser::ifStatement()
+{
+    consume(TokenType::LEFT_PAREN, "Expect '(' after 'if'.");
+    auto condition = expression();
+    consume(TokenType::RIGHT_PAREN, "Expect ')' after if condition.");
+    auto thenBranch = statement();
+
+    std::unique_ptr<Stmt> elseBranch = nullptr;
+
+    if (match({TokenType::ELSE}))
+    {
+        elseBranch = statement();
+    }
+
+    return std::make_unique<IfStmt>(std::move(condition),
+                                    std::move(thenBranch),
+                                    std::move(elseBranch));
+}
+
+std::unique_ptr<Stmt> Parser::statement()
+{
+    if (match({TokenType::FOR}))
+        return forStatement();
+    if (match({TokenType::IF}))
+        return ifStatement();
+    if (match({TokenType::RETURN}))
+        return returnStatement();
+
+    return expressionStatement();
+}
+
+std::unique_ptr<Stmt> Parser::varDeclaration()
+{
+    Token name = consume(TokenType::IDENTIFIER, "Expect variable name.");
+    std::unique_ptr<Expr> initializer = nullptr;
+
+    if (match({TokenType::EQUAL}))
+    {
+        initializer = expression();
+    }
+
+    consume(TokenType::SEMICOLON, "Expect ';' after variable declaration.");
+    return std::make_unique<VarStmt>(name, std::move(initializer));
 }
 
 const Token &Parser::advance()

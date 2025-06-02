@@ -14,10 +14,8 @@ declaration    → varDecl
                | classDecl
                | statement ;
 
-varDecl        → "let" IDENTIFIER ( "=" expression )? ";" ;
-
+varDecl        → ("let" | "const") IDENTIFIER ( "=" expression )? ";" ;
 funDecl        → "fun" IDENTIFIER "(" parameters? ")" block ;
-
 classDecl      → "class" IDENTIFIER ( "<" IDENTIFIER )? "{" function* "}" ;
 
 parameters     → IDENTIFIER ( "," IDENTIFIER )* ;

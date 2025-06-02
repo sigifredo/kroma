@@ -6,6 +6,7 @@
 // own
 #include <expressions/Expr.hpp>
 #include <Token.hpp>
+#include <stmt/Stmt.hpp>
 
 // std
 #include <memory>
@@ -18,12 +19,13 @@ class Parser
 public:
     explicit Parser(const std::vector<Token> &tokens);
 
-    std::unique_ptr<Expr> parse();
+    std::vector<std::unique_ptr<Stmt>> parse();
 
 private:
     const std::vector<Token> &tokens;
     size_t current = 0;
 
+    // Expressions
     std::unique_ptr<Expr> assignment();
     std::unique_ptr<Expr> call();
     std::unique_ptr<Expr> comparison();
@@ -37,6 +39,15 @@ private:
     std::unique_ptr<Expr> range();
     std::unique_ptr<Expr> term();
     std::unique_ptr<Expr> unary();
+
+    // Statements
+    std::unique_ptr<Stmt> declaration();
+    std::unique_ptr<Stmt> expressionStatement();
+    std::unique_ptr<Stmt> forStatement();
+    std::unique_ptr<Stmt> ifStatement();
+    std::unique_ptr<Stmt> returnStatement();
+    std::unique_ptr<Stmt> statement();
+    std::unique_ptr<Stmt> varDeclaration();
 
     const Token &advance();
     bool check(const TokenType &type) const;

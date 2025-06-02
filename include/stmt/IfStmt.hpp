@@ -29,9 +29,9 @@ private:
     std::unique_ptr<Stmt> elseBranch_;
 };
 
-inline void IfStmt::accept(const StmtVisitor &visitor) const { visitor.visitIfStmt(*this); }
-inline const Expr *IfStmt::condition() const { return condition_; }
-inline const Stmt *IfStmt::thenBranch() const { return thenBranch_; }
-inline const Stmt *IfStmt::elseBranch() const { return elseBranch_; }
+inline void IfStmt::accept(StmtVisitor &visitor) const { visitor.visitIfStmt(*this); }
+inline const Expr *IfStmt::condition() const { return condition_.get(); }
+inline const Stmt *IfStmt::thenBranch() const { return thenBranch_.get(); }
+inline const Stmt *IfStmt::elseBranch() const { return elseBranch_.get(); }
 
 #endif

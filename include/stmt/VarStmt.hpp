@@ -10,28 +10,28 @@
 class VarStmt : public Stmt
 {
 public:
-    VarStmt(const Token &name,
-            std::unique_ptr<Expr> initializer,
-            const Token &modifier)
-        : name_(name),
-          initializer_(std::move(initializer)),
-          modifier_(modifier) {}
+    explicit VarStmt(const Token &name,
+                     std::unique_ptr<Expr> initializer,
+                     std::optional<Token> modifier = std::nullopt)
+        : initializer_(std::move(initializer)),
+          modifier_(std::move(modifier)),
+          name_(name) {}
 
     void accept(StmtVisitor &visitor) const override;
 
     const Expr *initializer() const;
-    const Token &modifier() const;
+    const std::optional<Token> &modifier() const;
     const Token &name() const;
 
 private:
     std::unique_ptr<Expr> initializer_;
-    Token modifier_;
+    std::optional<Token> modifier_;
     Token name_;
 };
 
 inline void VarStmt::accept(StmtVisitor &visitor) const { return visitor.visitVarStmt(*this); }
 inline const Expr *VarStmt::initializer() const { return initializer_.get(); }
-inline const Token &VarStmt::modifier() const { return modifier_; }
+inline const std::optional<Token> &VarStmt::modifier() const { return modifier_; }
 inline const Token &VarStmt::name() const { return name_; }
 
 #endif
