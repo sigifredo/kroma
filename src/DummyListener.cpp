@@ -29,7 +29,7 @@ void DummyListener::onCommand(const std::string &command)
         }
 
         // TODO: reimplementar la llamada al ATSPrinter
-        //  Parser parser(tokens);
+        Parser parser(tokens);
         //  auto expression = parser.parse();
 
         // ATSPrinter printer;

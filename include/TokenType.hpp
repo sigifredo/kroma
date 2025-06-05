@@ -40,6 +40,7 @@ enum class TokenType
     // Keywords
     AND,
     CLASS,
+    CONST,
     ELSE,
     _EOF,
     FALSE,

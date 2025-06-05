@@ -232,6 +232,26 @@ std::unique_ptr<Expr> Parser::unary()
     return call();
 }
 
+std::unique_ptr<Stmt> Parser::declaration()
+{
+    try
+    {
+        if (match({TokenType::LET, TokenType::CONST}))
+            return varDeclaration();
+        if (match({TokenType::FUN}))
+            ; // return funDeclaration();
+        if (match({TokenType::CLASS}))
+            ; // return classDeclaration();
+
+        return statement();
+    }
+    catch (const std::runtime_error &error)
+    {
+        synchronize();
+        return nullptr;
+    }
+}
+
 std::unique_ptr<Stmt> Parser::ifStatement()
 {
     consume(TokenType::LEFT_PAREN, "Expect '(' after 'if'.");
@@ -329,4 +349,33 @@ const Token &Parser::peek() const
 const Token &Parser::previous() const
 {
     return tokens[current - 1];
+}
+
+void Parser::synchronize()
+{
+    advance();
+
+    while (!isAtEnd())
+    {
+        if (previous().type() == TokenType::SEMICOLON)
+            return;
+
+        switch (peek().type())
+        {
+        case TokenType::CLASS:
+        case TokenType::FUN:
+        case TokenType::LET:
+        case TokenType::CONST:
+        case TokenType::FOR:
+        case TokenType::IF:
+        case TokenType::WHILE:
+        case TokenType::RETURN:
+        case TokenType::PRINT:
+            return;
+        default:
+            break;
+        }
+
+        advance();
+    }
 }

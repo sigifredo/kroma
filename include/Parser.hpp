@@ -42,10 +42,10 @@ private:
 
     // Statements
     std::unique_ptr<Stmt> declaration();
-    std::unique_ptr<Stmt> expressionStatement();
-    std::unique_ptr<Stmt> forStatement();
+    // std::unique_ptr<Stmt> expressionStatement();
+    // std::unique_ptr<Stmt> forStatement();
     std::unique_ptr<Stmt> ifStatement();
-    std::unique_ptr<Stmt> returnStatement();
+    // std::unique_ptr<Stmt> returnStatement();
     std::unique_ptr<Stmt> statement();
     std::unique_ptr<Stmt> varDeclaration();
 
@@ -57,6 +57,7 @@ private:
     bool match(const std::initializer_list<TokenType> &types);
     const Token &peek() const;
     const Token &previous() const;
+    void synchronize();
 };
 
 #endif
