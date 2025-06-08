@@ -11,20 +11,15 @@ public:
     TestStmtVisitor() = default;
     virtual ~TestStmtVisitor() = default;
 
-    virtual void visitBlockStmt(const BlockStmt &) override { visited_ = true; }
-    virtual void visitClassStmt(const ClassStmt &) override { visited_ = true; }
-    virtual void visitExpressionStmt(const ExpressionStmt &) override { visited_ = true; }
-    virtual void visitForEachStmt(const ForEachStmt &) override { visited_ = true; }
-    virtual void visitForRangeStmt(const ForRangeStmt &) override { visited_ = true; }
-    virtual void visitFunctionStmt(const FunctionStmt &) override { visited_ = true; }
-    virtual void visitIfStmt(const IfStmt &) override { visited_ = true; }
-    virtual void visitReturnStmt(const ReturnStmt &) override { visited_ = true; };
-    virtual void visitVarStmt(const VarStmt &) override { visited_ = true; }
-
-    bool visited() const { return visited_; }
-
-private:
-    bool visited_;
+    virtual std::string visitBlockStmt(const BlockStmt &) override { return "visited"; }
+    virtual std::string visitClassStmt(const ClassStmt &) override { return "visited"; }
+    virtual std::string visitExpressionStmt(const ExpressionStmt &) override { return "visited"; }
+    virtual std::string visitForEachStmt(const ForEachStmt &) override { return "visited"; }
+    virtual std::string visitForRangeStmt(const ForRangeStmt &) override { return "visited"; }
+    virtual std::string visitFunctionStmt(const FunctionStmt &) override { return "visited"; }
+    virtual std::string visitIfStmt(const IfStmt &) override { return "visited"; }
+    virtual std::string visitReturnStmt(const ReturnStmt &) override { return "visited"; };
+    virtual std::string visitVarStmt(const VarStmt &) override { return "visited"; }
 };
 
 #endif

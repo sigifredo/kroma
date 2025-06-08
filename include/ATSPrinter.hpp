@@ -37,15 +37,15 @@ public:
     std::string visitVariableExpr(const VariableExpr &expr) const override;
 
     // --- StmtVisitor ---
-    std::string visitBlockStmt(const BlockStmt &stmt) override {};
-    std::string visitClassStmt(const ClassStmt &stmt) override {};
-    std::string visitExpressionStmt(const ExpressionStmt &stmt) override {};
-    std::string visitForEachStmt(const ForEachStmt &stmt) override {};
-    std::string visitForRangeStmt(const ForRangeStmt &stmt) override {};
-    std::string visitFunctionStmt(const FunctionStmt &stmt) override {};
-    std::string visitIfStmt(const IfStmt &stmt) override {};
-    std::string visitReturnStmt(const ReturnStmt &stmt) override {};
-    std::string visitVarStmt(const VarStmt &stmt) override {};
+    std::string visitBlockStmt(const BlockStmt &stmt) override;
+    std::string visitClassStmt(const ClassStmt &stmt) override;
+    std::string visitExpressionStmt(const ExpressionStmt &stmt) override;
+    std::string visitForEachStmt(const ForEachStmt &stmt) override;
+    std::string visitForRangeStmt(const ForRangeStmt &stmt) override;
+    std::string visitFunctionStmt(const FunctionStmt &stmt) override;
+    std::string visitIfStmt(const IfStmt &stmt) override;
+    std::string visitReturnStmt(const ReturnStmt &stmt) override;
+    std::string visitVarStmt(const VarStmt &stmt) override;
 };
 
 #endif

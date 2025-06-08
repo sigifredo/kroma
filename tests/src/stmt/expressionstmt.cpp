@@ -14,12 +14,9 @@
 TEST_CASE("ExpressionStmt stores and returns expression", "[ExpressionStmt]")
 {
     auto literal = std::make_unique<LiteralExpr>(42);
-    auto rawPtr = literal.get(); // Guardar puntero para comparación
-
-    // Crear ExpressionStmt
+    auto rawPtr = literal.get();
     ExpressionStmt stmt(std::move(literal));
 
-    // Comprobar que expression() devuelve el puntero correcto
     REQUIRE(stmt.expression() == rawPtr);
 }
 
@@ -27,9 +24,7 @@ TEST_CASE("ExpressionStmt accept calls visitor", "[ExpressionStmt]")
 {
     auto literal = std::make_unique<LiteralExpr>(42);
     ExpressionStmt stmt(std::move(literal));
-
     TestStmtVisitor visitor;
-    stmt.accept(visitor);
 
-    REQUIRE(visitor.visited());
+    REQUIRE(stmt.accept(visitor) == "visited");
 }

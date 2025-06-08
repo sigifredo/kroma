@@ -14,6 +14,10 @@
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
 #include <stmt/Stmt.hpp>
+#include <stmt/VarStmt.hpp>
+
+// std
+#include <sstream>
 
 std::string ATSPrinter::print(Expr *expr)
 {
@@ -103,4 +107,70 @@ std::string ATSPrinter::visitUnaryExpr(const UnaryExpr &expr) const
 std::string ATSPrinter::visitVariableExpr(const VariableExpr &expr) const
 {
     return expr.name().lexeme();
+}
+
+std::string ATSPrinter::visitBlockStmt(const BlockStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitClassStmt(const ClassStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitExpressionStmt(const ExpressionStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitForEachStmt(const ForEachStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitForRangeStmt(const ForRangeStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitFunctionStmt(const FunctionStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitIfStmt(const IfStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitReturnStmt(const ReturnStmt &stmt)
+{
+    return "unimplemented";
+}
+
+std::string ATSPrinter::visitVarStmt(const VarStmt &stmt)
+{
+    std::ostringstream out;
+
+    out << "(";
+
+    if (stmt.modifier())
+    {
+        out << stmt.modifier()->lexeme() << " ";
+    }
+    else
+    {
+        out << "var ";
+    }
+
+    out << stmt.name().lexeme();
+
+    if (stmt.initializer())
+    {
+        out << " = " << stmt.initializer()->accept(*this);
+    }
+
+    out << ")";
+    return out.str();
 }

@@ -28,9 +28,7 @@ TEST_CASE("ReturnStmt accept calls visitReturnStmt", "[ReturnStmt]")
 {
     Token returnToken(TokenType::RETURN, "return");
     ReturnStmt stmt(returnToken);
-
     TestStmtVisitor visitor;
-    stmt.accept(visitor);
 
-    REQUIRE(visitor.visited());
+    REQUIRE(stmt.accept(visitor) == "visited");
 }
