@@ -17,6 +17,7 @@ public:
         : arguments_(std::move(arguments)), callee_(std::move(callee)), paren_(std::move(paren)) {}
 
     std::string accept(const ExprVisitor &visitor) const override;
+    Value accept(InterpreterVisitor &visitor) const override;
 
     size_t argumentCount() const;
     const Expr *argument(const size_t &index) const;
@@ -31,6 +32,8 @@ private:
 };
 
 inline std::string CallExpr::accept(const ExprVisitor &visitor) const { return visitor.visitCallExpr(*this); }
+#warning "Implementar"
+inline Value CallExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitCallExpr(*this)"; }
 inline size_t CallExpr::argumentCount() const { return arguments_.size(); }
 inline const Expr *CallExpr::argument(const size_t &index) const { return arguments_.at(index).get(); }
 inline auto CallExpr::arguments() const

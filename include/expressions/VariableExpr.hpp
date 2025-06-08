@@ -12,6 +12,8 @@ public:
     explicit VariableExpr(const Token &name) : name_(name) {}
 
     std::string accept(const ExprVisitor &visitor) const override;
+    Value accept(InterpreterVisitor &visitor) const override;
+
     const Token &name() const;
 
 private:
@@ -19,6 +21,8 @@ private:
 };
 
 inline std::string VariableExpr::accept(const ExprVisitor &visitor) const { return visitor.visitVariableExpr(*this); }
+#warning "Implementar"
+inline Value VariableExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitVariableExpr(*this)"; }
 inline const Token &VariableExpr::name() const { return name_; }
 
 #endif

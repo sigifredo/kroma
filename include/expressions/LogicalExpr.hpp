@@ -15,6 +15,7 @@ public:
         : left_(std::move(leftExpr)), op_(oper), right_(std::move(rightExpr)) {};
 
     std::string accept(const ExprVisitor &visitor) const override;
+    Value accept(InterpreterVisitor &visitor) const override;
 
     const Expr *left() const;
     const Token &op() const;
@@ -27,6 +28,8 @@ private:
 };
 
 inline std::string LogicalExpr::accept(const ExprVisitor &visitor) const { return visitor.visitLogicalExpr(*this); }
+#warning "Implementar"
+inline Value LogicalExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitLogicalExpr(*this)"; }
 inline const Expr *LogicalExpr::left() const { return left_.get(); }
 inline const Token &LogicalExpr::op() const { return op_; }
 inline const Expr *LogicalExpr::right() const { return right_.get(); }

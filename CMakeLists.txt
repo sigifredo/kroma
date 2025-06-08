@@ -12,6 +12,7 @@ set(SRC
     src/ATSPrinter.cpp
     src/DummyListener.cpp
     src/Environment.cpp
+    src/Interpreter.cpp
     src/IO.cpp
     src/Parser.cpp
     src/REPL.cpp

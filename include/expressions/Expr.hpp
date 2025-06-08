@@ -5,6 +5,7 @@
 
 // own
 #include <expressions/ExprVisitor.hpp>
+#include <InterpreterVisitor.hpp>
 #include <Token.hpp>
 #include <Value.hpp>
 
@@ -17,6 +18,7 @@ public:
     virtual ~Expr() = default;
 
     virtual std::string accept(const ExprVisitor &visitor) const = 0;
+    virtual Value accept(InterpreterVisitor &) const = 0;
     // virtual Value evaluate() const = 0;
     // virtual std::string toString() const = 0;
 };
