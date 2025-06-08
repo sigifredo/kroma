@@ -17,9 +17,6 @@
 #include <stmt/IfStmt.hpp>
 #include <stmt/VarStmt.hpp>
 
-// std
-#include <iostream>
-
 Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens) {}
 
 std::vector<std::unique_ptr<Stmt>> Parser::parse()
@@ -298,7 +295,6 @@ std::unique_ptr<Stmt> Parser::statement()
 std::unique_ptr<Stmt> Parser::varDeclaration()
 {
     Token name = consume(TokenType::IDENTIFIER, "Expect variable name.");
-    std::cout << name << std::endl;
     std::unique_ptr<Expr> initializer = nullptr;
 
     if (match({TokenType::EQUAL}))
@@ -351,6 +347,7 @@ bool Parser::match(const std::initializer_list<TokenType> &types)
             return true;
         }
     }
+
     return false;
 }
 
