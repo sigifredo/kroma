@@ -12,6 +12,7 @@
 #include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
+#include <stmt/ExpressionStmt.hpp>
 #include <stmt/IfStmt.hpp>
 #include <stmt/VarStmt.hpp>
 
@@ -252,6 +253,13 @@ std::unique_ptr<Stmt> Parser::declaration()
     }
 }
 
+std::unique_ptr<Stmt> Parser::expressionStatement()
+{
+    auto expr = expression();
+    consume(TokenType::SEMICOLON, "Expect ';' after expression.");
+    return std::make_unique<ExpressionStmt>(std::move(expr));
+}
+
 std::unique_ptr<Stmt> Parser::ifStatement()
 {
     consume(TokenType::LEFT_PAREN, "Expect '(' after 'if'.");
@@ -274,11 +282,11 @@ std::unique_ptr<Stmt> Parser::ifStatement()
 std::unique_ptr<Stmt> Parser::statement()
 {
     if (match({TokenType::FOR}))
-        return forStatement();
+        ; // return forStatement();
     if (match({TokenType::IF}))
-        return ifStatement();
+        ; // return ifStatement();
     if (match({TokenType::RETURN}))
-        return returnStatement();
+        ; // return returnStatement();
 
     return expressionStatement();
 }

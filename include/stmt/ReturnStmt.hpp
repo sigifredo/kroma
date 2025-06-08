@@ -11,7 +11,8 @@ public:
     ReturnStmt(const Token &keyword, std::unique_ptr<Expr> value = nullptr)
         : keyword_(keyword), value_(std::move(value)) {}
 
-    void accept(StmtVisitor &visitor) const override;
+    std::string accept(StmtVisitor &visitor) const override;
+    void accept(InterpreterVisitor &) const override {}
 
     const Token &keyword() const;
     const Expr *value() const;
@@ -21,7 +22,7 @@ private:
     std::unique_ptr<Expr> value_;
 };
 
-inline void ReturnStmt::accept(StmtVisitor &visitor) const { visitor.visitReturnStmt(*this); }
+inline std::string ReturnStmt::accept(StmtVisitor &visitor) const { return visitor.visitReturnStmt(*this); }
 inline const Token &ReturnStmt::keyword() const { return keyword_; }
 inline const Expr *ReturnStmt::value() const { return value_.get(); }
 

@@ -13,10 +13,16 @@
 #include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
+#include <stmt/Stmt.hpp>
 
 std::string ATSPrinter::print(Expr *expr)
 {
     return expr->accept(*this);
+}
+
+std::string ATSPrinter::print(Stmt *stmt)
+{
+    return stmt->accept(*this);
 }
 
 std::string ATSPrinter::visitAssignExpr(const AssignExpr &expr) const

@@ -24,7 +24,8 @@ public:
           modifiers_(std::move(modifiers)),
           isOperator_(isOperator) {}
 
-    void accept(StmtVisitor &visitor) const override;
+    std::string accept(StmtVisitor &visitor) const override;
+    void accept(InterpreterVisitor &) const override {}
 
     auto body() const;
     bool isOperator() const;
@@ -40,7 +41,7 @@ private:
     Token name_;
 };
 
-inline void FunctionStmt::accept(StmtVisitor &visitor) const { visitor.visitFunctionStmt(*this); }
+inline std::string FunctionStmt::accept(StmtVisitor &visitor) const { return visitor.visitFunctionStmt(*this); }
 inline auto FunctionStmt::body() const
 {
     return body_ | std::views::transform([](const unique_ptr<Stmt> &arg)

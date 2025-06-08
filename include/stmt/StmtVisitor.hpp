@@ -19,15 +19,15 @@ public:
     StmtVisitor() = default;
     virtual ~StmtVisitor() = default;
 
-    virtual void visitBlockStmt(const BlockStmt &stmt) = 0;
-    virtual void visitClassStmt(const ClassStmt &stmt) = 0;
-    virtual void visitExpressionStmt(const ExpressionStmt &stmt) = 0;
-    virtual void visitForEachStmt(const ForEachStmt &stmt) = 0;
-    virtual void visitForRangeStmt(const ForRangeStmt &stmt) = 0;
-    virtual void visitFunctionStmt(const FunctionStmt &stmt) = 0;
-    virtual void visitIfStmt(const IfStmt &stmt) = 0;
-    virtual void visitReturnStmt(const ReturnStmt &stmt) = 0;
-    virtual void visitVarStmt(const VarStmt &stmt) = 0;
+    virtual std::string visitBlockStmt(const BlockStmt &stmt) = 0;
+    virtual std::string visitClassStmt(const ClassStmt &stmt) = 0;
+    virtual std::string visitExpressionStmt(const ExpressionStmt &stmt) = 0;
+    virtual std::string visitForEachStmt(const ForEachStmt &stmt) = 0;
+    virtual std::string visitForRangeStmt(const ForRangeStmt &stmt) = 0;
+    virtual std::string visitFunctionStmt(const FunctionStmt &stmt) = 0;
+    virtual std::string visitIfStmt(const IfStmt &stmt) = 0;
+    virtual std::string visitReturnStmt(const ReturnStmt &stmt) = 0;
+    virtual std::string visitVarStmt(const VarStmt &stmt) = 0;
 };
 
 #endif

@@ -20,7 +20,6 @@ void DummyListener::onCommand(const std::string &command)
     {
         std::cout << "[DummyListener] Received command: " << command << std::endl;
         Scanner scanner(command);
-
         std::vector<Token> tokens = scanner.scanTokens();
 
         for (auto &token : tokens)
@@ -30,10 +29,14 @@ void DummyListener::onCommand(const std::string &command)
 
         // TODO: reimplementar la llamada al ATSPrinter
         Parser parser(tokens);
-        //  auto expression = parser.parse();
+        auto statements = parser.parse();
 
-        // ATSPrinter printer;
-        // std::cout << printer.print(expression.get()) << std::endl;
+        ATSPrinter printer;
+
+        for (const auto &stmt : statements)
+        {
+            std::cout << printer.print(stmt.get()) << std::endl;
+        }
     }
 }
 

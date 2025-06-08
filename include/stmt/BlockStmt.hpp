@@ -14,12 +14,13 @@ class BlockStmt : public Stmt
 public:
     explicit BlockStmt(std::vector<std::unique_ptr<Stmt>> statements) : statements(std::move(statements)) {}
 
-    void accept(StmtVisitor &visitor) const override;
+    std::string accept(StmtVisitor &visitor) const override;
+    void accept(InterpreterVisitor &) const override {}
 
 private:
     std::vector<std::unique_ptr<Stmt>> statements;
 };
 
-inline void BlockStmt::accept(StmtVisitor &visitor) const { visitor.visitBlockStmt(*this); }
+inline std::string BlockStmt::accept(StmtVisitor &visitor) const { return visitor.visitBlockStmt(*this); }
 
 #endif

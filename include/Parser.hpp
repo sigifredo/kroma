@@ -42,7 +42,7 @@ private:
 
     // Statements
     std::unique_ptr<Stmt> declaration();
-    // std::unique_ptr<Stmt> expressionStatement();
+    std::unique_ptr<Stmt> expressionStatement();
     // std::unique_ptr<Stmt> forStatement();
     std::unique_ptr<Stmt> ifStatement();
     // std::unique_ptr<Stmt> returnStatement();

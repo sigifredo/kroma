@@ -17,7 +17,8 @@ class ForEachStmt : public Stmt
     {
     }
 
-    void accept(StmtVisitor &visitor) const override;
+    std::string accept(StmtVisitor &visitor) const override;
+    void accept(InterpreterVisitor &) const override {}
 
     const Token &iterator() const;
     const Expr *iterable() const;
@@ -29,7 +30,7 @@ private:
     std::unique_ptr<Stmt> body_;
 };
 
-inline void ForEachStmt::accept(const StmtVisitor &visitor) const override { visitir.visitForEachStmt(); }
+inline std::string ForEachStmt::accept(const StmtVisitor &visitor) const override { return visitor.visitForEachStmt(); }
 inline const Token &ForEachStmt::iterator() const { return iterator_; }
 inline const Expr *ForEachStmt::iterable() const { return iterable_.get(); }
 inline const Stmt *ForEachStmt::body() const { return body_.get(); }

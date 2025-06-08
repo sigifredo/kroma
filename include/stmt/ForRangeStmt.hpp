@@ -21,7 +21,8 @@ class ForRangeStmt : public Stmt
     {
     }
 
-    void accept(StmtVisitor &visitor) const override;
+    std::string accept(StmtVisitor &visitor) const override;
+    void accept(InterpreterVisitor &) const override {}
 
     const Token &iterator() const;
     const Expr *start() const;
@@ -37,7 +38,7 @@ private:
     std::unique_ptr<Stmt> body_;
 };
 
-inline void ForRangeStmt::accept(const StmtVisitor &visitor) const override { visitir.visitForRangeStmt(); }
+inline std::string ForRangeStmt::accept(const StmtVisitor &visitor) const override { return visitor.visitForRangeStmt(); }
 inline const Token &ForRangeStmt::iterator() const { return iterator_; }
 inline const Expr *ForRangeStmt::start() const { return start_.get(); }
 inline const Expr *ForRangeStmt::end() const { return end_.get(); }

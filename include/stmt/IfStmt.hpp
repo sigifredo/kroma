@@ -17,7 +17,8 @@ public:
           thenBranch_(std::move(thenBranch)),
           elseBranch_(std::move(elseBranch)) {}
 
-    void accept(StmtVisitor &visitor) const override;
+    std::string accept(StmtVisitor &visitor) const override;
+    void accept(InterpreterVisitor &) const override {}
 
     const Expr *condition() const;
     const Stmt *thenBranch() const;
@@ -29,7 +30,7 @@ private:
     std::unique_ptr<Stmt> elseBranch_;
 };
 
-inline void IfStmt::accept(StmtVisitor &visitor) const { visitor.visitIfStmt(*this); }
+inline std::string IfStmt::accept(StmtVisitor &visitor) const { return visitor.visitIfStmt(*this); }
 inline const Expr *IfStmt::condition() const { return condition_.get(); }
 inline const Stmt *IfStmt::thenBranch() const { return thenBranch_.get(); }
 inline const Stmt *IfStmt::elseBranch() const { return elseBranch_.get(); }
