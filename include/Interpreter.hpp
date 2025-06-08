@@ -15,7 +15,7 @@ class Interpreter : public InterpreterVisitor
 public:
     Interpreter() = default;
 
-    Value visitBinaryExpr(const BinaryExpr &) override;
+    Value visitBinaryExpr(const BinaryExpr &expr) override;
     void visitVarStmt(const VarStmt &stmt) override;
 
 private:

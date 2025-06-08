@@ -12,13 +12,13 @@
 template <typename Op>
 Value binaryNumericOp(const Value &left, const Value &right, Op op)
 {
-    return std::visit(overloaded{[&](double a, double b)
-                                 { return Value(op(a, b)); },
-                                 [&](auto &&, auto &&) -> Value
-                                 {
-                                     throw std::runtime_error("Operands must be numbers.");
-                                 }},
-                      left, right);
+    const auto visitor = overloaded{
+        [&](double a, double b)
+        { return Value(op(a, b)); },
+        [&](auto &&, auto &&) -> Value
+        { throw std::runtime_error("Operands must be numbers."); }};
+
+    return std::visit(visitor, left, right);
 }
 
 Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
@@ -29,15 +29,18 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
     switch (expr.op().type())
     {
     case TokenType::PLUS:
-        return std::visit(overloaded{[](double a, double b)
-                                     { return a + b; },
-                                     [](const std::string &a, const std::string &b)
-                                     { return a + b; },
-                                     [](auto &&, auto &&) -> Value
-                                     {
-                                         throw std::runtime_error("Tipos incompatibles");
-                                     }},
-                          left, right);
+
+        const auto visitor = overloaded{
+            [](double a, double b)
+            { return a + b; },
+            [](const std::string &a, const std::string &b)
+            { return a + b; },
+            [](auto &&, auto &&) -> Value
+            {
+                throw std::runtime_error("Tipos incompatibles");
+            }};
+
+        return std::visit(visitor, left, right);
 
     case TokenType::MINUS:
         return binaryNumericOp(left, right, std::minus{});
