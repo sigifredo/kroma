@@ -3,17 +3,11 @@
 // own
 #include <DummyListener.hpp>
 #include <ATSPrinter.hpp>
-#include <Interpreter.hpp>
 #include <Parser.hpp>
 #include <Scanner.hpp>
 
 // std
 #include <iostream>
-
-DummyListener::DummyListener()
-{
-    hadError = false;
-}
 
 void DummyListener::onCommand(const std::string &command)
 {
@@ -27,7 +21,6 @@ void DummyListener::onCommand(const std::string &command)
             std::vector<Token> tokens = scanner.scanTokens();
             Parser parser(tokens);
             ATSPrinter printer;
-            Interpreter interpreter;
 
             for (auto &token : tokens)
             {
@@ -41,8 +34,8 @@ void DummyListener::onCommand(const std::string &command)
                 std::cout << printer.print(stmt.get()) << std::endl;
             }
 
-            interpreter.interpret(statements);
-            interpreter.printVariables();
+            interpreter_->interpret(statements);
+            interpreter_->printVariables();
         }
         catch (const std::runtime_error &e)
         {

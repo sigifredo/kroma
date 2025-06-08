@@ -25,7 +25,7 @@ void Environment::debugPrint() const
 
     for (const auto &[key, val] : values_)
     {
-        std::cout << key << ": " << val;
+        std::cout << key << ": " << val << ", ";
     }
 
     std::cout << "}" << std::endl;
@@ -39,6 +39,11 @@ void Environment::debugPrint() const
 
 void Environment::define(const std::string &name, Value value)
 {
+    if (values_.count(name))
+    {
+        throw std::runtime_error("Variable '" + name + "' ya ha sido declarada en este scope.");
+    }
+
     values_[name] = std::move(value);
 }
 
