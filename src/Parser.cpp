@@ -2,6 +2,7 @@
 
 // own
 #include <Parser.hpp>
+#include <IO.hpp>
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/CallExpr.hpp>
@@ -15,6 +16,9 @@
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/IfStmt.hpp>
 #include <stmt/VarStmt.hpp>
+
+// std
+#include <iostream>
 
 Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens) {}
 
@@ -294,6 +298,7 @@ std::unique_ptr<Stmt> Parser::statement()
 std::unique_ptr<Stmt> Parser::varDeclaration()
 {
     Token name = consume(TokenType::IDENTIFIER, "Expect variable name.");
+    std::cout << name << std::endl;
     std::unique_ptr<Expr> initializer = nullptr;
 
     if (match({TokenType::EQUAL}))

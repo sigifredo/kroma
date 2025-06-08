@@ -25,7 +25,7 @@ public:
           type_(type) {}
 
     Token &operator=(const Token &other) = default;
-    std::string toString();
+    std::string toString() const;
 
     std::string lexeme() const;
     int line() const;
@@ -39,7 +39,7 @@ private:
     TokenType type_;
 };
 
-inline std::string Token::toString() { return std::to_string(static_cast<int>(type_)) + " (" + lexeme_ + ")"; }
+inline std::string Token::toString() const { return std::to_string(static_cast<int>(type_)) + " (" + lexeme_ + ")"; }
 inline std::string Token::lexeme() const { return lexeme_; }
 inline int Token::line() const { return line_; }
 inline const Value &Token::literal() const { return literal_; }
