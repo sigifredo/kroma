@@ -6,21 +6,6 @@
 #include <stmt/VarStmt.hpp>
 #include <Utils.hpp>
 
-// std
-#include <variant>
-
-template <typename Op>
-Value binaryNumericOp(const Value &left, const Value &right, Op op)
-{
-    const auto visitor = overloaded{
-        [&](double a, double b)
-        { return Value(op(a, b)); },
-        [&](auto &&, auto &&) -> Value
-        { throw std::runtime_error("Operands must be numbers."); }};
-
-    return std::visit(visitor, left, right);
-}
-
 Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
 {
     Value left = evaluate(*expr.left());
@@ -29,19 +14,19 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
     switch (expr.op().type())
     {
     case TokenType::PLUS:
-
-        const auto visitor = overloaded{
+    {
+        auto visitor = overloaded{
             [](double a, double b)
-            { return a + b; },
+            { return Value(a + b); },
             [](const std::string &a, const std::string &b)
-            { return a + b; },
+            { return Value(a + b); },
             [](auto &&, auto &&) -> Value
             {
                 throw std::runtime_error("Tipos incompatibles");
             }};
 
-        return std::visit(visitor, left, right);
-
+        return Value::visit(std::ref(visitor), left, right);
+    }
     case TokenType::MINUS:
         return binaryNumericOp(left, right, std::minus{});
 
@@ -49,8 +34,11 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
         return binaryNumericOp(left, right, std::multiplies{});
 
     case TokenType::SLASH:
-        return binaryNumericOp(left, right, [](double a, double b)
-                               {
+        return binaryNumericOp(
+            left,
+            right,
+            [](double a, double b)
+            {
                 if (b == 0) throw std::runtime_error("Division by zero.");
                 return a / b; });
     default:

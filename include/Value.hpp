@@ -36,6 +36,8 @@ public:
     Value &operator=(const Value &other) = default;
     bool operator==(const Value &other) const;
 
+    template <typename Visitor>
+    static Value visit(Visitor &&visitor, const Value &left, const Value &right);
     friend std::ostream &operator<<(std::ostream &os, const Value &val);
 
 private:
@@ -46,5 +48,10 @@ inline bool Value::isNull() const { return std::holds_alternative<std::monostate
 inline bool Value::isNumber() const { return std::holds_alternative<double>(data); }
 inline bool Value::isString() const { return std::holds_alternative<std::string>(data); }
 inline bool Value::isBool() const { return std::holds_alternative<bool>(data); }
+template <typename Visitor>
+inline Value Value::visit(Visitor &&visitor, const Value &left, const Value &right)
+{
+    return std::visit(std::forward<Visitor>(visitor), left.data, right.data);
+}
 
 #endif
