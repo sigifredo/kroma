@@ -74,7 +74,7 @@ void Interpreter::visitVarStmt(const VarStmt &stmt)
         value = Value{};
     }
 
-    environment_.define(stmt.name().lexeme(), value);
+    environment_.define(stmt.name().lexeme(), value, stmt.modifier().type() == TokenType::CONST);
 }
 
 void Interpreter::printVariables() const

@@ -7,7 +7,12 @@ void Environment::assign(const std::string &name, Value value)
 {
     if (auto it = values_.find(name); it != values_.end())
     {
-        it->second = std::move(value);
+        if (it->second.isConst)
+        {
+            throw std::runtime_error("No se puede reasignar la constante '" + name + "'.");
+        }
+
+        it->second.value = std::move(value);
     }
     else if (enclosing_)
     {
@@ -25,7 +30,7 @@ void Environment::debugPrint() const
 
     for (const auto &[key, val] : values_)
     {
-        std::cout << key << ": " << val << ", ";
+        std::cout << key << ": " << val.value << ", ";
     }
 
     std::cout << "}" << std::endl;
@@ -37,21 +42,21 @@ void Environment::debugPrint() const
     }
 }
 
-void Environment::define(const std::string &name, Value value)
+void Environment::define(const std::string &name, Value value, bool isConst)
 {
     if (values_.count(name))
     {
         throw std::runtime_error("Variable '" + name + "' ya ha sido declarada en este scope.");
     }
 
-    values_[name] = std::move(value);
+    values_[name] = VariableBinding{std::move(value), isConst};
 }
 
 Value Environment::get(const std::string &name) const
 {
     if (auto it = values_.find(name); it != values_.end())
     {
-        return it->second;
+        return it->second.value;
     }
     else if (enclosing_)
     {

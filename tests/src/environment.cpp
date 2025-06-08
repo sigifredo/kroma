@@ -11,7 +11,7 @@ TEST_CASE("Environment can define and retrieve variables", "[Environment]")
 {
     auto env = std::make_shared<Environment>();
 
-    env->define("x", Value(42));
+    env->define("x", Value(42), true);
     Value v = env->get("x");
     REQUIRE(v.isNumber());
     REQUIRE(v.asNumber() == Catch::Approx(42.0));
@@ -27,7 +27,7 @@ TEST_CASE("Environment can assign existing variable", "[Environment]")
 {
     auto env = std::make_shared<Environment>();
 
-    env->define("x", Value(10));
+    env->define("x", Value(10), false);
     env->assign("x", Value(20));
 
     Value v = env->get("x");
@@ -44,13 +44,13 @@ TEST_CASE("Environment throws when assigning undefined variable", "[Environment]
 TEST_CASE("Environment supports enclosing scopes", "[Environment]")
 {
     auto outer = std::make_shared<Environment>();
-    outer->define("a", Value(100));
+    outer->define("a", Value(100), false);
 
     auto inner = std::make_shared<Environment>(outer);
 
     Value v = inner->get("a");
     REQUIRE(v.asNumber() == Catch::Approx(100));
 
-    inner->define("b", Value(200));
+    inner->define("b", Value(200), false);
     REQUIRE_THROWS_AS(outer->get("b"), RuntimeError);
 }

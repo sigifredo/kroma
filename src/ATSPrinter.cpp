@@ -154,16 +154,7 @@ std::string ATSPrinter::visitVarStmt(const VarStmt &stmt)
     std::ostringstream out;
 
     out << "(";
-
-    if (stmt.modifier())
-    {
-        out << stmt.modifier()->lexeme() << " ";
-    }
-    else
-    {
-        out << "var ";
-    }
-
+    out << stmt.modifier().lexeme() << " ";
     out << stmt.name().lexeme();
 
     if (stmt.initializer())

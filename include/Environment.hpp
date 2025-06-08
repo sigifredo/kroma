@@ -40,8 +40,9 @@ public:
      * @brief Defines a new variable in the current environment.
      * @param name Variable name.
      * @param value Variable value.
+     * @param isConst Define if the variable is constant.
      */
-    void define(const std::string &name, Value value);
+    void define(const std::string &name, Value value, bool isConst);
 
     /**
      * @brief Retrieves a variable's value.
@@ -52,8 +53,14 @@ public:
     Value get(const std::string &name) const;
 
 private:
-    std::unordered_map<std::string, Value> values_; ///< Variable map.
-    std::shared_ptr<Environment> enclosing_;        ///< Optional parent scope.
+    struct VariableBinding
+    {
+        Value value;
+        bool isConst = false;
+    };
+
+    std::unordered_map<std::string, VariableBinding> values_; ///< Variable map.
+    std::shared_ptr<Environment> enclosing_;                  ///< Optional parent scope.
 };
 
 #endif
