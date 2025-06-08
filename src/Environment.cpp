@@ -30,7 +30,7 @@ void Environment::debugPrint() const
 
     for (const auto &[key, val] : values_)
     {
-        std::cout << key << ": " << val.value << ", ";
+        std::cout << key << ":" << ((val.isConst) ? "const" : "let") << " = " << val.value << ", ";
     }
 
     std::cout << "}" << std::endl;
