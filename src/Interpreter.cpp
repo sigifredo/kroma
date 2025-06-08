@@ -6,6 +6,22 @@
 #include <stmt/VarStmt.hpp>
 #include <Utils.hpp>
 
+void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements)
+{
+    for (const auto &stmt : statements)
+    {
+        try
+        {
+            std::cout << typeid(*stmt).name() << std::endl;
+            stmt->accept(*this);
+        }
+        catch (const std::runtime_error &e)
+        {
+            std::cerr << "[Runtime Error] " << e.what() << std::endl;
+        }
+    }
+}
+
 Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
 {
     Value left = evaluate(*expr.left());
@@ -60,6 +76,11 @@ void Interpreter::visitVarStmt(const VarStmt &stmt)
     }
 
     environment_.define(stmt.name().lexeme(), value);
+}
+
+void Interpreter::printVariables() const
+{
+    environment_.debugPrint();
 }
 
 Value Interpreter::evaluate(const Expr &expr)

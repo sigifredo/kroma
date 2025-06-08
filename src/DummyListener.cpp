@@ -3,6 +3,7 @@
 // own
 #include <DummyListener.hpp>
 #include <ATSPrinter.hpp>
+#include <Interpreter.hpp>
 #include <Parser.hpp>
 #include <Scanner.hpp>
 
@@ -19,23 +20,37 @@ void DummyListener::onCommand(const std::string &command)
     if (!command.empty())
     {
         std::cout << "[DummyListener] Received command: " << command << std::endl;
-        Scanner scanner(command);
-        std::vector<Token> tokens = scanner.scanTokens();
 
-        for (auto &token : tokens)
+        try
         {
-            std::cout << "Token: " << token.toString() << std::endl;
+            Scanner scanner(command);
+            std::vector<Token> tokens = scanner.scanTokens();
+            Parser parser(tokens);
+            ATSPrinter printer;
+            Interpreter interpreter;
+
+            for (auto &token : tokens)
+            {
+                std::cout << "Token: " << token.toString() << std::endl;
+            }
+
+            auto statements = parser.parse();
+
+            for (const auto &stmt : statements)
+            {
+                std::cout << printer.print(stmt.get()) << std::endl;
+            }
+
+            interpreter.interpret(statements);
+            interpreter.printVariables();
         }
-
-        // TODO: reimplementar la llamada al ATSPrinter
-        Parser parser(tokens);
-        auto statements = parser.parse();
-
-        ATSPrinter printer;
-
-        for (const auto &stmt : statements)
+        catch (const std::runtime_error &e)
         {
-            std::cout << printer.print(stmt.get()) << std::endl;
+            std::cerr << "[Runtime Error] " << e.what() << std::endl;
+        }
+        catch (...)
+        {
+            std::cerr << "[Unknow Error] Something went wrong." << std::endl;
         }
     }
 }
