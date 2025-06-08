@@ -30,8 +30,7 @@ private:
 };
 
 inline std::string BinaryExpr::accept(const ExprVisitor &visitor) const { return visitor.visitBinaryExpr(*this); }
-#warning "Implementar"
-inline Value BinaryExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitBinaryExpr(*this)"; }
+inline Value BinaryExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitBinaryExpr(*this); }
 inline const Expr *BinaryExpr::left() const { return left_.get(); }
 inline const Token &BinaryExpr::op() const { return op_; }
 inline const Expr *BinaryExpr::right() const { return right_.get(); }

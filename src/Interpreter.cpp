@@ -12,7 +12,6 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
     {
         try
         {
-            std::cout << typeid(*stmt).name() << std::endl;
             stmt->accept(*this);
         }
         catch (const std::runtime_error &e)
