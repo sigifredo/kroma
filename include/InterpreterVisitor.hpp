@@ -22,8 +22,7 @@ public:
     virtual Value visitBinaryExpr(const BinaryExpr &expr) = 0;
 
     // --- Stmt ---
-    virtual void
-    visitExpressionStmt(const ExpressionStmt &stmt) = 0;
+    virtual void visitExpressionStmt(const ExpressionStmt &stmt) = 0;
     virtual void visitVarStmt(const VarStmt &stmt) = 0;
 };
 
