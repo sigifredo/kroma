@@ -17,7 +17,7 @@ public:
           modifier_(modifier),
           name_(name) {}
 
-    std::string accept(StmtVisitor &visitor) const override;
+    std::string accept(const StmtVisitor &visitor) const override;
     void accept(InterpreterVisitor &) const override;
 
     const Expr *initializer() const;
@@ -30,7 +30,7 @@ private:
     Token name_;
 };
 
-inline std::string VarStmt::accept(StmtVisitor &visitor) const { return visitor.visitVarStmt(*this); }
+inline std::string VarStmt::accept(const StmtVisitor &visitor) const { return visitor.visitVarStmt(*this); }
 inline void VarStmt::accept(InterpreterVisitor &visitor) const { return visitor.visitVarStmt(*this); }
 inline const Expr *VarStmt::initializer() const { return initializer_.get(); }
 inline const Token &VarStmt::modifier() const { return modifier_; }

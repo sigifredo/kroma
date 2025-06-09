@@ -23,8 +23,7 @@ private:
 };
 
 inline std::string AssignExpr::accept(const ExprVisitor &visitor) const { return visitor.visitAssignExpr(*this); }
-#warning "Implementar función"
-inline Value AssignExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitAssignExpr(*this)"; }
+inline Value AssignExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitAssignExpr(*this); }
 inline const Token &AssignExpr::name() const { return name_; }
 inline const Expr *AssignExpr::value() const { return value_.get(); }
 

@@ -17,7 +17,7 @@ class ForEachStmt : public Stmt
     {
     }
 
-    std::string accept(StmtVisitor &visitor) const override;
+    std::string accept(const StmtVisitor &visitor) const override;
     void accept(InterpreterVisitor &) const override {}
 
     const Token &iterator() const;

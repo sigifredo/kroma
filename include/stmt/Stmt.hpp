@@ -15,7 +15,7 @@ class Stmt
 public:
     virtual ~Stmt() = default;
 
-    virtual std::string accept(StmtVisitor &) const = 0;
+    virtual std::string accept(const StmtVisitor &) const = 0;
     virtual void accept(InterpreterVisitor &) const = 0;
 };
 

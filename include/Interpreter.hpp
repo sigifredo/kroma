@@ -20,11 +20,15 @@ public:
     Interpreter() = default;
 
     void interpret(const std::vector<std::unique_ptr<Stmt>> &statements);
-
-    Value visitBinaryExpr(const BinaryExpr &expr) override;
-    void visitVarStmt(const VarStmt &stmt) override;
-
     void printVariables() const;
+
+    // --- Expr ---
+    Value visitAssignExpr(const AssignExpr &expr) override;
+    Value visitBinaryExpr(const BinaryExpr &expr) override;
+
+    // --- Stmt ---
+    void visitExpressionStmt(const ExpressionStmt &stmt) override;
+    void visitVarStmt(const VarStmt &stmt) override;
 
 private:
     Environment environment_;

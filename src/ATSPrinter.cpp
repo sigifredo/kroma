@@ -13,18 +13,19 @@
 #include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
+#include <stmt/ExpressionStmt.hpp>
 #include <stmt/Stmt.hpp>
 #include <stmt/VarStmt.hpp>
 
 // std
 #include <sstream>
 
-std::string ATSPrinter::print(Expr *expr)
+std::string ATSPrinter::print(const Expr *expr) const
 {
     return expr->accept(*this);
 }
 
-std::string ATSPrinter::print(Stmt *stmt)
+std::string ATSPrinter::print(const Stmt *stmt)
 {
     return stmt->accept(*this);
 }
@@ -111,45 +112,45 @@ std::string ATSPrinter::visitVariableExpr(const VariableExpr &expr) const
 
 std::string ATSPrinter::visitBlockStmt(const BlockStmt &stmt)
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
 std::string ATSPrinter::visitClassStmt(const ClassStmt &stmt)
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
-std::string ATSPrinter::visitExpressionStmt(const ExpressionStmt &stmt)
+std::string ATSPrinter::visitExpressionStmt(const ExpressionStmt &stmt) const
 {
-    return "unimplemented";
+    return "(expr " + print(stmt.expression()) + ")";
 }
 
 std::string ATSPrinter::visitForEachStmt(const ForEachStmt &stmt)
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
 std::string ATSPrinter::visitForRangeStmt(const ForRangeStmt &stmt)
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
 std::string ATSPrinter::visitFunctionStmt(const FunctionStmt &stmt)
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
-std::string ATSPrinter::visitIfStmt(const IfStmt &stmt)
+std::string ATSPrinter::visitIfStmt(const IfStmt &stmt) const
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
-std::string ATSPrinter::visitReturnStmt(const ReturnStmt &stmt)
+std::string ATSPrinter::visitReturnStmt(const ReturnStmt &stmt) const
 {
-    return "unimplemented";
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
-std::string ATSPrinter::visitVarStmt(const VarStmt &stmt)
+std::string ATSPrinter::visitVarStmt(const VarStmt &stmt) const
 {
     std::ostringstream out;
 

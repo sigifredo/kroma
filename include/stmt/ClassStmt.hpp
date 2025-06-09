@@ -28,7 +28,7 @@ public:
           methods_(std::move(methods)),
           modifiers_(std::move(modifiers)) {}
 
-    std::string accept(StmtVisitor &visitor) const override;
+    std::string accept(const StmtVisitor &visitor) const override;
     void accept(InterpreterVisitor &) const override {}
 
     auto fields() const;
@@ -44,7 +44,7 @@ private:
     std::unique_ptr<Expr> superclass_;
 };
 
-inline std::string ClassStmt::accept(StmtVisitor &visitor) const { return visitor.visitClassStmt(*this); }
+inline std::string ClassStmt::accept(const StmtVisitor &visitor) const { return visitor.visitClassStmt(*this); }
 inline auto ClassStmt::fields() const
 {
     return fields_ | std::views::transform([](const unique_ptr<Expr> &arg)

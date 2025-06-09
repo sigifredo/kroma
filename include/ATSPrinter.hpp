@@ -21,8 +21,8 @@ class ATSPrinter : public ExprVisitor, public StmtVisitor
 public:
     ATSPrinter() = default;
 
-    std::string print(Expr *expr);
-    std::string print(Stmt *stmt);
+    std::string print(const Expr *expr) const;
+    std::string print(const Stmt *stmt);
 
     // --- ExprVisitor ---
     std::string visitAssignExpr(const AssignExpr &expr) const override;
@@ -39,13 +39,13 @@ public:
     // --- StmtVisitor ---
     std::string visitBlockStmt(const BlockStmt &stmt) override;
     std::string visitClassStmt(const ClassStmt &stmt) override;
-    std::string visitExpressionStmt(const ExpressionStmt &stmt) override;
+    std::string visitExpressionStmt(const ExpressionStmt &stmt) const override;
     std::string visitForEachStmt(const ForEachStmt &stmt) override;
     std::string visitForRangeStmt(const ForRangeStmt &stmt) override;
     std::string visitFunctionStmt(const FunctionStmt &stmt) override;
-    std::string visitIfStmt(const IfStmt &stmt) override;
-    std::string visitReturnStmt(const ReturnStmt &stmt) override;
-    std::string visitVarStmt(const VarStmt &stmt) override;
+    std::string visitIfStmt(const IfStmt &stmt) const override;
+    std::string visitReturnStmt(const ReturnStmt &stmt) const override;
+    std::string visitVarStmt(const VarStmt &stmt) const override;
 };
 
 #endif

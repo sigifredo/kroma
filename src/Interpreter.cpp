@@ -1,8 +1,10 @@
 
 // own
 #include <Interpreter.hpp>
+#include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
+#include <stmt/ExpressionStmt.hpp>
 #include <stmt/VarStmt.hpp>
 #include <Utils.hpp>
 
@@ -12,6 +14,7 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
     {
         try
         {
+            std::cout << __LINE__ << ": " << typeid(*stmt).name() << std::endl;
             stmt->accept(*this);
         }
         catch (const std::runtime_error &e)
@@ -19,6 +22,19 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
             std::cerr << "[Runtime Error] " << e.what() << std::endl;
         }
     }
+}
+
+void Interpreter::printVariables() const
+{
+    environment_.debugPrint();
+}
+
+Value Interpreter::visitAssignExpr(const AssignExpr &expr)
+{
+    Value value = evaluate(*expr.value());
+    environment_.assign(expr.name().lexeme(), value);
+
+    return value;
 }
 
 Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
@@ -61,6 +77,11 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
     }
 }
 
+void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)
+{
+    evaluate(*stmt.expression());
+}
+
 void Interpreter::visitVarStmt(const VarStmt &stmt)
 {
     Value value;
@@ -75,11 +96,6 @@ void Interpreter::visitVarStmt(const VarStmt &stmt)
     }
 
     environment_.define(stmt.name().lexeme(), value, stmt.modifier().type() == TokenType::CONST);
-}
-
-void Interpreter::printVariables() const
-{
-    environment_.debugPrint();
 }
 
 Value Interpreter::evaluate(const Expr &expr)
