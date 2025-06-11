@@ -6,8 +6,12 @@
 // own
 #include <Value.hpp>
 
+// Expr
 class AssignExpr;
 class BinaryExpr;
+class VariableExpr;
+
+// Stmt
 class ExpressionStmt;
 class VarStmt;
 
@@ -20,6 +24,7 @@ public:
     // --- Expr ---
     virtual Value visitAssignExpr(const AssignExpr &expr) = 0;
     virtual Value visitBinaryExpr(const BinaryExpr &expr) = 0;
+    virtual Value visitVariableExpr(const VariableExpr &expr) = 0;
 
     // --- Stmt ---
     virtual void visitExpressionStmt(const ExpressionStmt &stmt) = 0;

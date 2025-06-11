@@ -4,6 +4,7 @@
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
+#include <expressions/VariableExpr.hpp>
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/VarStmt.hpp>
 #include <Utils.hpp>
@@ -75,6 +76,11 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
     default:
         throw std::runtime_error("Unknown binary operator.");
     }
+}
+
+Value Interpreter::visitVariableExpr(const VariableExpr &expr)
+{
+    return environment_.get(expr.name().lexeme());
 }
 
 void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)

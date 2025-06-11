@@ -21,8 +21,7 @@ private:
 };
 
 inline std::string VariableExpr::accept(const ExprVisitor &visitor) const { return visitor.visitVariableExpr(*this); }
-#warning "Implementar"
-inline Value VariableExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitVariableExpr(*this)"; }
+inline Value VariableExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitVariableExpr(*this); }
 inline const Token &VariableExpr::name() const { return name_; }
 
 #endif
