@@ -1,13 +1,19 @@
 
 // own
 #include <Interpreter.hpp>
+#include <RuntimeError.hpp>
+#include <Utils.hpp>
+
+// Expressions
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
+#include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
+
+// Stmts
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/VarStmt.hpp>
-#include <Utils.hpp>
 
 void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements)
 {
@@ -75,6 +81,25 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
                 return a / b; });
     default:
         throw std::runtime_error("Unknown binary operator.");
+    }
+}
+
+Value Interpreter::visitUnaryExpr(const UnaryExpr &expr)
+{
+    Value right = evaluate(*expr.right());
+
+    switch (expr.op().type())
+    {
+    case TokenType::MINUS:
+        if (!right.isNumber())
+            throw RuntimeError("El operando debe ser un número");
+        return Value(-right.asNumber());
+
+    case TokenType::BANG:
+        return Value(!right.asBool());
+
+    default:
+        throw RuntimeError("Operador unario desconocido.");
     }
 }
 
