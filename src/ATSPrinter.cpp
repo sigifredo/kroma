@@ -145,6 +145,11 @@ std::string ATSPrinter::visitIfStmt(const IfStmt &stmt) const
     return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
 
+std::string ATSPrinter::visitPrintStmt(const PrintStmt &stmt) const
+{
+    return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
+}
+
 std::string ATSPrinter::visitReturnStmt(const ReturnStmt &stmt) const
 {
     return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;

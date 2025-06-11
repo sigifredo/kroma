@@ -10,6 +10,7 @@ class ForEachStmt;
 class ForRangeStmt;
 class FunctionStmt;
 class IfStmt;
+class PrintStmt;
 class ReturnStmt;
 class VarStmt;
 
@@ -26,6 +27,7 @@ public:
     virtual std::string visitForRangeStmt(const ForRangeStmt &stmt) = 0;
     virtual std::string visitFunctionStmt(const FunctionStmt &stmt) = 0;
     virtual std::string visitIfStmt(const IfStmt &stmt) const = 0;
+    virtual std::string visitPrintStmt(const PrintStmt &stmt) const = 0;
     virtual std::string visitReturnStmt(const ReturnStmt &stmt) const = 0;
     virtual std::string visitVarStmt(const VarStmt &stmt) const = 0;
 };

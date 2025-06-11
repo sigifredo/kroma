@@ -15,6 +15,7 @@
 #include <expressions/VariableExpr.hpp>
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/IfStmt.hpp>
+#include <stmt/PrintStmt.hpp>
 #include <stmt/VarStmt.hpp>
 
 Parser::Parser(const std::vector<Token> &tokens) : tokens(tokens) {}
@@ -240,6 +241,8 @@ std::unique_ptr<Stmt> Parser::declaration()
     {
         if (match({TokenType::LET, TokenType::CONST}))
             return varDeclaration(previous());
+        if (match({TokenType::PRINT}))
+            return printStatement();
         if (match({TokenType::FUN}))
             ; // return funDeclaration();
         if (match({TokenType::CLASS}))
@@ -278,6 +281,13 @@ std::unique_ptr<Stmt> Parser::ifStatement()
     return std::make_unique<IfStmt>(std::move(condition),
                                     std::move(thenBranch),
                                     std::move(elseBranch));
+}
+
+std::unique_ptr<Stmt> Parser::printStatement()
+{
+    auto value = expression();
+    consume(TokenType::SEMICOLON, "Se esperaba ';' después de la expresión.");
+    return std::make_unique<PrintStmt>(std::move(value));
 }
 
 std::unique_ptr<Stmt> Parser::statement()

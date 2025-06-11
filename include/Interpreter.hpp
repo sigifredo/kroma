@@ -31,6 +31,7 @@ public:
 
     // --- Stmt ---
     void visitExpressionStmt(const ExpressionStmt &stmt) override;
+    void visitPrintStmt(const PrintStmt &stmt) override;
     void visitVarStmt(const VarStmt &stmt) override;
 
 private:

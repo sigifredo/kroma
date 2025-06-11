@@ -136,6 +136,11 @@ void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)
     evaluate(*stmt.expression());
 }
 
+void Interpreter::visitPrintStmt(const PrintStmt &stmt)
+{
+    std::cout << __LINE__ << " - " << __FILE__ << std::endl;
+}
+
 void Interpreter::visitVarStmt(const VarStmt &stmt)
 {
     Value value;

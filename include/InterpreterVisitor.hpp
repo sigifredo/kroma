@@ -15,6 +15,7 @@ class VariableExpr;
 
 // Stmt
 class ExpressionStmt;
+class PrintStmt;
 class VarStmt;
 
 class InterpreterVisitor
@@ -32,6 +33,7 @@ public:
 
     // --- Stmt ---
     virtual void visitExpressionStmt(const ExpressionStmt &stmt) = 0;
+    virtual void visitPrintStmt(const PrintStmt &stmt) = 0;
     virtual void visitVarStmt(const VarStmt &stmt) = 0;
 };
 

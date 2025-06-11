@@ -44,6 +44,7 @@ public:
     std::string visitForRangeStmt(const ForRangeStmt &stmt) override;
     std::string visitFunctionStmt(const FunctionStmt &stmt) override;
     std::string visitIfStmt(const IfStmt &stmt) const override;
+    std::string visitPrintStmt(const PrintStmt &stmt) const override;
     std::string visitReturnStmt(const ReturnStmt &stmt) const override;
     std::string visitVarStmt(const VarStmt &stmt) const override;
 };

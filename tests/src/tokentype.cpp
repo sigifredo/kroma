@@ -28,6 +28,8 @@ TEST_CASE("matchToken returns correct TokenType for known lexemes", "[matchToken
     REQUIRE(matchToken("return") == TokenType::RETURN);
     REQUIRE(matchToken("false") == TokenType::FALSE);
     REQUIRE(matchToken("by") == TokenType::BY);
+    REQUIRE(matchToken("and") == TokenType::AND);
+    REQUIRE(matchToken("or") == TokenType::OR);
 }
 
 TEST_CASE("matchToken returns nullopt for unknown lexemes", "[matchToken]")
