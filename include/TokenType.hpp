@@ -16,21 +16,27 @@ enum class TokenType
     RIGHT_BRACE,
     COMMA,
     DOT,
-    MINUS,
-    PLUS,
     SEMICOLON,
-    SLASH,
-    STAR,
 
-    // One or two character token
+    // Logical
+    AND,
+    OR,
+    TRUE,
+    FALSE,
     BANG,
     BANG_EQUAL,
-    EQUAL,
     EQUAL_EQUAL,
     GREATER,
     GREATER_EQUAL,
     LESS,
     LESS_EQUAL,
+
+    // Math
+    EQUAL,
+    MINUS,
+    PLUS,
+    SLASH,
+    STAR,
 
     // Literals
     IDENTIFIER,
@@ -38,23 +44,19 @@ enum class TokenType
     NUMBER,
 
     // Keywords
-    AND,
     CLASS,
     CONST,
     ELSE,
     _EOF,
-    FALSE,
     FOR,
     FUN,
     IF,
     LET,
     _NULL,
-    OR,
     PRINT,
     RETURN,
     SUPER,
     THIS,
-    TRUE,
     WHILE,
 
     // Ranges

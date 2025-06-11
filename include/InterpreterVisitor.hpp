@@ -9,6 +9,7 @@
 // Expr
 class AssignExpr;
 class BinaryExpr;
+class LogicalExpr;
 class UnaryExpr;
 class VariableExpr;
 
@@ -25,6 +26,7 @@ public:
     // --- Expr ---
     virtual Value visitAssignExpr(const AssignExpr &expr) = 0;
     virtual Value visitBinaryExpr(const BinaryExpr &expr) = 0;
+    virtual Value visitLogicalExpr(const LogicalExpr &expr) = 0;
     virtual Value visitUnaryExpr(const UnaryExpr &expr) = 0;
     virtual Value visitVariableExpr(const VariableExpr &expr) = 0;
 

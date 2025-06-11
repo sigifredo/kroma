@@ -28,8 +28,7 @@ private:
 };
 
 inline std::string LogicalExpr::accept(const ExprVisitor &visitor) const { return visitor.visitLogicalExpr(*this); }
-#warning "Implementar"
-inline Value LogicalExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitLogicalExpr(*this)"; }
+inline Value LogicalExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitLogicalExpr(*this); }
 inline const Expr *LogicalExpr::left() const { return left_.get(); }
 inline const Token &LogicalExpr::op() const { return op_; }
 inline const Expr *LogicalExpr::right() const { return right_.get(); }

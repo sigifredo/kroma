@@ -25,6 +25,7 @@ public:
     // --- Expr ---
     Value visitAssignExpr(const AssignExpr &expr) override;
     Value visitBinaryExpr(const BinaryExpr &expr) override;
+    Value visitLogicalExpr(const LogicalExpr &expr) override;
     Value visitUnaryExpr(const UnaryExpr &expr) override;
     Value visitVariableExpr(const VariableExpr &expr) override;
 

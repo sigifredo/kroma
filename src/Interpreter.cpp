@@ -8,6 +8,7 @@
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
+#include <expressions/LogicalExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
 
@@ -82,6 +83,28 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
     default:
         throw std::runtime_error("Unknown binary operator.");
     }
+}
+
+Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
+{
+    Value left = evaluate(*expr.left());
+
+    if (expr.op().type() == TokenType::OR)
+    {
+        if (left.asBool())
+            return left;
+    }
+    else if (expr.op().type() == TokenType::AND)
+    {
+        if (!left.asBool())
+            return left;
+    }
+    else
+    {
+        throw RuntimeError("Operador lógico desconocido");
+    }
+
+    return evaluate(*expr.right());
 }
 
 Value Interpreter::visitUnaryExpr(const UnaryExpr &expr)
