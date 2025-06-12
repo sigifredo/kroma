@@ -25,7 +25,7 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
         {
             stmt->accept(*this);
         }
-        catch (const std::runtime_error &e)
+        catch (const RuntimeError &e)
         {
             std::cerr << "[Runtime Error] " << e.what() << std::endl;
         }
@@ -61,7 +61,7 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
             { return Value(a + b); },
             [](auto &&, auto &&) -> Value
             {
-                throw std::runtime_error("Tipos incompatibles");
+                throw RuntimeError("Tipos incompatibles");
             }};
 
         return Value::visit(std::ref(visitor), left, right);
@@ -78,10 +78,10 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
             right,
             [](double a, double b)
             {
-                if (b == 0) throw std::runtime_error("Division by zero.");
+                if (b == 0) throw RuntimeError("Division by zero.");
                 return a / b; });
     default:
-        throw std::runtime_error("Unknown binary operator.");
+        throw RuntimeError("Unknown binary operator.");
     }
 }
 

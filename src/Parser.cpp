@@ -3,6 +3,8 @@
 // own
 #include <Parser.hpp>
 #include <IO.hpp>
+#include <ParseError.hpp>
+
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/CallExpr.hpp>
@@ -13,6 +15,7 @@
 #include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
+
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/IfStmt.hpp>
 #include <stmt/PrintStmt.hpp>
@@ -26,7 +29,12 @@ std::vector<std::unique_ptr<Stmt>> Parser::parse()
 
     while (!isAtEnd())
     {
-        statements.push_back(declaration());
+        auto stmt = declaration();
+
+        if (stmt)
+        {
+            statements.push_back(std::move(stmt));
+        }
     }
 
     return statements;
@@ -186,7 +194,7 @@ std::unique_ptr<Expr> Parser::primary()
         return std::make_unique<GroupingExpr>(std::move(expr));
     }
 
-    throw std::runtime_error("Expected expression.");
+    throw ParseError("Expected expression.");
 }
 
 std::unique_ptr<Expr> Parser::range()
@@ -250,8 +258,9 @@ std::unique_ptr<Stmt> Parser::declaration()
 
         return statement();
     }
-    catch (const std::runtime_error &error)
+    catch (const ParseError &error)
     {
+        std::cerr << "Error en el parsing: " << error.what() << std::endl;
         synchronize();
         return nullptr;
     }
@@ -334,12 +343,12 @@ const Token &Parser::consume(const TokenType &type, const std::string &message)
 {
     if (check(type))
         return advance();
-    throw std::runtime_error(message);
+    throw ParseError(message);
 }
 
 void Parser::error(const Token &token, const std::string &message)
 {
-    throw std::runtime_error("[line " + std::to_string(token.line()) + "] Error at '" + token.lexeme() + "': " + message);
+    throw ParseError("[line " + std::to_string(token.line()) + "] Error at '" + token.lexeme() + "': " + message);
 }
 
 bool Parser::isAtEnd() const

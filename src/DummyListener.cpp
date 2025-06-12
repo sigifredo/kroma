@@ -3,6 +3,7 @@
 // own
 #include <DummyListener.hpp>
 #include <ATSPrinter.hpp>
+#include <ParseError.hpp>
 #include <Parser.hpp>
 #include <Scanner.hpp>
 
@@ -29,6 +30,10 @@ void DummyListener::onCommand(const std::string &command)
             }
             else
                 interpreter_->interpret(statements);
+        }
+        catch (const ParseError &e)
+        {
+            std::cerr << e.message() << std::endl;
         }
         catch (const std::runtime_error &e)
         {
