@@ -19,3 +19,12 @@ cmake -DBUILD_TESTS=TRUE ..
 make
 ./bin/kroma_tests
 ```
+
+## Build in release mode
+
+```bash
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+```
