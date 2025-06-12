@@ -31,6 +31,7 @@ public:
 
     // --- Stmt ---
     void visitExpressionStmt(const ExpressionStmt &stmt) override;
+    void visitIfStmt(const IfStmt &stmt) override;
     void visitPrintStmt(const PrintStmt &stmt) override;
     void visitVarStmt(const VarStmt &stmt) override;
 
@@ -38,6 +39,8 @@ private:
     Environment environment_;
 
     Value evaluate(const Expr &expr);
+    void execute(const Stmt &stmt);
+    bool isTrue(const Value &value);
 };
 
 #endif

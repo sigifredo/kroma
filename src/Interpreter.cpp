@@ -14,6 +14,7 @@
 
 // Stmts
 #include <stmt/ExpressionStmt.hpp>
+#include <stmt/IfStmt.hpp>
 #include <stmt/PrintStmt.hpp>
 #include <stmt/VarStmt.hpp>
 
@@ -136,6 +137,16 @@ void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)
     evaluate(*stmt.expression());
 }
 
+void Interpreter::visitIfStmt(const IfStmt &stmt)
+{
+    Value condition = evaluate(*stmt.condition());
+
+    if (isTrue(condition))
+        execute(*stmt.thenBranch());
+    else if (stmt.elseBranch())
+        execute(*stmt.elseBranch());
+}
+
 void Interpreter::visitPrintStmt(const PrintStmt &stmt)
 {
     std::cout << evaluate(*stmt.expression()) << std::endl;
@@ -160,4 +171,20 @@ void Interpreter::visitVarStmt(const VarStmt &stmt)
 Value Interpreter::evaluate(const Expr &expr)
 {
     return expr.accept(*this);
+}
+
+void Interpreter::execute(const Stmt &stmt)
+{
+    stmt.accept(*this);
+}
+
+bool Interpreter::isTrue(const Value &value)
+{
+    if (value.isNull())
+        return false;
+
+    if (value.isBool())
+        return value.asBool();
+
+    return true;
 }
