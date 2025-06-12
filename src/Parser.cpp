@@ -249,6 +249,8 @@ std::unique_ptr<Stmt> Parser::declaration()
             return varDeclaration(previous());
         if (match({TokenType::PRINT}))
             return printStatement();
+        if (match({TokenType::IF}))
+            return ifStatement();
         if (match({TokenType::FUN}))
             ; // return funDeclaration();
         if (match({TokenType::CLASS}))
@@ -276,8 +278,8 @@ std::unique_ptr<Stmt> Parser::ifStatement()
     consume(TokenType::LEFT_PAREN, "Expect '(' after 'if'.");
     auto condition = expression();
     consume(TokenType::RIGHT_PAREN, "Expect ')' after if condition.");
-    auto thenBranch = statement();
 
+    auto thenBranch = statement();
     std::unique_ptr<Stmt> elseBranch = nullptr;
 
     if (match({TokenType::ELSE}))

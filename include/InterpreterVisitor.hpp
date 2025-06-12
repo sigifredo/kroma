@@ -14,6 +14,7 @@ class UnaryExpr;
 class VariableExpr;
 
 // Stmt
+class BlockStmt;
 class ExpressionStmt;
 class IfStmt;
 class PrintStmt;
@@ -33,6 +34,7 @@ public:
     virtual Value visitVariableExpr(const VariableExpr &expr) = 0;
 
     // --- Stmt ---
+    virtual void visitBlockStmt(const BlockStmt &stmt) = 0;
     virtual void visitExpressionStmt(const ExpressionStmt &stmt) = 0;
     virtual void visitIfStmt(const IfStmt &stmt) = 0;
     virtual void visitPrintStmt(const PrintStmt &stmt) = 0;

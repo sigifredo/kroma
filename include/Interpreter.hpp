@@ -30,6 +30,7 @@ public:
     Value visitVariableExpr(const VariableExpr &expr) override;
 
     // --- Stmt ---
+    void visitBlockStmt(const BlockStmt &stmt) override;
     void visitExpressionStmt(const ExpressionStmt &stmt) override;
     void visitIfStmt(const IfStmt &stmt) override;
     void visitPrintStmt(const PrintStmt &stmt) override;
@@ -40,6 +41,7 @@ private:
 
     Value evaluate(const Expr &expr);
     void execute(const Stmt &stmt);
+    void executeBlock(const std::vector<std::unique_ptr<Stmt>> &statements, std::shared_ptr<Environment> newEnv);
     bool isTrue(const Value &value);
 };
 

@@ -13,6 +13,7 @@
 #include <expressions/VariableExpr.hpp>
 
 // Stmts
+#include <stmt/BlockStmt.hpp>
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/IfStmt.hpp>
 #include <stmt/PrintStmt.hpp>
@@ -132,6 +133,10 @@ Value Interpreter::visitVariableExpr(const VariableExpr &expr)
     return environment_.get(expr.name().lexeme());
 }
 
+void Interpreter::visitBlockStmt(const BlockStmt &stmt)
+{
+}
+
 void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)
 {
     evaluate(*stmt.expression());
@@ -176,6 +181,27 @@ Value Interpreter::evaluate(const Expr &expr)
 void Interpreter::execute(const Stmt &stmt)
 {
     stmt.accept(*this);
+}
+
+void Interpreter::executeBlock(const std::vector<std::unique_ptr<Stmt>> &statements, std::shared_ptr<Environment> newEnv)
+{
+    std::shared_ptr<Environment> previous = environment_;
+    environment_ = newEnv;
+
+    try
+    {
+        for (const auto &stmt : statements)
+        {
+            execute(*stmt);
+        }
+    }
+    catch (...)
+    {
+        environment_ = previous;
+        throw;
+    }
+
+    environment_ = previous;
 }
 
 bool Interpreter::isTrue(const Value &value)

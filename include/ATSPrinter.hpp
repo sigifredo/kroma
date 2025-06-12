@@ -37,7 +37,7 @@ public:
     std::string visitVariableExpr(const VariableExpr &expr) const override;
 
     // --- StmtVisitor ---
-    std::string visitBlockStmt(const BlockStmt &stmt) override;
+    std::string visitBlockStmt(const BlockStmt &stmt) const override;
     std::string visitClassStmt(const ClassStmt &stmt) override;
     std::string visitExpressionStmt(const ExpressionStmt &stmt) const override;
     std::string visitForEachStmt(const ForEachStmt &stmt) override;

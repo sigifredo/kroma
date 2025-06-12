@@ -20,7 +20,7 @@ public:
     StmtVisitor() = default;
     virtual ~StmtVisitor() = default;
 
-    virtual std::string visitBlockStmt(const BlockStmt &stmt) = 0;
+    virtual std::string visitBlockStmt(const BlockStmt &stmt) const = 0;
     virtual std::string visitClassStmt(const ClassStmt &stmt) = 0;
     virtual std::string visitExpressionStmt(const ExpressionStmt &stmt) const = 0;
     virtual std::string visitForEachStmt(const ForEachStmt &stmt) = 0;

@@ -110,7 +110,7 @@ std::string ATSPrinter::visitVariableExpr(const VariableExpr &expr) const
     return expr.name().lexeme();
 }
 
-std::string ATSPrinter::visitBlockStmt(const BlockStmt &stmt)
+std::string ATSPrinter::visitBlockStmt(const BlockStmt &stmt) const
 {
     return std::string("[unimplemented] ") + std::string(__func__) + ":" + std::to_string(__LINE__) + " -> " + __FILE__;
 }
