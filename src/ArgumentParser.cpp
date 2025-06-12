@@ -99,20 +99,17 @@ void ArgumentParser::parse(int argc, char *argv[])
 
 void ArgumentParser::handleHelpIfRequested() const
 {
-    auto it = aliasMap.find("--help");
+    const std::vector<std::string> helpFlags = {"-h", "--help"};
 
-    if (it != aliasMap.end() && it->second->set)
+    for (const auto &flag : helpFlags)
     {
-        printHelp();
-        std::exit(0);
-    }
+        auto it = aliasMap.find(flag);
 
-    it = aliasMap.find("-h");
-
-    if (it != aliasMap.end() && it->second->set)
-    {
-        printHelp();
-        std::exit(0);
+        if (it != aliasMap.end() && it->second->set)
+        {
+            printHelp();
+            std::exit(0);
+        }
     }
 }
 

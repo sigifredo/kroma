@@ -14,6 +14,7 @@
 
 // Stmts
 #include <stmt/ExpressionStmt.hpp>
+#include <stmt/PrintStmt.hpp>
 #include <stmt/VarStmt.hpp>
 
 void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements)
@@ -22,7 +23,6 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
     {
         try
         {
-            std::cout << __LINE__ << ": " << typeid(*stmt).name() << std::endl;
             stmt->accept(*this);
         }
         catch (const std::runtime_error &e)
@@ -138,7 +138,7 @@ void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)
 
 void Interpreter::visitPrintStmt(const PrintStmt &stmt)
 {
-    std::cout << __LINE__ << " - " << __FILE__ << std::endl;
+    std::cout << evaluate(*stmt.expression()) << std::endl;
 }
 
 void Interpreter::visitVarStmt(const VarStmt &stmt)

@@ -13,7 +13,8 @@ int main(int argc, char **argv)
 {
     ArgumentParser args(PROJECT_NAME);
 
-    args.addArgument({"filename"}, "Input file to read", false);
+    args.addArgument({"filename"}, "Input file to read");
+    args.addArgument({"-d", "--debug"}, "Mostrar mensajes de debug", false, "", true);
 
     try
     {
@@ -35,6 +36,8 @@ int main(int argc, char **argv)
 
         REPL repl;
         DummyListener dl;
+
+        dl.setShowDebug(args.isSet("-d"));
 
         repl.addListener(&dl);
         repl.run();

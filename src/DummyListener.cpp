@@ -13,29 +13,22 @@ void DummyListener::onCommand(const std::string &command)
 {
     if (!command.empty())
     {
-        std::cout << "[DummyListener] Received command: " << command << std::endl;
-
         try
         {
             Scanner scanner(command);
             std::vector<Token> tokens = scanner.scanTokens();
             Parser parser(tokens);
-            ATSPrinter printer;
-
-            for (auto &token : tokens)
-            {
-                std::cout << "Token: " << token.toString() << std::endl;
-            }
-
             auto statements = parser.parse();
 
-            for (const auto &stmt : statements)
+            if (showDebug_)
             {
-                std::cout << printer.print(stmt.get()) << std::endl;
+                std::cout << "[DummyListener] Received command: " << command << std::endl;
+                debug(tokens, statements);
+                interpreter_->interpret(statements);
+                interpreter_->printVariables();
             }
-
-            interpreter_->interpret(statements);
-            interpreter_->printVariables();
+            else
+                interpreter_->interpret(statements);
         }
         catch (const std::runtime_error &e)
         {
@@ -48,6 +41,21 @@ void DummyListener::onCommand(const std::string &command)
     }
 }
 
+void DummyListener::debug(const std::vector<Token> &tokens, const std::vector<std::unique_ptr<Stmt>> &stmts)
+{
+    ATSPrinter printer;
+
+    for (auto &token : tokens)
+    {
+        std::cout << "Token: " << token.toString() << std::endl;
+    }
+
+    for (const auto &stmt : stmts)
+    {
+        std::cout << printer.print(stmt.get()) << std::endl;
+    }
+}
+
 void DummyListener::error(const int &line, const std::string &message)
 {
     report(line, "", message);
@@ -56,5 +64,5 @@ void DummyListener::error(const int &line, const std::string &message)
 void DummyListener::report(const int &line, const std::string &where, const std::string &message)
 {
     std::cerr << "[line " << line << "] Error -> " << where << ": " << message << std::endl;
-    hadError = true;
+    hadError_ = true;
 }
