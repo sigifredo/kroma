@@ -37,7 +37,7 @@ void DummyListener::onCommand(const std::string &command)
         }
         catch (const std::runtime_error &e)
         {
-            std::cerr << "[Runtime Error] " << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
         }
         catch (...)
         {

@@ -9,7 +9,7 @@ void Environment::assign(const std::string &name, Value value)
     {
         if (it->second.isConst)
         {
-            throw std::runtime_error("No se puede reasignar la constante '" + name + "'.");
+            throw RuntimeError("No se puede reasignar la constante '" + name + "'.");
         }
 
         it->second.value = std::move(value);
@@ -46,7 +46,7 @@ void Environment::define(const std::string &name, Value value, bool isConst)
 {
     if (values_.count(name))
     {
-        throw std::runtime_error("Variable '" + name + "' ya ha sido declarada en este scope.");
+        throw RuntimeError("Variable '" + name + "' ya ha sido declarada en este scope.");
     }
 
     values_[name] = VariableBinding{std::move(value), isConst};

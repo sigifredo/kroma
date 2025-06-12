@@ -29,9 +29,7 @@ std::vector<std::unique_ptr<Stmt>> Parser::parse()
 
     while (!isAtEnd())
     {
-        auto stmt = declaration();
-
-        if (stmt)
+        if (auto stmt = declaration())
         {
             statements.push_back(std::move(stmt));
         }
@@ -260,7 +258,7 @@ std::unique_ptr<Stmt> Parser::declaration()
     }
     catch (const ParseError &error)
     {
-        std::cerr << "Error en el parsing: " << error.what() << std::endl;
+        std::cerr << error.what() << std::endl;
         synchronize();
         return nullptr;
     }

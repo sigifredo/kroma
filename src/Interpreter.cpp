@@ -27,7 +27,7 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
         }
         catch (const RuntimeError &e)
         {
-            std::cerr << "[Runtime Error] " << e.what() << std::endl;
+            std::cerr << e.what() << std::endl;
         }
     }
 }
