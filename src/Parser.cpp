@@ -16,6 +16,7 @@
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
 
+#include <stmt/BlockStmt.hpp>
 #include <stmt/ExpressionStmt.hpp>
 #include <stmt/IfStmt.hpp>
 #include <stmt/PrintStmt.hpp>
@@ -241,6 +242,23 @@ std::unique_ptr<Expr> Parser::unary()
     return call();
 }
 
+std::unique_ptr<Stmt> Parser::block()
+{
+    std::vector<std::unique_ptr<Stmt>> statements;
+
+    while (!check(TokenType::RIGHT_BRACE) && !isAtEnd())
+    {
+        if (auto decl = declaration())
+        {
+            statements.push_back(std::move(decl));
+        }
+    }
+
+    consume(TokenType::RIGHT_BRACE, "Se esperaba '}' para cerrar el bloque.");
+
+    return std::make_unique<BlockStmt>(std::move(statements));
+}
+
 std::unique_ptr<Stmt> Parser::declaration()
 {
     try
@@ -301,6 +319,8 @@ std::unique_ptr<Stmt> Parser::printStatement()
 
 std::unique_ptr<Stmt> Parser::statement()
 {
+    if (match({TokenType::LEFT_BRACE}))
+        return block();
     if (match({TokenType::FOR}))
         ; // return forStatement();
     if (match({TokenType::IF}))

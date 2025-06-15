@@ -41,6 +41,7 @@ private:
     std::unique_ptr<Expr> unary();
 
     // Statements
+    std::unique_ptr<Stmt> block();
     std::unique_ptr<Stmt> declaration();
     std::unique_ptr<Stmt> expressionStatement();
     // std::unique_ptr<Stmt> forStatement();
