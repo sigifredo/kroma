@@ -37,7 +37,7 @@ public:
     void visitVarStmt(const VarStmt &stmt) override;
 
 private:
-    Environment environment_;
+    std::shared_ptr<Environment> environment_;
 
     Value evaluate(const Expr &expr);
     void execute(const Stmt &stmt);

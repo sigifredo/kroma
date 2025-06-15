@@ -36,13 +36,13 @@ void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements
 
 void Interpreter::printVariables() const
 {
-    environment_.debugPrint();
+    environment_->debugPrint();
 }
 
 Value Interpreter::visitAssignExpr(const AssignExpr &expr)
 {
     Value value = evaluate(*expr.value());
-    environment_.assign(expr.name().lexeme(), value);
+    environment_->assign(expr.name().lexeme(), value);
 
     return value;
 }
@@ -130,7 +130,7 @@ Value Interpreter::visitUnaryExpr(const UnaryExpr &expr)
 
 Value Interpreter::visitVariableExpr(const VariableExpr &expr)
 {
-    return environment_.get(expr.name().lexeme());
+    return environment_->get(expr.name().lexeme());
 }
 
 void Interpreter::visitBlockStmt(const BlockStmt &stmt)
@@ -170,7 +170,7 @@ void Interpreter::visitVarStmt(const VarStmt &stmt)
         value = Value{};
     }
 
-    environment_.define(stmt.name().lexeme(), value, stmt.modifier().type() == TokenType::CONST);
+    environment_->define(stmt.name().lexeme(), value, stmt.modifier().type() == TokenType::CONST);
 }
 
 Value Interpreter::evaluate(const Expr &expr)
