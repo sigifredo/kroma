@@ -135,6 +135,8 @@ Value Interpreter::visitVariableExpr(const VariableExpr &expr)
 
 void Interpreter::visitBlockStmt(const BlockStmt &stmt)
 {
+    std::shared_ptr<Environment> newEnv = std::make_shared<Environment>(environment_);
+    executeBlock(stmt.statements(), newEnv);
 }
 
 void Interpreter::visitExpressionStmt(const ExpressionStmt &stmt)

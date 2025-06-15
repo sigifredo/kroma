@@ -17,7 +17,7 @@ class VarStmt;
 class Interpreter : public InterpreterVisitor
 {
 public:
-    Interpreter() = default;
+    Interpreter() : environment_(std::make_shared<Environment>()) {}
 
     void interpret(const std::vector<std::unique_ptr<Stmt>> &statements);
     void printVariables() const;
