@@ -5,17 +5,16 @@
 
 // own
 #include <BaseScanner.hpp>
-#include <Token.hpp>
 
 // std
 #include <list>
-#include <vector>
 
 class Scanner : public BaseScanner
 {
 public:
     explicit Scanner(const std::string &src) : BaseScanner(src) {}
-    std::vector<Token> scanTokens();
+
+    std::vector<Token> scanTokens() override;
 
 private:
     std::list<Token> tokens;

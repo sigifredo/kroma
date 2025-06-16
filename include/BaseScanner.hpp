@@ -3,8 +3,12 @@
 #ifndef BASESCANNER_HPP
 #define BASESCANNER_HPP
 
+// own
+#include <Token.hpp>
+
 // std
 #include <string>
+#include <vector>
 
 class BaseScanner
 {
@@ -14,6 +18,8 @@ public:
     virtual ~BaseScanner() = default;
 
 protected:
+    virtual std::vector<Token> scanTokens() = 0;
+
     char advance();
     bool isAtEnd() const;
     bool match(const char &expected);
