@@ -14,7 +14,7 @@ class BaseScanner
 {
 public:
     explicit BaseScanner(const std::string &src)
-        : source_(src), current_(0), line_(1) {}
+        : current_(0), line_(1), source_(src) {}
     virtual ~BaseScanner() = default;
 
     virtual std::vector<Token> scanTokens() = 0;
