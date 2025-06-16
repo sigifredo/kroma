@@ -17,9 +17,9 @@ public:
         : source_(src), current_(0), line_(1) {}
     virtual ~BaseScanner() = default;
 
-protected:
     virtual std::vector<Token> scanTokens() = 0;
 
+protected:
     char advance();
     bool isAtEnd() const;
     bool match(const char &expected);

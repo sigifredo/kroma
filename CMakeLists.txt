@@ -13,6 +13,7 @@ set(SRC
     src/BaseScanner.cpp
     src/DummyListener.cpp
     src/Environment.cpp
+    src/FStringScanner.cpp
     src/Interpreter.cpp
     src/IO.cpp
     src/Parser.cpp
