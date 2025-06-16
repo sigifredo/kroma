@@ -27,35 +27,6 @@ void Scanner::addToken(const TokenType &type, const std::string &lexeme, const V
     tokens.emplace_back(type, lexeme, value, line);
 }
 
-char Scanner::advance()
-{
-    return source[current++];
-}
-
-bool Scanner::isAtEnd() const
-{
-    return current >= source.length();
-}
-
-bool Scanner::match(const char &expected)
-{
-    if (isAtEnd() || source[current] != expected)
-        return false;
-
-    ++current;
-    return true;
-}
-
-char Scanner::peek() const
-{
-    return isAtEnd() ? '\0' : source[current];
-}
-
-char Scanner::peekNext() const
-{
-    return (current + 1 >= source.length()) ? '\0' : source[current + 1];
-}
-
 void Scanner::scanIdentifier(const char &firstChar)
 {
     std::string value(1, firstChar);

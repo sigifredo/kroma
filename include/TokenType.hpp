@@ -40,6 +40,7 @@ enum class TokenType
 
     // Literals
     IDENTIFIER,
+    FSTRING,
     STRING,
     NUMBER,
 

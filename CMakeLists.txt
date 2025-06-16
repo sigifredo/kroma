@@ -10,6 +10,7 @@ include_directories(include ${PROJECT_BINARY_DIR}/include/)
 set(SRC
     src/ArgumentParser.cpp
     src/ATSPrinter.cpp
+    src/BaseScanner.cpp
     src/DummyListener.cpp
     src/Environment.cpp
     src/Interpreter.cpp

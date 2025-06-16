@@ -33,6 +33,7 @@ private:
     std::unique_ptr<Expr> expression();
     std::unique_ptr<Expr> factor();
     std::unique_ptr<Expr> finishCall(std::unique_ptr<Expr> callee);
+    std::unique_ptr<Expr> fstring();
     std::unique_ptr<Expr> logicAnd();
     std::unique_ptr<Expr> logicOr();
     std::unique_ptr<Expr> primary();

@@ -147,6 +147,78 @@ std::unique_ptr<Expr> Parser::finishCall(std::unique_ptr<Expr> callee)
     return std::make_unique<CallExpr>(std::move(callee), paren, std::move(arguments));
 }
 
+std::unique_ptr<Expr> Parser::fstring()
+{
+    Token fstringToken = previous();
+    Value rawToken = fstringToken.literal();
+
+    if (!rawToken.isString())
+    {
+        throw ParseError("Error en el formato de fstring");
+    }
+
+    std::string rawStr = rawToken.asString();
+    std::vector<std::unique_ptr<Expr>> parts;
+    std::string buffer;
+    size_t i = 0;
+
+    while (i < rawStr.length())
+    {
+        if (rawStr[i] == '{')
+        {
+            if (!buffer.empty())
+            {
+                parts.push_back(std::make_unique<LiteralExpr>(buffer));
+                buffer.clear();
+            }
+
+            size_t start = ++i;
+            int depth = 1;
+
+            while (i < rawStr.length() && depth > 0)
+            {
+                if (rawStr[i] == '{')
+                    depth++;
+                else if (rawStr[i] == '}')
+                    depth--;
+                i++;
+            }
+
+            if (depth != 0)
+            {
+                throw ParseError("FString mal formado: llaves desbalanceadas.");
+            }
+
+            std::string exprSource = rawStr.substr(start, i - start - 1);
+            auto exprTokens = scanInline(exprSource);
+            Parser subparser(exprTokens);
+            std::unique_ptr<Expr> expr = subparser.parse()[0];
+            parts.push_back(std::move(expr));
+        }
+        else
+        {
+            buffer += rawStr[i++];
+        }
+    }
+
+    if (!buffer.empty())
+    {
+        parts.push_back(std::make_unique<LiteralExpr>(buffer));
+    }
+
+    // Combinar todas las partes en BinaryExprs encadenadas con operador "+"
+    if (parts.empty())
+        return std::make_unique<LiteralExpr>("");
+
+    std::unique_ptr<Expr> result = std::move(parts[0]);
+    for (size_t j = 1; j < parts.size(); ++j)
+    {
+        result = std::make_unique<BinaryExpr>(std::move(result), Token(TokenType::PLUS, "+", std::monostate{}, fstringToken.line), std::move(parts[j]));
+    }
+
+    return result;
+}
+
 std::unique_ptr<Expr> Parser::logicAnd()
 {
     auto expr = equality();

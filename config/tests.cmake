@@ -16,6 +16,7 @@ if(BUILD_TESTS)
         ${CMAKE_SOURCE_DIR}/tests/src/stmt/varstmt.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/argumentparser.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/environment.cpp
+        ${CMAKE_SOURCE_DIR}/tests/src/fstring.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/rangeexpr.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/token.cpp
         ${CMAKE_SOURCE_DIR}/tests/src/tokentype.cpp
