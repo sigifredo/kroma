@@ -14,7 +14,7 @@
 class Scanner : public BaseScanner
 {
 public:
-    explicit Scanner(const std::string &src);
+    explicit Scanner(const std::string &src) : BaseScanner(src) {}
     std::vector<Token> scanTokens();
 
 private:

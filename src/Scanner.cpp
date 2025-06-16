@@ -6,13 +6,6 @@
 // std
 #include <iostream>
 
-Scanner::Scanner(const std::string &src)
-{
-    source = src;
-    current = 0;
-    line = 1;
-}
-
 std::vector<Token> Scanner::scanTokens()
 {
     while (!isAtEnd())
@@ -24,7 +17,7 @@ std::vector<Token> Scanner::scanTokens()
 
 void Scanner::addToken(const TokenType &type, const std::string &lexeme, const Value &value)
 {
-    tokens.emplace_back(type, lexeme, value, line);
+    tokens.emplace_back(type, lexeme, value, line());
 }
 
 void Scanner::scanIdentifier(const char &firstChar)
@@ -107,17 +100,17 @@ void Scanner::scanString(const char &delimiter)
                 value += '\\';
                 break;
             case '\n':
-                ++line;
+                newLine();
                 break;
             default:
-                std::cerr << "[Error] Unknown escape sequence: \\" << next << " at line " << line << "\n";
+                std::cerr << "[Error] Unknown escape sequence: \\" << next << " at line " << line() << "\n";
                 break;
             }
         }
         else if (c == '\n')
         {
-            std::cerr << "[Error] Unterminated string (newline) at line " << line << "\n";
-            ++line;
+            std::cerr << "[Error] Unterminated string (newline) at line " << line() << "\n";
+            newLine();
             return;
         }
         else
@@ -136,7 +129,7 @@ void Scanner::scanToken()
     if (std::isspace(c))
     {
         if (c == '\n')
-            ++line;
+            newLine();
         return;
     }
 
@@ -173,5 +166,5 @@ void Scanner::scanToken()
         return;
     }
 
-    std::cerr << "[Error] Unknown token: '" << c << "' at line " << line << "\n";
+    std::cerr << "[Error] Unknown token: '" << c << "' at line " << line() << "\n";
 }

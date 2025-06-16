@@ -190,10 +190,10 @@ std::unique_ptr<Expr> Parser::fstring()
             }
 
             std::string exprSource = rawStr.substr(start, i - start - 1);
-            auto exprTokens = scanInline(exprSource);
-            Parser subparser(exprTokens);
-            std::unique_ptr<Expr> expr = subparser.parse()[0];
-            parts.push_back(std::move(expr));
+            // auto exprTokens = scanInline(exprSource);
+            // Parser subparser(exprTokens);
+            // std::unique_ptr<Expr> expr = subparser.parse()[0];
+            // parts.push_back(std::move(expr));
         }
         else
         {
@@ -201,6 +201,7 @@ std::unique_ptr<Expr> Parser::fstring()
         }
     }
 
+    /*
     if (!buffer.empty())
     {
         parts.push_back(std::make_unique<LiteralExpr>(buffer));
@@ -217,6 +218,8 @@ std::unique_ptr<Expr> Parser::fstring()
     }
 
     return result;
+    */
+    return nullptr;
 }
 
 std::unique_ptr<Expr> Parser::logicAnd()
