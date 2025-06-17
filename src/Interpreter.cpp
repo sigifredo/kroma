@@ -90,6 +90,7 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
 Value Interpreter::visitFStringExpr(const FStringExpr &expr)
 {
 #warning "implementar"
+    return Value(957);
 }
 
 Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)

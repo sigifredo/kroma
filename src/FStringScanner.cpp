@@ -41,11 +41,9 @@ std::vector<std::vector<Token>> FStringScanner::scanTokens()
             if (depth != 0)
                 throw FStringError("Unbalanced braces in f-string.");
 
-            // Escanea la expresión y añádela como fragmento separado
             Scanner exprScanner(expr);
             auto exprTokens = exprScanner.scanTokens();
 
-            // Elimina el EOF final si existe
             if (!exprTokens.empty() && exprTokens.back().type() == TokenType::_EOF)
                 exprTokens.pop_back();
 
