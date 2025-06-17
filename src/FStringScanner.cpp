@@ -14,7 +14,7 @@ std::vector<Token> FStringScanner::scanTokens()
     {
         char c = advance();
 
-        if (c == '{')
+        if (c == '{' && false)
         {
             if (!buffer.empty())
             {
