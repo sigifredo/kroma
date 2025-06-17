@@ -8,6 +8,7 @@
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
+#include <expressions/FStringExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
@@ -89,8 +90,14 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
 
 Value Interpreter::visitFStringExpr(const FStringExpr &expr)
 {
-#warning "implementar"
-    return Value(957);
+    std::string result;
+
+    for (const auto &part : expr.parts())
+    {
+        result += evaluate(*part).toString();
+    }
+
+    return Value(result);
 }
 
 Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
