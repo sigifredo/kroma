@@ -23,7 +23,7 @@ private:
 
     void scanIdentifier(const char &firstChar);
     void scanNumber(const char &firstDigit);
-    void scanString(const char &delimiter);
+    void scanString(const char &delimiter, const bool &isFString);
     void scanToken();
 };
 

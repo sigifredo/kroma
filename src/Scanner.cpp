@@ -59,7 +59,7 @@ void Scanner::scanNumber(const char &firstDigit)
     addToken(TokenType::NUMBER, value, Value(std::stod(value)));
 }
 
-void Scanner::scanString(const char &delimiter)
+void Scanner::scanString(const char &delimiter, const bool &isFString)
 {
     std::string value;
 
@@ -69,7 +69,10 @@ void Scanner::scanString(const char &delimiter)
 
         if (c == delimiter)
         {
-            addToken(TokenType::STRING, value, Value(value));
+            if (isFString)
+                addToken(TokenType::FSTRING, value, Value(value));
+            else
+                addToken(TokenType::STRING, value, Value(value));
             return;
         }
 
@@ -135,13 +138,19 @@ void Scanner::scanToken()
 
     if (c == '"' || c == '\'')
     {
-        scanString(c);
+        scanString(c, false);
         return;
     }
 
     if (std::isdigit(c))
     {
         scanNumber(c);
+        return;
+    }
+
+    if (c == 'f' && (peek() == '\'' || peek() == '"'))
+    {
+        scanString(advance(), true);
         return;
     }
 
