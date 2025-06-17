@@ -10,11 +10,36 @@
 // std
 #include <string>
 
+/**
+ * @class Token
+ * @brief Represents a lexical token in the Kroma programming language.
+ *
+ * A Token contains information about a lexeme found during scanning, including its type,
+ * literal value (if any), line number, and the exact string representation.
+ */
 class Token
 {
 public:
+    /**
+     * @brief Default constructor.
+     */
     Token() = default;
+
+    /**
+     * @brief Copy constructor.
+     *
+     * @param other The token to copy.
+     */
     Token(const Token &other) = default;
+
+    /**
+     * @brief Constructs a token with the given attributes.
+     *
+     * @param type The type of token.
+     * @param lexeme The lexeme string as found in the source code.
+     * @param literal The optional literal value (e.g., number, string).
+     * @param line The line number where the token was found.
+     */
     Token(const TokenType &type,
           const std::string &lexeme,
           const Value &literal = Value(),
@@ -24,19 +49,54 @@ public:
           literal_(literal),
           type_(type) {}
 
+    /**
+     * @brief Assignment operator.
+     *
+     * @param other The token to assign from.
+     * @return Reference to this token.
+     */
     Token &operator=(const Token &other) = default;
+
+    /**
+     * @brief Returns a string representation of the token.
+     *
+     * @return A formatted string representing the token.
+     */
     std::string toString() const;
 
+    /**
+     * @brief Gets the lexeme (original text) of the token.
+     *
+     * @return The lexeme as a string.
+     */
     std::string lexeme() const;
+
+    /**
+     * @brief Gets the line number where the token was found.
+     *
+     * @return Line number in the source code.
+     */
     int line() const;
+
+    /**
+     * @brief Gets the literal value of the token.
+     *
+     * @return A constant reference to the literal value.
+     */
     const Value &literal() const;
+
+    /**
+     * @brief Gets the type of the token.
+     *
+     * @return The token type.
+     */
     TokenType type() const;
 
 private:
-    std::string lexeme_;
-    int line_;
-    Value literal_;
-    TokenType type_;
+    std::string lexeme_; ///< The lexeme string as it appears in source.
+    int line_;           ///< The line number where this token occurs.
+    Value literal_;      ///< The literal value (if any) represented by the token.
+    TokenType type_;     ///< The type/category of the token.
 };
 
 inline std::string Token::toString() const { return std::to_string(static_cast<int>(type_)) + " (" + lexeme_ + ")"; }

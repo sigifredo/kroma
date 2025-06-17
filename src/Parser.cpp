@@ -2,6 +2,7 @@
 
 // own
 #include <Parser.hpp>
+#include <FStringScanner.hpp>
 #include <IO.hpp>
 #include <ParseError.hpp>
 
@@ -150,6 +151,14 @@ std::unique_ptr<Expr> Parser::finishCall(std::unique_ptr<Expr> callee)
 std::unique_ptr<Expr> Parser::fstring()
 {
     Token fstringToken = previous();
+    FStringScanner fstringScanner(fstringToken.literal().asString());
+    auto tokens = fstringScanner.scanTokens();
+
+    for (const auto &token : tokens)
+    {
+        std::cout << int(token.type()) << " - " << token.literal() << std::endl;
+    }
+
     return std::make_unique<LiteralExpr>(fstringToken.literal());
 }
 
