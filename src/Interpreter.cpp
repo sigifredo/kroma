@@ -87,6 +87,11 @@ Value Interpreter::visitBinaryExpr(const BinaryExpr &expr)
     }
 }
 
+Value Interpreter::visitFStringExpr(const FStringExpr &expr)
+{
+#warning "implementar"
+}
+
 Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
 {
     Value left = evaluate(*expr.left());

@@ -36,15 +36,6 @@ public:
      */
     virtual ~BaseScanner() = default;
 
-    /**
-     * @brief Escanea el código fuente y devuelve una lista de tokens.
-     *
-     * Método puro que debe ser implementado por las clases derivadas.
-     *
-     * @return Vector de tokens generados a partir del análisis léxico.
-     */
-    virtual std::vector<Token> scanTokens() = 0;
-
 protected:
     /**
      * @brief Avanza el cursor y retorna el carácter consumido.

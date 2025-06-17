@@ -9,6 +9,7 @@
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/CallExpr.hpp>
+#include <expressions/FStringExpr.hpp>
 #include <expressions/GetExpr.hpp>
 #include <expressions/GroupingExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
@@ -151,15 +152,29 @@ std::unique_ptr<Expr> Parser::finishCall(std::unique_ptr<Expr> callee)
 std::unique_ptr<Expr> Parser::fstring()
 {
     Token fstringToken = previous();
-    FStringScanner fstringScanner(fstringToken.literal().asString());
-    auto tokens = fstringScanner.scanTokens();
 
-    for (const auto &token : tokens)
+    FStringScanner scanner(fstringToken.literal().asString());
+    auto fragments = scanner.scanTokens();
+
+    std::vector<std::unique_ptr<Expr>> parts;
+
+    for (const auto &fragment : fragments)
     {
-        std::cout << int(token.type()) << " - " << token.literal() << std::endl;
+        if (fragment.size() == 1 && fragment[0].type() == TokenType::STRING)
+        {
+            parts.push_back(std::make_unique<LiteralExpr>(fragment[0].literal()));
+        }
+        else
+        {
+            std::vector<Token> exprTokens = fragment;
+            exprTokens.push_back(Token(TokenType::_EOF, "", Value(), fstringToken.line()));
+
+            Parser subparser(exprTokens);
+            parts.push_back(subparser.expression());
+        }
     }
 
-    return std::make_unique<LiteralExpr>(fstringToken.literal());
+    return std::make_unique<FStringExpr>(std::move(parts));
 }
 
 std::unique_ptr<Expr> Parser::logicAnd()

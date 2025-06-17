@@ -1,7 +1,7 @@
 
 
-#ifndef EXPRVISITOR_HPP
-#define EXPRVISITOR_HPP
+#ifndef EXPRESSIONS_EXPRVISITOR_HPP
+#define EXPRESSIONS_EXPRVISITOR_HPP
 
 // std
 #include <string>
@@ -9,6 +9,7 @@
 class AssignExpr;
 class BinaryExpr;
 class CallExpr;
+class FStringExpr;
 class GetExpr;
 class GroupingExpr;
 class LiteralExpr;
@@ -26,6 +27,7 @@ public:
     virtual std::string visitAssignExpr(const AssignExpr &expr) const = 0;
     virtual std::string visitBinaryExpr(const BinaryExpr &expr) const = 0;
     virtual std::string visitCallExpr(const CallExpr &expr) const = 0;
+    virtual std::string visitFStringExpr(const FStringExpr &expr) const = 0;
     virtual std::string visitGetExpr(const GetExpr &expr) const = 0;
     virtual std::string visitGroupingExpr(const GroupingExpr &expr) const = 0;
     virtual std::string visitLiteralExpr(const LiteralExpr &expr) const = 0;

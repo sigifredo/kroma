@@ -6,6 +6,7 @@
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/CallExpr.hpp>
 #include <expressions/Expr.hpp>
+#include <expressions/FStringExpr.hpp>
 #include <expressions/GetExpr.hpp>
 #include <expressions/GroupingExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
@@ -54,6 +55,22 @@ std::string ATSPrinter::visitCallExpr(const CallExpr &expr) const
     }
 
     result += "]";
+    return result;
+}
+
+std::string ATSPrinter::visitFStringExpr(const FStringExpr &expr) const
+{
+    std::string result = "f\"";
+
+    for (const auto &part : expr.parts())
+    {
+        if (auto literal = dynamic_cast<const LiteralExpr *>(part.get()))
+            result += literal->value().toString();
+        else
+            result += "{" + part->accept(*this) + "}";
+    }
+
+    result += "\"";
     return result;
 }
 

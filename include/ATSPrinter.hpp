@@ -28,6 +28,7 @@ public:
     std::string visitAssignExpr(const AssignExpr &expr) const override;
     std::string visitBinaryExpr(const BinaryExpr &expr) const override;
     std::string visitCallExpr(const CallExpr &expr) const override;
+    std::string visitFStringExpr(const FStringExpr &expr) const override;
     std::string visitGetExpr(const GetExpr &expr) const override;
     std::string visitGroupingExpr(const GroupingExpr &expr) const override;
     std::string visitLiteralExpr(const LiteralExpr &expr) const override;

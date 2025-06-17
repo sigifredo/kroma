@@ -14,7 +14,7 @@ class FStringScanner : public BaseScanner
 public:
     explicit FStringScanner(const std::string &src) : BaseScanner(src) {}
 
-    std::vector<Token> scanTokens() override;
+    std::vector<std::vector<Token>> scanTokens();
 
 private:
     std::list<Token> tokens;

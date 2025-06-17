@@ -5,20 +5,20 @@
 #include <FStringError.hpp>
 #include <Scanner.hpp>
 
-std::vector<Token> FStringScanner::scanTokens()
+std::vector<std::vector<Token>> FStringScanner::scanTokens()
 {
-    std::vector<Token> result;
+    std::vector<std::vector<Token>> result;
     std::string buffer;
 
     while (!isAtEnd())
     {
         char c = advance();
 
-        if (c == '{' && false)
+        if (c == '{')
         {
             if (!buffer.empty())
             {
-                result.emplace_back(TokenType::STRING, buffer, buffer, line());
+                result.push_back({Token(TokenType::STRING, buffer, buffer, line())});
                 buffer.clear();
             }
 
@@ -39,18 +39,17 @@ std::vector<Token> FStringScanner::scanTokens()
             }
 
             if (depth != 0)
-                throw FStringError("llaves desbalanceadas.");
+                throw FStringError("Unbalanced braces in f-string.");
 
+            // Escanea la expresión y añádela como fragmento separado
             Scanner exprScanner(expr);
             auto exprTokens = exprScanner.scanTokens();
 
-            for (const auto &exprToken : exprTokens)
-            {
-                if (exprToken.type() == TokenType::_EOF)
-                    continue;
-                else
-                    result.push_back(exprToken);
-            }
+            // Elimina el EOF final si existe
+            if (!exprTokens.empty() && exprTokens.back().type() == TokenType::_EOF)
+                exprTokens.pop_back();
+
+            result.push_back(std::move(exprTokens));
         }
         else
         {
@@ -60,11 +59,11 @@ std::vector<Token> FStringScanner::scanTokens()
         }
     }
 
+    // Añade cualquier texto que quedó al final
     if (!buffer.empty())
     {
-        result.emplace_back(TokenType::STRING, buffer, buffer, line());
+        result.push_back({Token(TokenType::STRING, buffer, buffer, line())});
     }
 
-    result.emplace_back(TokenType::_EOF, "", Value(), line());
     return result;
 }
