@@ -21,7 +21,7 @@ private:
 };
 
 inline std::string LiteralExpr::accept(const ExprVisitor &visitor) const { return visitor.visitLiteralExpr(*this); }
-inline Value LiteralExpr::accept(InterpreterVisitor &visitor) const { return value_; }
+inline Value LiteralExpr::accept(InterpreterVisitor &) const { return value_; }
 
 inline const Value &LiteralExpr::value() const
 {

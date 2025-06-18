@@ -1,50 +1,97 @@
+
+// catch2
 #include <catch2/catch_test_macros.hpp>
-#include <Parser.hpp>
-#include <Scanner.hpp>
-#include <expressions/BinaryExpr.hpp>
-#include <expressions/LiteralExpr.hpp>
-#include <expressions/VariableExpr.hpp>
 
-TEST_CASE("Parser: fstring simple", "[parser][fstring]")
+// Own
+#include <FStringError.hpp>
+#include <FStringScanner.hpp>
+#include <Token.hpp>
+#include <Value.hpp>
+
+// std
+#include <iostream>
+
+TEST_CASE("FStringScanner: plain string")
 {
-    std::string source = R"(f"Hola {nombre}, edad: {2 + 1}")";
+    std::string str("Hola mundo");
+    FStringScanner scanner(str);
+    auto result = scanner.scanTokens();
 
-    Scanner scanner(source);
-    std::vector<Token> tokens = scanner.scanTokens();
+    REQUIRE(result.size() == 1);
+    REQUIRE(result[0].size() == 1);
+    REQUIRE(result[0][0].type() == TokenType::STRING);
+    REQUIRE(result[0][0].literal().isString());
+    REQUIRE(result[0][0].literal().asString() == str);
+}
 
-    Parser parser(tokens);
-    auto expr = parser.expression(); // asumimos que llama a fstring()
+TEST_CASE("FStringScanner: single expression")
+{
+    std::string str("Hola {nombre}");
+    FStringScanner scanner(str);
+    auto result = scanner.scanTokens();
 
-    // Verificamos que sea BinaryExpr de BinaryExpr de Literal y Variable
-    auto outer = dynamic_cast<BinaryExpr *>(expr.get());
-    REQUIRE(outer != nullptr);
+    REQUIRE(result.size() == 2);
 
-    auto left = dynamic_cast<BinaryExpr *>(outer->left().get());
-    REQUIRE(left != nullptr);
+    // Literal
+    REQUIRE(result[0][0].type() == TokenType::STRING);
+    REQUIRE(result[0][0].literal().isString());
+    REQUIRE(result[0][0].literal().asString() == "Hola ");
 
-    auto left_literal = dynamic_cast<LiteralExpr *>(left->left().get());
-    REQUIRE(left_literal != nullptr);
-    REQUIRE(left_literal->value() == "Hola ");
+    // Expression
+    REQUIRE(result[1].size() == 1);
+    REQUIRE(result[1][0].type() == TokenType::IDENTIFIER);
+    REQUIRE(result[1][0].lexeme() == "nombre");
+}
 
-    auto var_expr = dynamic_cast<VariableExpr *>(left->right().get());
-    REQUIRE(var_expr != nullptr);
-    REQUIRE(var_expr->name().lexeme == "nombre");
+TEST_CASE("FStringScanner: multiple expressions")
+{
+    FStringScanner scanner("Suma: {a + b}, doble: {2 * x}");
+    auto result = scanner.scanTokens();
 
-    auto right = dynamic_cast<BinaryExpr *>(outer->right().get());
-    REQUIRE(right != nullptr);
+    REQUIRE(result.size() == 4);
 
-    auto right_literal = dynamic_cast<LiteralExpr *>(right->left().get());
-    REQUIRE(right_literal != nullptr);
-    REQUIRE(right_literal->value() == ", edad: ");
+    REQUIRE(result[0][0].type() == TokenType::STRING);
+    REQUIRE(result[0][0].literal().isString());
+    REQUIRE(result[0][0].literal().asString() == "Suma: ");
 
-    auto sum = dynamic_cast<BinaryExpr *>(right->right().get());
-    REQUIRE(sum != nullptr);
+    REQUIRE(result[1].size() == 3); // a + b
+    REQUIRE(result[1][0].type() == TokenType::IDENTIFIER);
+    REQUIRE(result[1][1].type() == TokenType::PLUS);
+    REQUIRE(result[1][2].type() == TokenType::IDENTIFIER);
 
-    auto num2 = dynamic_cast<LiteralExpr *>(sum->left().get());
-    auto num1 = dynamic_cast<LiteralExpr *>(sum->right().get());
+    REQUIRE(result[2][0].type() == TokenType::STRING);
+    REQUIRE(result[2][0].literal().isString());
+    REQUIRE(result[2][0].literal().asString() == ", doble: ");
 
-    REQUIRE(num2 != nullptr);
-    REQUIRE(num1 != nullptr);
-    REQUIRE(num2->value() == "2");
-    REQUIRE(num1->value() == "1");
+    REQUIRE(result[3].size() == 3); // 2 * x
+    REQUIRE(result[3][0].type() == TokenType::NUMBER);
+    REQUIRE(result[3][1].type() == TokenType::STAR);
+    REQUIRE(result[3][2].type() == TokenType::IDENTIFIER);
+}
+
+TEST_CASE("FStringScanner: nested braces")
+{
+    FStringScanner scanner("expr: {fn({a})}");
+    auto result = scanner.scanTokens();
+
+    REQUIRE(result.size() == 2);
+    REQUIRE(result[0][0].type() == TokenType::STRING);
+    REQUIRE(result[0][0].literal().isString());
+    REQUIRE(result[0][0].literal().asString() == "expr: ");
+
+    // Debe contener fn ( ( { a } ) )
+    REQUIRE(result[1].size() == 6);
+    REQUIRE(result[1][0].type() == TokenType::IDENTIFIER);  // fn
+    REQUIRE(result[1][1].type() == TokenType::LEFT_PAREN);  // (
+    REQUIRE(result[1][2].type() == TokenType::LEFT_BRACE);  // {
+    REQUIRE(result[1][3].type() == TokenType::IDENTIFIER);  // a
+    REQUIRE(result[1][4].type() == TokenType::RIGHT_BRACE); // }
+    REQUIRE(result[1][5].type() == TokenType::RIGHT_PAREN); // )
+}
+
+TEST_CASE("FStringScanner: unbalanced braces throws")
+{
+    FStringScanner scanner("Hola {nombre");
+
+    REQUIRE_THROWS_AS(scanner.scanTokens(), FStringError);
 }

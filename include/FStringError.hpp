@@ -3,6 +3,10 @@
 #ifndef FSTRINGERROR_HPP
 #define FSTRINGERROR_HPP
 
+// std
+#include <iostream>
+#include <string>
+
 class FStringError : public std::runtime_error
 {
 public:
