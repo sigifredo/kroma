@@ -3,7 +3,7 @@ include(ExternalProject)
 set(RL_DIR ${CMAKE_SOURCE_DIR}/third_party/readline)
 
 ExternalProject_Add(rl
-    PREFIX ${RL_DIR}
+    PREFIX ${CMAKE_BINARY_DIR}/_deps/readline
     GIT_REPOSITORY https://git.savannah.gnu.org/git/readline.git
     GIT_TAG master
     CONFIGURE_COMMAND ./configure
@@ -13,10 +13,14 @@ ExternalProject_Add(rl
     BUILD_IN_SOURCE 1
 )
 
-ExternalProject_Get_Property(rl ${RL_DIR})
+ExternalProject_Get_Property(rl source_dir)
 
 add_library(librl STATIC IMPORTED GLOBAL)
+
 set_target_properties(librl PROPERTIES
-    IMPORTED_LOCATION ${RL_DIR}/libreadline.a
-    INTERFACE_INCLUDE_DIRECTORIES ${RL_DIR}/include
+    IMPORTED_LOCATION ${source_dir}/lib/libreadline.a
+    INTERFACE_INCLUDE_DIRECTORIES ${source_dir}
 )
+
+# Asegurar que se construya readline antes de usar la librería
+add_dependencies(librl rl)
