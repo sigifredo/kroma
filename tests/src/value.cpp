@@ -84,4 +84,7 @@ TEST_CASE("Value supports toString()", "[Value]")
 
     Value v6;
     REQUIRE(v6.toString() == "null");
+
+    Value v7({1, 2});
+    REQUIRE(v6.toString() == "[1, 2]");
 }

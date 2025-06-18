@@ -1,7 +1,7 @@
 
 
-#ifndef RUNTIMEERROR_HPP
-#define RUNTIMEERROR_HPP
+#ifndef ERROR_RUNTIMEERROR_HPP
+#define ERROR_RUNTIMEERROR_HPP
 
 class RuntimeError : public std::runtime_error
 {

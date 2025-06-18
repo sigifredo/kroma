@@ -1,8 +1,10 @@
 
 // own
 #include <Interpreter.hpp>
-#include <RuntimeError.hpp>
 #include <Utils.hpp>
+
+// own errors
+#include <errors/RuntimeError.hpp>
 
 // Expressions
 #include <expressions/AssignExpr.hpp>

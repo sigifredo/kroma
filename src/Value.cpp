@@ -3,6 +3,9 @@
 // own
 #include <Value.hpp>
 
+// own errors
+#include <errors/ValueError.hpp>
+
 Value::Value() : data(std::monostate{}) {}
 Value::Value(const double &number) : data(number) {}
 Value::Value(const int &number) : data(static_cast<double>(number)) {}
@@ -13,15 +16,23 @@ Value::Value(const bool &boolean) : data(boolean) {}
 bool Value::asBool() const
 {
     if (!isBool())
-        throw std::runtime_error("Value is not a boolean");
+        throw ValueError("Value is not a boolean");
 
     return std::get<bool>(data);
+}
+
+const std::vector<Value> Value::asList() const
+{
+    if (!isList())
+        throw ValueError("Value is not a list");
+
+    return std::get<std::vector<Value>>(data);
 }
 
 double Value::asNumber() const
 {
     if (!isNumber())
-        throw std::runtime_error("Value is not a number");
+        throw ValueError("Value is not a number");
 
     return std::get<double>(data);
 }
@@ -29,7 +40,7 @@ double Value::asNumber() const
 const std::string &Value::asString() const
 {
     if (!isString())
-        throw std::runtime_error("Value is not a string");
+        throw ValueError("Value is not a string");
 
     return std::get<std::string>(data);
 }
@@ -57,6 +68,22 @@ std::string Value::toString() const
 
     if (isString())
         return asString();
+
+    if (isList())
+    {
+        std::string result = "";
+        const auto &list = std::get<std::vector<Value>>(data);
+
+        for (const auto &element : list)
+        {
+            if (!result.empty())
+                result += ", ";
+
+            result += element.toString();
+        }
+
+        return "[" + result + "]";
+    }
 
     return "unknown";
 }

@@ -1,7 +1,7 @@
 
 
-#ifndef PARSEERROR_HPP
-#define PARSEERROR_HPP
+#ifndef ERROR_PARSEERROR_HPP
+#define ERROR_PARSEERROR_HPP
 
 class ParseError : public std::runtime_error
 {

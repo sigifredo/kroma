@@ -4,7 +4,9 @@
 #include <Parser.hpp>
 #include <FStringScanner.hpp>
 #include <IO.hpp>
-#include <ParseError.hpp>
+
+// own errors
+#include <errors/ParseError.hpp>
 
 #include <expressions/AssignExpr.hpp>
 #include <expressions/BinaryExpr.hpp>

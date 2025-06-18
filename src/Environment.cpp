@@ -1,7 +1,9 @@
 
 // own
 #include <Environment.hpp>
-#include <RuntimeError.hpp>
+
+// own errors
+#include <errors/RuntimeError.hpp>
 
 void Environment::assign(const std::string &name, Value value)
 {

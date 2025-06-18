@@ -5,7 +5,7 @@
 
 // own
 #include <Environment.hpp>
-#include <RuntimeError.hpp>
+#include <errors/RuntimeError.hpp>
 
 TEST_CASE("Environment can define and retrieve variables", "[Environment]")
 {

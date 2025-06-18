@@ -3,7 +3,7 @@
 #include <catch2/catch_test_macros.hpp>
 
 // Own
-#include <FStringError.hpp>
+#include <errors/FStringError.hpp>
 #include <FStringScanner.hpp>
 #include <Token.hpp>
 #include <Value.hpp>

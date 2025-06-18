@@ -1,7 +1,7 @@
 
 
-#ifndef FSTRINGERROR_HPP
-#define FSTRINGERROR_HPP
+#ifndef ERROR_FSTRINGERROR_HPP
+#define ERROR_FSTRINGERROR_HPP
 
 // std
 #include <iostream>

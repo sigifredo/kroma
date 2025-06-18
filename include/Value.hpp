@@ -8,11 +8,12 @@
 #include <stdexcept>
 #include <string>
 #include <variant>
+#include <vector>
 
 class Value
 {
 public:
-    using VariantType = std::variant<std::monostate, double, std::string, bool>;
+    using VariantType = std::variant<std::monostate, double, std::string, bool, std::vector<Value>>;
 
     Value();
     Value(const Value &other) = default;
@@ -23,11 +24,13 @@ public:
     Value(const bool &boolean);
 
     bool isBool() const;
+    bool isList() const;
     bool isNull() const;
     bool isNumber() const;
     bool isString() const;
 
     bool asBool() const;
+    const std::vector<Value> asList() const;
     double asNumber() const;
     const std::string &asString() const;
 
@@ -44,10 +47,11 @@ private:
     VariantType data;
 };
 
+inline bool Value::isBool() const { return std::holds_alternative<bool>(data); }
+inline bool Value::isList() const { return std::holds_alternative<std::vector<Value>>(data); }
 inline bool Value::isNull() const { return std::holds_alternative<std::monostate>(data); }
 inline bool Value::isNumber() const { return std::holds_alternative<double>(data); }
 inline bool Value::isString() const { return std::holds_alternative<std::string>(data); }
-inline bool Value::isBool() const { return std::holds_alternative<bool>(data); }
 template <typename Visitor>
 inline Value Value::visit(Visitor &&visitor, const Value &left, const Value &right)
 {

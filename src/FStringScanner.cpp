@@ -2,8 +2,10 @@
 
 // own
 #include <FStringScanner.hpp>
-#include <FStringError.hpp>
 #include <Scanner.hpp>
+
+// own errors
+#include <errors/FStringError.hpp>
 
 std::vector<std::vector<Token>> FStringScanner::scanTokens()
 {

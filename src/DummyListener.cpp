@@ -3,9 +3,11 @@
 // own
 #include <DummyListener.hpp>
 #include <ATSPrinter.hpp>
-#include <ParseError.hpp>
 #include <Parser.hpp>
 #include <Scanner.hpp>
+
+// own errors
+#include <errors/ParseError.hpp>
 
 // std
 #include <iostream>
