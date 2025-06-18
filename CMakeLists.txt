@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(kroma VERSION 0.0.1 LANGUAGES CXX)
 
 include(config/build.cmake)
+include(config/mac.cmake)
 include(config/tests.cmake)
 include_directories(include ${PROJECT_BINARY_DIR}/include/)
 
