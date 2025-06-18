@@ -92,6 +92,22 @@ public:
      */
     TokenType type() const;
 
+    /**
+     * @brief Stream output operator for Token.
+     *
+     * Allows a Token to be printed using an output stream, such as `std::cout`.
+     * This is typically used for debugging or logging purposes.
+     *
+     * @param os The output stream.
+     * @param token The Token to print.
+     * @return Reference to the output stream after writing the Token.
+     *
+     * @example
+     * Token token(TokenType::IDENTIFIER, "nombre", Value(), 1);
+     * std::cout << token << std::endl;
+     */
+    friend std::ostream &operator<<(std::ostream &os, const Token &token);
+
 private:
     std::string lexeme_; ///< The lexeme string as it appears in source.
     int line_;           ///< The line number where this token occurs.
