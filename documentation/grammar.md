@@ -76,6 +76,7 @@ primary        → NUMBER
                | "this"
                | IDENTIFIER
                | "(" expression ")"
+               | "[" expression "]"
                | "super" "." IDENTIFIER ;
 ```
 
