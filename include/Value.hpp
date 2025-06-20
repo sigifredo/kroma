@@ -22,6 +22,8 @@ public:
     Value(const std::string &str);
     Value(const char *cstr);
     Value(const bool &boolean);
+    Value(const std::vector<Value> &list);
+    Value(std::initializer_list<Value> list);
 
     bool isBool() const;
     bool isList() const;

@@ -63,6 +63,10 @@ TEST_CASE("Value supports equality operator", "[Value]")
     Value b2(true);
     REQUIRE(b1 == true);
     REQUIRE(b1 == b2);
+
+    Value a1({1, 2, 3});
+    Value a2({1, 2, 3});
+    REQUIRE(a1 == a2);
 }
 
 TEST_CASE("Value supports toString()", "[Value]")
@@ -86,5 +90,5 @@ TEST_CASE("Value supports toString()", "[Value]")
     REQUIRE(v6.toString() == "null");
 
     Value v7({1, 2});
-    REQUIRE(v6.toString() == "[1, 2]");
+    REQUIRE(v7.toString() == "[1, 2]");
 }

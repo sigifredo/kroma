@@ -12,6 +12,8 @@ Value::Value(const int &number) : data(static_cast<double>(number)) {}
 Value::Value(const std::string &str) : data(str) {}
 Value::Value(const char *cstr) : data(std::string(cstr)) {}
 Value::Value(const bool &boolean) : data(boolean) {}
+Value::Value(const std::vector<Value> &list) : data(list) {}
+Value::Value(std::initializer_list<Value> list) : data(std::vector<Value>(list)) {}
 
 bool Value::asBool() const
 {
