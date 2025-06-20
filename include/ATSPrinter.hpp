@@ -31,6 +31,7 @@ public:
     std::string visitFStringExpr(const FStringExpr &expr) const override;
     std::string visitGetExpr(const GetExpr &expr) const override;
     std::string visitGroupingExpr(const GroupingExpr &expr) const override;
+    std::string visitListExpr(const ListExpr &expr) const override;
     std::string visitLiteralExpr(const LiteralExpr &expr) const override;
     std::string visitLogicalExpr(const LogicalExpr &expr) const override;
     std::string visitRangeExpr(const RangeExpr &expr) const override;

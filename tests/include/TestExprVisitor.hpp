@@ -15,6 +15,7 @@ public:
     std::string visitCallExpr(const CallExpr &) const override { return getVisitedStr(std::string(__func__)); }
     std::string visitGetExpr(const GetExpr &) const override { return getVisitedStr(std::string(__func__)); }
     std::string visitGroupingExpr(const GroupingExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visitListExpr(const ListExpr &expr) const override { return getVisitedStr(std::string(__func__)); }
     std::string visitLiteralExpr(const LiteralExpr &) const override { return getVisitedStr(std::string(__func__)); }
     std::string visitLogicalExpr(const LogicalExpr &) const override { return getVisitedStr(std::string(__func__)); }
     std::string visitRangeExpr(const RangeExpr &) const override { return getVisitedStr(std::string(__func__)); }

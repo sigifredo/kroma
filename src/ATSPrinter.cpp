@@ -9,6 +9,7 @@
 #include <expressions/FStringExpr.hpp>
 #include <expressions/GetExpr.hpp>
 #include <expressions/GroupingExpr.hpp>
+#include <expressions/ListExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
 #include <expressions/RangeExpr.hpp>
@@ -82,6 +83,19 @@ std::string ATSPrinter::visitGetExpr(const GetExpr &expr) const
 std::string ATSPrinter::visitGroupingExpr(const GroupingExpr &expr) const
 {
     return "[group " + expr.expression()->accept(*this) + "]";
+}
+
+std::string ATSPrinter::visitListExpr(const ListExpr &expr) const
+{
+    std::string result("[list");
+
+    for (const auto &element : expr.elements())
+    {
+        if (auto list = dynamic_cast<const LiteralExpr *>(element.get()))
+            result += " " + list->value().toString();
+    }
+
+    return result;
 }
 
 std::string ATSPrinter::visitLiteralExpr(const LiteralExpr &expr) const

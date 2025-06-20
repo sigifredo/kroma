@@ -14,6 +14,7 @@
 #include <expressions/FStringExpr.hpp>
 #include <expressions/GetExpr.hpp>
 #include <expressions/GroupingExpr.hpp>
+#include <expressions/ListExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
 #include <expressions/RangeExpr.hpp>

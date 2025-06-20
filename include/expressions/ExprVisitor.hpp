@@ -12,6 +12,7 @@ class CallExpr;
 class FStringExpr;
 class GetExpr;
 class GroupingExpr;
+class ListExpr;
 class LiteralExpr;
 class LogicalExpr;
 class RangeExpr;
@@ -30,6 +31,7 @@ public:
     virtual std::string visitFStringExpr(const FStringExpr &expr) const = 0;
     virtual std::string visitGetExpr(const GetExpr &expr) const = 0;
     virtual std::string visitGroupingExpr(const GroupingExpr &expr) const = 0;
+    virtual std::string visitListExpr(const ListExpr &expr) const = 0;
     virtual std::string visitLiteralExpr(const LiteralExpr &expr) const = 0;
     virtual std::string visitLogicalExpr(const LogicalExpr &expr) const = 0;
     virtual std::string visitRangeExpr(const RangeExpr &expr) const = 0;
