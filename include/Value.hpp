@@ -40,6 +40,7 @@ public:
 
     Value &operator=(const Value &other) = default;
     bool operator==(const Value &other) const;
+    bool operator!=(const Value &other) const;
 
     template <typename Visitor>
     static Value visit(Visitor &&visitor, const Value &left, const Value &right);

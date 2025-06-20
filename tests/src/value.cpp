@@ -69,6 +69,28 @@ TEST_CASE("Value supports equality operator", "[Value]")
     REQUIRE(a1 == a2);
 }
 
+TEST_CASE("Value supports inequality operator", "[Value]")
+{
+    Value v1(42);
+    Value v2(42.1);
+    REQUIRE(v1 != v2);
+    REQUIRE(v1 != 41);
+
+    Value s1("hello");
+    Value s2(std::string("hello "));
+    REQUIRE(s1 != "hello!");
+    REQUIRE(s1 != s2);
+
+    Value b1(true);
+    Value b2(false);
+    REQUIRE(b1 != false);
+    REQUIRE(b1 != b2);
+
+    Value a1({1, 2, 3});
+    Value a2({1, 3});
+    REQUIRE(a1 != a2);
+}
+
 TEST_CASE("Value supports toString()", "[Value]")
 {
     Value v1(42);

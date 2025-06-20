@@ -95,6 +95,11 @@ bool Value::operator==(const Value &other) const
     return data == other.data;
 }
 
+bool Value::operator!=(const Value &other) const
+{
+    return data != other.data;
+}
+
 std::ostream &operator<<(std::ostream &os, const Value &val)
 {
     os << val.toString();
