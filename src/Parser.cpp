@@ -226,6 +226,21 @@ std::unique_ptr<Expr> Parser::primary()
         consume(TokenType::RIGHT_PAREN, "Expect ')' after expression.");
         return std::make_unique<GroupingExpr>(std::move(expr));
     }
+    if (match({TokenType::LEFT_BRACKET}))
+    {
+        std::vector<std::unique_ptr<Expr>> elements;
+
+        if (!check(TokenType::RIGHT_BRACKET))
+        {
+            do
+            {
+                elements.push_back(expression());
+            } while (match({TokenType::COMMA}));
+        }
+
+        consume(TokenType::RIGHT_BRACKET, "Expect ']' after expression.");
+        return std::make_unique<ListExpr>(std::move(elements));
+    }
 
     throw ParseError("Expected expression.");
 }
