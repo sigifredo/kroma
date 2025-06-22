@@ -13,6 +13,8 @@ TEST_CASE("matchToken returns correct TokenType for known lexemes", "[matchToken
     REQUIRE(matchToken(")") == TokenType::RIGHT_PAREN);
     REQUIRE(matchToken("{") == TokenType::LEFT_BRACE);
     REQUIRE(matchToken("}") == TokenType::RIGHT_BRACE);
+    REQUIRE(matchToken("[") == TokenType::LEFT_BRACKET);
+    REQUIRE(matchToken("]") == TokenType::RIGHT_BRACKET);
     REQUIRE(matchToken(",") == TokenType::COMMA);
     REQUIRE(matchToken(".") == TokenType::DOT);
     REQUIRE(matchToken("..") == TokenType::DOT_DOT);
