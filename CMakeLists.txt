@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-# Nombre del proyecto y lenguaje
 project(kroma VERSION 0.0.1 LANGUAGES CXX)
 
 include(config/build.cmake)
@@ -24,7 +23,6 @@ set(SRC
     src/Value.cpp
 )
 
-# Agrega el ejecutable desde el archivo fuente
 add_library(kroma_core ${SRC})
 add_executable(kroma src/main.cpp)
 
