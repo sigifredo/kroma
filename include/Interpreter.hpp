@@ -28,6 +28,7 @@ public:
     Value visitFStringExpr(const FStringExpr &expr) override;
     Value visitListExpr(const ListExpr &expr) override;
     Value visitLogicalExpr(const LogicalExpr &expr) override;
+    Value visitRangeExpr(const RangeExpr &expr) override;
     Value visitUnaryExpr(const UnaryExpr &expr) override;
     Value visitVariableExpr(const VariableExpr &expr) override;
 

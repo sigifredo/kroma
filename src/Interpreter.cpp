@@ -5,6 +5,7 @@
 
 // own errors
 #include <errors/RuntimeError.hpp>
+#include <errors/ValueError.hpp>
 
 // Expressions
 #include <expressions/AssignExpr.hpp>
@@ -13,6 +14,7 @@
 #include <expressions/FStringExpr.hpp>
 #include <expressions/ListExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
+#include <expressions/RangeExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
 
@@ -136,6 +138,30 @@ Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
     }
 
     return evaluate(*expr.right());
+}
+
+Value Interpreter::visitRangeExpr(const RangeExpr &expr)
+{
+    Value startValue = evaluate(*expr.start());
+    Value endValue = evaluate(*expr.end());
+    Value stepValue = evaluate(*expr.step());
+    std::vector<Value> lst;
+
+    if (!startValue.isNumber())
+        throw ValueError("Rango inválido: el inicio debe ser un número.");
+
+    if (!endValue.isNumber())
+        throw ValueError("Rango inválido: el fin del rango debe ser un número.");
+
+    if (!stepValue.isNumber() && !stepValue.isNull())
+        throw ValueError("Rango inválido: el paso del rango debe ser un número.");
+
+    double step = (stepValue.isNull() ? 1 : stepValue.asNumber());
+
+    for (double i = startValue.asNumber(); i < endValue.asNumber(); i += step)
+        lst.push_back(Value(i));
+
+    return lst;
 }
 
 Value Interpreter::visitUnaryExpr(const UnaryExpr &expr)

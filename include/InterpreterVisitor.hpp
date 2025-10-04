@@ -12,6 +12,7 @@ class BinaryExpr;
 class FStringExpr;
 class ListExpr;
 class LogicalExpr;
+class RangeExpr;
 class UnaryExpr;
 class VariableExpr;
 
@@ -34,6 +35,7 @@ public:
     virtual Value visitFStringExpr(const FStringExpr &expr) = 0;
     virtual Value visitListExpr(const ListExpr &expr) = 0;
     virtual Value visitLogicalExpr(const LogicalExpr &expr) = 0;
+    virtual Value visitRangeExpr(const RangeExpr &expr) = 0;
     virtual Value visitUnaryExpr(const UnaryExpr &expr) = 0;
     virtual Value visitVariableExpr(const VariableExpr &expr) = 0;
 
