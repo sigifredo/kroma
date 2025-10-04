@@ -11,6 +11,7 @@
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
 #include <expressions/FStringExpr.hpp>
+#include <expressions/ListExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
 #include <expressions/UnaryExpr.hpp>
 #include <expressions/VariableExpr.hpp>
@@ -100,6 +101,19 @@ Value Interpreter::visitFStringExpr(const FStringExpr &expr)
     }
 
     return Value(result);
+}
+
+Value Interpreter::visitListExpr(const ListExpr &expr)
+{
+    std::vector<Value> lst;
+
+    for (const auto &exp : expr.elements())
+    {
+        Value v = evaluate(*exp);
+        lst.push_back(v);
+    }
+
+    return lst;
 }
 
 Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
