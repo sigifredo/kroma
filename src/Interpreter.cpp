@@ -151,7 +151,7 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     if (!endValue.isNumber())
         throw ValueError("Rango inválido: el fin debe ser un número. Recibido: " + endValue.toString());
 
-    if (!stepValue.isNumber() && !stepValue.isNull())
+    if (!stepValue.isNull() && !stepValue.isNumber())
         throw ValueError("Rango inválido: el paso debe ser un número. Recibido: " + stepValue.toString());
 
     double start = startValue.asNumber();
@@ -163,9 +163,14 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
 
     std::vector<Value> lst;
 
-    if ((step > 0.0 && start < end) || (step < 0.0 && start > end))
+    if (step > 0.0 && start < end)
     {
         for (double i = start; i < end; i += step)
+            lst.emplace_back(i);
+    }
+    else if (step < 0.0 && start > end)
+    {
+        for (double i = start; i > end; i += step)
             lst.emplace_back(i);
     }
 
