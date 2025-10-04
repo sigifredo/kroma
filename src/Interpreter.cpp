@@ -115,7 +115,7 @@ Value Interpreter::visitListExpr(const ListExpr &expr)
         lst.push_back(v);
     }
 
-    return lst;
+    return Value{std::move(lst)};
 }
 
 Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
