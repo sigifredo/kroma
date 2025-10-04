@@ -23,8 +23,8 @@ private:
 };
 
 inline std::string GetExpr::accept(const ExprVisitor &visitor) const { return visitor.visitGetExpr(*this); }
-#warning "Definir método"
-inline Value GetExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitGetExpr(*this)"; }
+#warning "Implementar"
+inline Value GetExpr::accept(InterpreterVisitor &visitor) const { return Value("visitor.visitGetExpr(*this)"); }
 inline const Expr *GetExpr::object() const { return object_.get(); }
 inline const Token &GetExpr::name() const { return name_; }
 

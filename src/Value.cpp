@@ -6,21 +6,21 @@
 // own errors
 #include <errors/ValueError.hpp>
 
-Value::Value() : data(std::monostate{}) {}
-Value::Value(const double &number) : data(number) {}
-Value::Value(const int &number) : data(static_cast<double>(number)) {}
-Value::Value(const std::string &str) : data(str) {}
-Value::Value(const char *cstr) : data(std::string(cstr)) {}
-Value::Value(const bool &boolean) : data(boolean) {}
-Value::Value(const std::vector<Value> &list) : data(list) {}
-Value::Value(std::initializer_list<Value> list) : data(std::vector<Value>(list)) {}
+Value::Value() : data_(std::monostate{}) {}
+Value::Value(const double &number) : data_(number) {}
+Value::Value(const int &number) : data_(static_cast<double>(number)) {}
+Value::Value(const std::string &str) : data_(str) {}
+Value::Value(const char *cstr) : data_(std::string(cstr)) {}
+Value::Value(const bool &boolean) : data_(boolean) {}
+Value::Value(const std::vector<Value> &list) : data_(list) {}
+Value::Value(std::initializer_list<Value> list) : data_(std::vector<Value>(list)) {}
 
 bool Value::asBool() const
 {
     if (!isBool())
         throw ValueError("Value is not a boolean");
 
-    return std::get<bool>(data);
+    return std::get<bool>(data_);
 }
 
 const std::vector<Value> Value::asList() const
@@ -28,7 +28,7 @@ const std::vector<Value> Value::asList() const
     if (!isList())
         throw ValueError("Value is not a list");
 
-    return std::get<std::vector<Value>>(data);
+    return std::get<std::vector<Value>>(data_);
 }
 
 double Value::asNumber() const
@@ -36,7 +36,7 @@ double Value::asNumber() const
     if (!isNumber())
         throw ValueError("Value is not a number");
 
-    return std::get<double>(data);
+    return std::get<double>(data_);
 }
 
 const std::string &Value::asString() const
@@ -44,7 +44,7 @@ const std::string &Value::asString() const
     if (!isString())
         throw ValueError("Value is not a string");
 
-    return std::get<std::string>(data);
+    return std::get<std::string>(data_);
 }
 
 std::string Value::toString() const
@@ -74,7 +74,7 @@ std::string Value::toString() const
     if (isList())
     {
         std::string result = "";
-        const auto &list = std::get<std::vector<Value>>(data);
+        const auto &list = std::get<std::vector<Value>>(data_);
 
         for (const auto &element : list)
         {
@@ -92,12 +92,12 @@ std::string Value::toString() const
 
 bool Value::operator==(const Value &other) const
 {
-    return data == other.data;
+    return data_ == other.data_;
 }
 
 bool Value::operator!=(const Value &other) const
 {
-    return data != other.data;
+    return data_ != other.data_;
 }
 
 std::ostream &operator<<(std::ostream &os, const Value &val)

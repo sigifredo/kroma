@@ -56,12 +56,12 @@ TEST_CASE("Value supports equality operator", "[Value]")
 
     Value s1("hello");
     Value s2(std::string("hello"));
-    REQUIRE(s1 == "hello");
+    REQUIRE(s1.asString() == "hello");
     REQUIRE(s1 == s2);
 
     Value b1(true);
     Value b2(true);
-    REQUIRE(b1 == true);
+    REQUIRE(b1.asBool() == true);
     REQUIRE(b1 == b2);
 
     Value a1({1, 2, 3});
@@ -78,12 +78,12 @@ TEST_CASE("Value supports inequality operator", "[Value]")
 
     Value s1("hello");
     Value s2(std::string("hello "));
-    REQUIRE(s1 != "hello!");
+    REQUIRE(s1.asString() != "hello!");
     REQUIRE(s1 != s2);
 
     Value b1(true);
     Value b2(false);
-    REQUIRE(b1 != false);
+    REQUIRE(b1.asBool() != false);
     REQUIRE(b1 != b2);
 
     Value a1({1, 2, 3});

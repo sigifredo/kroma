@@ -19,11 +19,11 @@ public:
     Value(const Value &other) = default;
     Value(const int &number);
     Value(const double &number);
-    Value(const std::string &str);
-    Value(const char *cstr);
-    Value(const bool &boolean);
-    Value(const std::vector<Value> &list);
-    Value(std::initializer_list<Value> list);
+    explicit Value(const std::string &str);
+    explicit Value(const char *cstr);
+    explicit Value(const bool &boolean);
+    explicit Value(const std::vector<Value> &list);
+    explicit Value(std::initializer_list<Value> list);
 
     bool isBool() const;
     bool isList() const;
@@ -47,18 +47,18 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Value &val);
 
 private:
-    VariantType data;
+    VariantType data_;
 };
 
-inline bool Value::isBool() const { return std::holds_alternative<bool>(data); }
-inline bool Value::isList() const { return std::holds_alternative<std::vector<Value>>(data); }
-inline bool Value::isNull() const { return std::holds_alternative<std::monostate>(data); }
-inline bool Value::isNumber() const { return std::holds_alternative<double>(data); }
-inline bool Value::isString() const { return std::holds_alternative<std::string>(data); }
+inline bool Value::isBool() const { return std::holds_alternative<bool>(data_); }
+inline bool Value::isList() const { return std::holds_alternative<std::vector<Value>>(data_); }
+inline bool Value::isNull() const { return std::holds_alternative<std::monostate>(data_); }
+inline bool Value::isNumber() const { return std::holds_alternative<double>(data_); }
+inline bool Value::isString() const { return std::holds_alternative<std::string>(data_); }
 template <typename Visitor>
 inline Value Value::visit(Visitor &&visitor, const Value &left, const Value &right)
 {
-    return std::visit(std::forward<Visitor>(visitor), left.data, right.data);
+    return std::visit(std::forward<Visitor>(visitor), left.data_, right.data_);
 }
 
 #endif

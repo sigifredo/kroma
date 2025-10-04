@@ -214,7 +214,7 @@ std::unique_ptr<Expr> Parser::primary()
     if (match({TokenType::TRUE}))
         return std::make_unique<LiteralExpr>(true);
     if (match({TokenType::_NULL}))
-        return std::make_unique<LiteralExpr>(nullptr);
+        return std::make_unique<LiteralExpr>(Value());
     if (match({TokenType::NUMBER, TokenType::STRING}))
         return std::make_unique<LiteralExpr>(previous().literal());
     if (match({TokenType::FSTRING}))

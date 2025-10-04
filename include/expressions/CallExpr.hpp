@@ -33,7 +33,7 @@ private:
 
 inline std::string CallExpr::accept(const ExprVisitor &visitor) const { return visitor.visitCallExpr(*this); }
 #warning "Implementar"
-inline Value CallExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitCallExpr(*this)"; }
+inline Value CallExpr::accept(InterpreterVisitor &) const { return Value("visitor.visitCallExpr(*this)"); }
 inline size_t CallExpr::argumentCount() const { return arguments_.size(); }
 inline const Expr *CallExpr::argument(const size_t &index) const { return arguments_.at(index).get(); }
 inline auto CallExpr::arguments() const

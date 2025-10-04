@@ -20,7 +20,7 @@ std::vector<std::vector<Token>> FStringScanner::scanTokens()
         {
             if (!buffer.empty())
             {
-                result.push_back({Token(TokenType::STRING, buffer, buffer, line())});
+                result.push_back({Token(TokenType::STRING, buffer, Value(buffer), line())});
                 buffer.clear();
             }
 
@@ -62,7 +62,7 @@ std::vector<std::vector<Token>> FStringScanner::scanTokens()
     // Añade cualquier texto que quedó al final
     if (!buffer.empty())
     {
-        result.push_back({Token(TokenType::STRING, buffer, buffer, line())});
+        result.push_back({Token(TokenType::STRING, buffer, Value(buffer), line())});
     }
 
     return result;

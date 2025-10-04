@@ -22,7 +22,7 @@ private:
 
 inline std::string GroupingExpr::accept(const ExprVisitor &visitor) const { return visitor.visitGroupingExpr(*this); }
 #warning "Implementar"
-inline Value GroupingExpr::accept(InterpreterVisitor &visitor) const { return "visitor.visitGroupingExpr(*this)"; }
+inline Value GroupingExpr::accept(InterpreterVisitor &visitor) const { return Value("visitor.visitGroupingExpr(*this)"); }
 inline const Expr *GroupingExpr::expression() const { return expression_.get(); }
 
 #endif
