@@ -111,8 +111,7 @@ Value Interpreter::visitListExpr(const ListExpr &expr)
 
     for (const auto &exp : expr.elements())
     {
-        Value v = evaluate(*exp);
-        lst.push_back(v);
+        lst.emplace_back(evaluate(*exp));
     }
 
     return Value{std::move(lst)};
@@ -145,23 +144,32 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     Value startValue = evaluate(*expr.start());
     Value endValue = evaluate(*expr.end());
     Value stepValue = evaluate(*expr.step());
-    std::vector<Value> lst;
 
     if (!startValue.isNumber())
-        throw ValueError("Rango inválido: el inicio debe ser un número.");
+        throw ValueError("Rango inválido: el inicio debe ser un número. Recibido: " + startValue.toString());
 
     if (!endValue.isNumber())
-        throw ValueError("Rango inválido: el fin del rango debe ser un número.");
+        throw ValueError("Rango inválido: el fin debe ser un número. Recibido: " + endValue.toString());
 
     if (!stepValue.isNumber() && !stepValue.isNull())
-        throw ValueError("Rango inválido: el paso del rango debe ser un número.");
+        throw ValueError("Rango inválido: el paso debe ser un número. Recibido: " + stepValue.toString());
 
-    double step = (stepValue.isNull() ? 1 : stepValue.asNumber());
+    double start = startValue.asNumber();
+    double end = endValue.asNumber();
+    double step = (stepValue.isNull() ? 1.0 : stepValue.asNumber());
 
-    for (double i = startValue.asNumber(); i < endValue.asNumber(); i += step)
-        lst.push_back(Value(i));
+    if (step == 0.0)
+        throw ValueError("Rango inválido: el paso no puede ser cero.");
 
-    return lst;
+    std::vector<Value> lst;
+
+    if ((step > 0.0 && start < end) || (step < 0.0 && start > end))
+    {
+        for (double i = start; i < end; i += step)
+            lst.emplace_back(i);
+    }
+
+    return Value{std::move(lst)};
 }
 
 Value Interpreter::visitUnaryExpr(const UnaryExpr &expr)
