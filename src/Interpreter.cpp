@@ -127,21 +127,25 @@ Value Interpreter::visitFStringExpr(const FStringExpr &expr)
 
 Value Interpreter::visitIndexExpr(const IndexExpr &expr)
 {
-    Value targetValue = evaluate(*expr.target());
-    Value indexValue = evaluate(*expr.index());
+    const Value targetValue = evaluate(*expr.target());
+    const Value indexValue = evaluate(*expr.index());
 
     if (!targetValue.isList())
         throw RuntimeError(std::string("El elemento \"") + targetValue.toString() + "\" no es una lista");
 
-    double indexDbl = asNumberChecked(indexValue, std::string("El índice \"") + targetValue.toString() + "\"");
+    const double indexDbl = asNumberChecked(indexValue, std::string("El índice \"") + indexValue.toString() + "\"");
 
     if (!isAlmostInt(indexDbl))
         throw ValueError(std::string("El índice \"") + indexValue.toString() + "\" debe ser un número entero");
 
-    size_t idx = static_cast<int64_t>(std::llround(indexDbl));
-    auto lst = targetValue.asList();
+    long long idxLL = static_cast<long long>(std::llround(indexDbl));
+    const auto &lst = targetValue.asList();
 
-    if (lst.size() < idx)
+    while (idxLL < 0 && lst.size() > 0)
+        idxLL += lst.size();
+
+    const size_t idx = static_cast<size_t>(idxLL);
+    if (idx >= lst.size())
     {
 #warning "crear una excepción expecial para este error"
         throw RuntimeError("Índice fuera de rango");
