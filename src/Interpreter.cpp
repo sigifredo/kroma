@@ -133,25 +133,32 @@ Value Interpreter::visitIndexExpr(const IndexExpr &expr)
     if (!targetValue.isList())
         throw RuntimeError(std::string("El elemento \"") + targetValue.toString() + "\" no es una lista");
 
+    const auto &lst = targetValue.asList();
+    const size_t n = lst.size();
+
+    if (n == 0)
+        throw RuntimeError("Índice fuera de rango: la lista está vacía");
+
     const double indexDbl = asNumberChecked(indexValue, std::string("El índice \"") + indexValue.toString() + "\"");
 
     if (!isAlmostInt(indexDbl))
         throw ValueError(std::string("El índice \"") + indexValue.toString() + "\" debe ser un número entero");
 
-    long long idxLL = static_cast<long long>(std::llround(indexDbl));
-    const auto &lst = targetValue.asList();
+    long long idx = static_cast<long long>(std::llround(indexDbl));
 
-    while (idxLL < 0 && lst.size() > 0)
-        idxLL += lst.size();
-
-    const size_t idx = static_cast<size_t>(idxLL);
-    if (idx >= lst.size())
+    if (idx < 0)
     {
-#warning "crear una excepción expecial para este error"
+        const long long nl = static_cast<long long>(n);
+        idx = (idx % nl + nl) % nl;
+    }
+
+    if (static_cast<size_t>(idx) >= n)
+    {
+#warning "crear excepción específica para índice fuera de rango"
         throw RuntimeError("Índice fuera de rango");
     }
 
-    return lst[idx];
+    return lst[static_cast<size_t>(idx)];
 }
 
 Value Interpreter::visitListExpr(const ListExpr &expr)
