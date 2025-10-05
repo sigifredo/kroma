@@ -12,6 +12,7 @@
 #include <expressions/BinaryExpr.hpp>
 #include <expressions/Expr.hpp>
 #include <expressions/FStringExpr.hpp>
+#include <expressions/IndexExpr.hpp>
 #include <expressions/ListExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
 #include <expressions/RangeExpr.hpp>
@@ -27,6 +28,22 @@
 
 // std
 #include <cmath>
+
+static double asNumberChecked(const Value &v, const std::string &what)
+{
+    if (!v.isNumber())
+        throw ValueError(what + " debe ser un número. Recibido: " + v.toString());
+    double d = v.asNumber();
+    if (!std::isfinite(d))
+        throw ValueError(what + " no puede ser NaN/Inf. Recibido: " + v.toString());
+    return d;
+}
+
+static bool isAlmostInt(const double &x)
+{
+    double r = std::round(x);
+    return std::abs(x - r) <= 1e-9 * std::max(1.0, std::abs(x));
+}
 
 void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements)
 {
@@ -108,6 +125,31 @@ Value Interpreter::visitFStringExpr(const FStringExpr &expr)
     return Value(result);
 }
 
+Value Interpreter::visitIndexExpr(const IndexExpr &expr)
+{
+    Value targetValue = evaluate(*expr.target());
+    Value indexValue = evaluate(*expr.index());
+
+    if (!targetValue.isList())
+        throw RuntimeError(std::string("El elemento \"") + targetValue.toString() + "\" no es una lista");
+
+    double indexDbl = asNumberChecked(indexValue, std::string("El índice \"") + targetValue.toString() + "\"");
+
+    if (!isAlmostInt(indexDbl))
+        throw ValueError(std::string("El índice \"") + indexValue.toString() + "\" debe ser un número entero");
+
+    size_t idx = static_cast<int64_t>(std::llround(indexDbl));
+    auto lst = targetValue.asList();
+
+    if (lst.size() < idx)
+    {
+#warning "crear una excepción expecial para este error"
+        throw RuntimeError("Índice fuera de rango");
+    }
+
+    return lst[idx];
+}
+
 Value Interpreter::visitListExpr(const ListExpr &expr)
 {
     std::vector<Value> lst;
@@ -149,24 +191,9 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     Value endValue = evaluate(*expr.end());
     Value stepValue = (stepExpr == nullptr) ? Value(1) : evaluate(*stepExpr);
 
-    auto isAlmostInt = [&](double x)
-    {
-        double r = std::round(x);
-        return std::abs(x - r) <= 1e-9 * std::max(1.0, std::abs(x));
-    };
-    auto asNumberChecked = [](const Value &v, const char *what) -> double
-    {
-        if (!v.isNumber())
-            throw ValueError(std::string("Rango inválido: ") + what + " debe ser un número. Recibido: " + v.toString());
-        double d = v.asNumber();
-        if (!std::isfinite(d))
-            throw ValueError(std::string("Rango inválido: ") + what + " no puede ser NaN/Inf. Recibido: " + v.toString());
-        return d;
-    };
-
-    const double start = asNumberChecked(startValue, "el inicio");
-    const double end = asNumberChecked(endValue, "el fin");
-    const double step = asNumberChecked(stepValue, "el paso");
+    const double start = asNumberChecked(startValue, std::string("Rango inválido: el inicio"));
+    const double end = asNumberChecked(endValue, std::string("Rango inválido: el fin"));
+    const double step = asNumberChecked(stepValue, std::string("Rango inválido: el paso"));
 
     if (step == 0.0)
         throw ValueError("Rango inválido: el paso no puede ser cero.");

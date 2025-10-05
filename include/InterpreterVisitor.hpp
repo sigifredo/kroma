@@ -10,6 +10,7 @@
 class AssignExpr;
 class BinaryExpr;
 class FStringExpr;
+class IndexExpr;
 class ListExpr;
 class LogicalExpr;
 class RangeExpr;
@@ -33,6 +34,7 @@ public:
     virtual Value visitAssignExpr(const AssignExpr &expr) = 0;
     virtual Value visitBinaryExpr(const BinaryExpr &expr) = 0;
     virtual Value visitFStringExpr(const FStringExpr &expr) = 0;
+    virtual Value visitIndexExpr(const IndexExpr &expr) = 0;
     virtual Value visitListExpr(const ListExpr &expr) = 0;
     virtual Value visitLogicalExpr(const LogicalExpr &expr) = 0;
     virtual Value visitRangeExpr(const RangeExpr &expr) = 0;

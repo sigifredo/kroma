@@ -17,8 +17,8 @@ public:
     std::string accept(const ExprVisitor &visitor) const override;
     Value accept(InterpreterVisitor &visitor) const override;
 
-    const Expr &target() const;
-    const Expr &index() const;
+    Expr *target() const;
+    Expr *index() const;
     const Token &token() const;
 
 private:
@@ -28,10 +28,10 @@ private:
 };
 
 #warning "Implementar"
-inline std::string IndexExpr::accept(const ExprVisitor &visitor) const { return 'visitor.visitIndexExpr(*this)'; }
+inline std::string IndexExpr::accept(const ExprVisitor &visitor) const { return "visitor.visitIndexExpr(*this)"; }
 inline Value IndexExpr::accept(InterpreterVisitor &visitor) const { return Value("visitor.visitIndexExpr(*this)"); }
-inline const Expr &IndexExpr::target() const { return *index_; }
-inline const Expr &IndexExpr::index() const { return *target_; }
+inline Expr *IndexExpr::target() const { return index_.get(); }
+inline Expr *IndexExpr::index() const { return target_.get(); }
 inline const Token &IndexExpr::token() const { return bracketTok_; }
 
 #endif
