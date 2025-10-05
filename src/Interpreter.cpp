@@ -149,6 +149,11 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     Value endValue = evaluate(*expr.end());
     Value stepValue = (stepExpr == nullptr) ? Value(1) : evaluate(*stepExpr);
 
+    auto isAlmostInt = [&](double x)
+    {
+        double r = std::round(x);
+        return std::abs(x - r) <= 1e-9 * std::max(1.0, std::abs(x));
+    };
     auto asNumberChecked = [](const Value &v, const char *what) -> double
     {
         if (!v.isNumber())
@@ -170,7 +175,16 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     const int sgn = (step > 0.0) ? 1 : -1;
 
     if (dir == 0)
-        return Value{std::vector<Value>{}};
+    {
+        std::vector<Value> out;
+
+        if (isAlmostInt(start))
+            out.emplace_back(static_cast<int64_t>(std::llround(start)));
+        else
+            out.emplace_back(start);
+
+        return Value{std::move(out)};
+    }
 
     if (sgn != dir)
     {
@@ -190,11 +204,11 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
 
     if (std::isfinite(start) && std::isfinite(end) && std::isfinite(step))
     {
-        double span = std::abs(end - start);
+        const double span = std::abs(end - start);
 
         if (absStep > 0.0 && std::isfinite(span))
         {
-            double n = std::ceil((span - eps) / absStep);
+            double n = std::floor((span + eps) / absStep) + 1.0;
 
             if (n > 0.0 && n < 5e7)
                 reserveN = static_cast<std::size_t>(n);
@@ -210,18 +224,13 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     if (reserveN)
         out.reserve(reserveN);
 
-    auto is_almost_int = [&](double x)
-    {
-        double r = std::round(x);
-        return std::abs(x - r) <= 1e-9 * std::max(1.0, std::abs(x));
-    };
-    const bool want_ints = is_almost_int(start) && is_almost_int(end) && is_almost_int(step);
+    const bool wantInts = isAlmostInt(start) && isAlmostInt(end) && isAlmostInt(step);
 
     if (dir > 0)
     {
-        for (double x = start; x + eps < end; x += step)
+        for (double x = start; x <= end + eps; x += step)
         {
-            if (want_ints)
+            if (wantInts)
                 out.emplace_back(static_cast<int64_t>(std::llround(x)));
             else
                 out.emplace_back(x);
@@ -229,9 +238,9 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     }
     else
     {
-        for (double x = start; x - eps > end; x += step)
+        for (double x = start; x >= end - eps; x += step)
         {
-            if (want_ints)
+            if (wantInts)
                 out.emplace_back(static_cast<int64_t>(std::llround(x)));
             else
                 out.emplace_back(x);
