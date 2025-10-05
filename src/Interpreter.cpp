@@ -146,38 +146,96 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     Value endValue = evaluate(*expr.end());
     Value stepValue = (stepExpr == nullptr) ? Value(1) : evaluate(*stepExpr);
 
-    if (!startValue.isNumber())
-        throw ValueError("Rango inválido: el inicio debe ser un número. Recibido: " + startValue.toString());
-
-    if (!endValue.isNumber())
-        throw ValueError("Rango inválido: el fin debe ser un número. Recibido: " + endValue.toString());
-
-    if (!stepValue.isNull() && !stepValue.isNumber())
-        throw ValueError("Rango inválido: el paso debe ser un número. Recibido: " + stepValue.toString());
-
-    double start = startValue.asNumber();
-    double end = endValue.asNumber();
-    double step = (stepValue.isNull() ? 1.0 : stepValue.asNumber());
-
-    if (step <= 0.0)
-        throw ValueError("Rango inválido: el paso no puede ser cero o negativo.");
-
-    std::vector<Value> lst;
-
-    if (start < end)
+    auto asNumberChecked = [](const Value &v, const char *what) -> double
     {
-        for (double i = start; i < end; i += step)
-            lst.emplace_back(i);
-    }
-    else if (start > end)
+        if (!v.isNumber())
+            throw ValueError(std::string("Rango inválido: ") + what + " debe ser un número. Recibido: " + v.toString());
+        double d = v.asNumber();
+        if (!std::isfinite(d))
+            throw ValueError(std::string("Rango inválido: ") + what + " no puede ser NaN/Inf. Recibido: " + v.toString());
+        return d;
+    };
+
+    const double start = asNumberChecked(startValue, "el inicio");
+    const double end = asNumberChecked(endValue, "el fin");
+    const double step = asNumberChecked(stepValue, "el paso");
+
+    if (step == 0.0)
+        throw ValueError("Rango inválido: el paso no puede ser cero.");
+
+    const int dir = (end > start) ? 1 : (end < start ? -1 : 0);
+    const int sgn = (step > 0.0) ? 1 : -1;
+
+    if (dir == 0)
+        return Value{std::vector<Value>{}};
+
+    if (sgn != dir)
     {
-        step *= -1;
-
-        for (double i = start; i > end; i += step)
-            lst.emplace_back(i);
+        throw ValueError(
+            "Rango inválido: el paso debe apuntar hacia el fin. "
+            "Use paso positivo para rangos ascendentes y negativo para descendentes. "
+            "inicio=" +
+            std::to_string(start) + ", fin=" + std::to_string(end) + ", paso=" + std::to_string(step));
     }
 
-    return Value{std::move(lst)};
+    if (start + step == start)
+        throw ValueError("Rango inválido: el paso es demasiado pequeño para el tipo numérico (no produce avance).");
+
+    const double absStep = std::abs(step);
+    const double eps = std::max(1e-12, absStep * 1e-12);
+    std::size_t reserveN = 0;
+
+    if (std::isfinite(start) && std::isfinite(end) && std::isfinite(step))
+    {
+        double span = std::abs(end - start);
+
+        if (absStep > 0.0 && std::isfinite(span))
+        {
+            double n = std::ceil((span - eps) / absStep);
+
+            if (n > 0.0 && n < 5e7)
+                reserveN = static_cast<std::size_t>(n);
+            else if (n >= 5e7)
+            {
+                throw ValueError("Rango demasiado grande: tamaño estimado " + std::to_string(static_cast<long double>(n)));
+            }
+        }
+    }
+
+    std::vector<Value> out;
+
+    if (reserveN)
+        out.reserve(reserveN);
+
+    auto is_almost_int = [&](double x)
+    {
+        double r = std::round(x);
+        return std::abs(x - r) <= 1e-9 * std::max(1.0, std::abs(x));
+    };
+    const bool want_ints = is_almost_int(start) && is_almost_int(end) && is_almost_int(step);
+
+    if (dir > 0)
+    {
+        for (double x = start; x + eps < end; x += step)
+        {
+            if (want_ints)
+                out.emplace_back(static_cast<int64_t>(std::llround(x)));
+            else
+                out.emplace_back(x);
+        }
+    }
+    else
+    {
+        for (double x = start; x - eps > end; x += step)
+        {
+            if (want_ints)
+                out.emplace_back(static_cast<int64_t>(std::llround(x)));
+            else
+                out.emplace_back(x);
+        }
+    }
+
+    return Value{std::move(out)};
 }
 
 Value Interpreter::visitUnaryExpr(const UnaryExpr &expr)
