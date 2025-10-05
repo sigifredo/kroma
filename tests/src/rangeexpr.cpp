@@ -149,25 +149,6 @@ TEST_CASE("RangeExpr stores zero step (semantic error deferred to evaluator)", "
     REQUIRE(dynamic_cast<const LiteralExpr *>(range.step())->value().asNumber() == 0);
 }
 
-TEST_CASE("RangeExpr eval: 1..4", "[RangeExpr][eval]")
-{
-    Interpreter interpreter;
-
-    RangeExpr exp(std::make_unique<LiteralExpr>(int64_t{1}),
-                  std::make_unique<LiteralExpr>(int64_t{4}));
-
-    Value val = interpreter.visitRangeExpr(exp);
-    const auto vec = val.asList();
-    const std::vector<double> expected{1.0, 2.0, 3.0};
-
-    REQUIRE(vec.size() == expected.size());
-    for (size_t i = 0; i < vec.size(); ++i)
-    {
-        CAPTURE(i);
-        REQUIRE(vec[i] == expected[i]);
-    }
-}
-
 TEST_CASE("RangeExpr eval basic cases", "[RangeExpr][eval]")
 {
     Interpreter it;
@@ -177,24 +158,43 @@ TEST_CASE("RangeExpr eval basic cases", "[RangeExpr][eval]")
         RangeExpr e(std::make_unique<LiteralExpr>(int64_t{1}),
                     std::make_unique<LiteralExpr>(int64_t{4}));
         auto v = it.visitRangeExpr(e).asList();
-        expect_vec_eq(v, decltype(v){1, 2, 3}, "1..4");
+        expect_vec_eq(v, decltype(v){1, 2, 3, 4}, "1..4");
     }
 
     SECTION("1..7 by 2")
     {
-        RangeExpr e(std::make_unique<LiteralExpr>(int64_t{1}),
-                    std::make_unique<LiteralExpr>(int64_t{7}),
-                    std::make_unique<LiteralExpr>(int64_t{2}));
+        RangeExpr e(std::make_unique<LiteralExpr>(1),
+                    std::make_unique<LiteralExpr>(7),
+                    std::make_unique<LiteralExpr>(2));
         auto v = it.visitRangeExpr(e).asList();
-        expect_vec_eq(v, decltype(v){1, 3, 5}, "1..7 by 2");
+        expect_vec_eq(v, decltype(v){1, 3, 5, 7}, "1..7 by 2");
     }
 
     SECTION("7..1 by -2")
     {
-        RangeExpr e(std::make_unique<LiteralExpr>(int64_t{7}),
-                    std::make_unique<LiteralExpr>(int64_t{1}),
-                    std::make_unique<LiteralExpr>(int64_t{-2}));
+        RangeExpr e(std::make_unique<LiteralExpr>(7),
+                    std::make_unique<LiteralExpr>(1),
+                    std::make_unique<LiteralExpr>(-2));
         auto v = it.visitRangeExpr(e).asList();
-        expect_vec_eq(v, decltype(v){7, 5, 3}, "7..1 by -2");
+        expect_vec_eq(v, decltype(v){7, 5, 3, 1}, "7..1 by -2");
+    }
+
+    SECTION("1..4 by 0.5")
+    {
+        RangeExpr e(std::make_unique<LiteralExpr>(1),
+                    std::make_unique<LiteralExpr>(4),
+                    std::make_unique<LiteralExpr>(0.5));
+
+        auto v = it.visitRangeExpr(e).asList();
+        expect_vec_eq(v, decltype(v){1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0}, "1..4 by 0.5");
+    }
+
+    SECTION("7..1 by -2")
+    {
+        RangeExpr e(std::make_unique<LiteralExpr>(7),
+                    std::make_unique<LiteralExpr>(1),
+                    std::make_unique<LiteralExpr>(-1.5));
+        auto v = it.visitRangeExpr(e).asList();
+        expect_vec_eq(v, decltype(v){7.0, 5.5, 4.0, 2.5, 1.0}, "7..1 by -1.5");
     }
 }
