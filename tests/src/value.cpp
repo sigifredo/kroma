@@ -19,9 +19,19 @@ TEST_CASE("Value supports construction from int", "[Value]")
     REQUIRE(v.asNumber() == Catch::Approx(41.0));
 }
 
+TEST_CASE("Value supports construction from int64_t", "[Value]")
+{
+    std::int64_t number = 35;
+    Value v(number);
+
+    REQUIRE(v.isNumber());
+    REQUIRE(v.asNumber() == Catch::Approx(35.0));
+}
+
 TEST_CASE("Value supports construction from double", "[Value]")
 {
     Value v(3.1415);
+
     REQUIRE(v.isNumber());
     REQUIRE(v.asNumber() == Catch::Approx(3.1415));
 }
@@ -29,6 +39,7 @@ TEST_CASE("Value supports construction from double", "[Value]")
 TEST_CASE("Value supports construction from std::string", "[Value]")
 {
     Value v(std::string("hello"));
+
     REQUIRE(v.isString());
     REQUIRE(v.asString() == "hello");
 }
@@ -36,6 +47,7 @@ TEST_CASE("Value supports construction from std::string", "[Value]")
 TEST_CASE("Value supports construction from const char*", "[Value]")
 {
     Value v("world");
+
     REQUIRE(v.isString());
     REQUIRE(v.asString() == "world");
 }
@@ -43,6 +55,7 @@ TEST_CASE("Value supports construction from const char*", "[Value]")
 TEST_CASE("Value supports construction from bool", "[Value]")
 {
     Value v(true);
+
     REQUIRE(v.isBool());
     REQUIRE(v.asBool());
 }

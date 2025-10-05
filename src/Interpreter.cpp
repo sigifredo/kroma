@@ -25,6 +25,9 @@
 #include <stmt/PrintStmt.hpp>
 #include <stmt/VarStmt.hpp>
 
+// std
+#include <cmath>
+
 void Interpreter::interpret(const std::vector<std::unique_ptr<Stmt>> &statements)
 {
     for (const auto &stmt : statements)

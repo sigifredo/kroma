@@ -18,6 +18,7 @@ public:
     Value();
     Value(const Value &other) = default;
     Value(const int &number);
+    Value(const std::int64_t &number);
     Value(const double &number);
     explicit Value(const std::string &str);
     explicit Value(const char *cstr);

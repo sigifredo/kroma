@@ -9,6 +9,7 @@
 Value::Value() : data_(std::monostate{}) {}
 Value::Value(const double &number) : data_(number) {}
 Value::Value(const int &number) : data_(static_cast<double>(number)) {}
+Value::Value(const std::int64_t &number) : data_(static_cast<double>(number)) {}
 Value::Value(const std::string &str) : data_(str) {}
 Value::Value(const char *cstr) : data_(std::string(cstr)) {}
 Value::Value(const bool &boolean) : data_(boolean) {}
