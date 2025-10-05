@@ -141,9 +141,10 @@ Value Interpreter::visitLogicalExpr(const LogicalExpr &expr)
 
 Value Interpreter::visitRangeExpr(const RangeExpr &expr)
 {
+    auto stepExpr = expr.step();
     Value startValue = evaluate(*expr.start());
     Value endValue = evaluate(*expr.end());
-    Value stepValue = evaluate(*expr.step());
+    Value stepValue = (stepExpr == nullptr) ? Value(1) : evaluate(*stepExpr);
 
     if (!startValue.isNumber())
         throw ValueError("Rango inválido: el inicio debe ser un número. Recibido: " + startValue.toString());
@@ -158,18 +159,20 @@ Value Interpreter::visitRangeExpr(const RangeExpr &expr)
     double end = endValue.asNumber();
     double step = (stepValue.isNull() ? 1.0 : stepValue.asNumber());
 
-    if (step == 0.0)
-        throw ValueError("Rango inválido: el paso no puede ser cero.");
+    if (step <= 0.0)
+        throw ValueError("Rango inválido: el paso no puede ser cero o negativo.");
 
     std::vector<Value> lst;
 
-    if (step > 0.0 && start < end)
+    if (start < end)
     {
         for (double i = start; i < end; i += step)
             lst.emplace_back(i);
     }
-    else if (step < 0.0 && start > end)
+    else if (start > end)
     {
+        step *= -1;
+
         for (double i = start; i > end; i += step)
             lst.emplace_back(i);
     }
