@@ -17,6 +17,7 @@
  * Define la interfaz común y funcionalidades básicas para cualquier escáner que procese
  * una cadena y genere una secuencia de tokens (`Token`). Las subclases deben implementar
  * el método `scanTokens()` para realizar el escaneo concreto.
+ *
  */
 class BaseScanner
 {
@@ -27,12 +28,14 @@ public:
      * Inicializa el escáner con el código fuente dado.
      *
      * @param src Cadena fuente a escanear.
+     *
      */
     explicit BaseScanner(const std::string &src)
         : current_(0), line_(1), source_(src) {}
 
     /**
      * @brief Destructor virtual.
+     *
      */
     virtual ~BaseScanner() = default;
 
@@ -41,6 +44,7 @@ protected:
      * @brief Avanza el cursor y retorna el carácter consumido.
      *
      * @return El carácter actual antes de avanzar.
+     *
      */
     char advance();
 
@@ -48,6 +52,7 @@ protected:
      * @brief Verifica si se alcanzó el final del código fuente.
      *
      * @return `true` si ya no hay más caracteres por leer, `false` en caso contrario.
+     *
      */
     bool isAtEnd() const;
 
@@ -55,12 +60,15 @@ protected:
      * @brief Verifica si el carácter actual coincide con el esperado. Si es así, avanza.
      *
      * @param expected Carácter esperado.
+     *
      * @return `true` si coincide y avanza, `false` si no.
+     *
      */
     bool match(const char &expected);
 
     /**
      * @brief Incrementa el contador de líneas.
+     *
      */
     void newLine();
 
@@ -68,6 +76,7 @@ protected:
      * @brief Retorna el carácter actual sin consumirlo.
      *
      * @return Carácter en la posición actual del cursor.
+     *
      */
     char peek() const;
 
@@ -75,6 +84,7 @@ protected:
      * @brief Retorna el siguiente carácter sin consumirlo.
      *
      * @return Carácter en la posición siguiente al cursor.
+     *
      */
     char peekNext() const;
 
@@ -82,6 +92,7 @@ protected:
      * @brief Obtiene el índice actual del cursor.
      *
      * @return Posición actual como índice.
+     *
      */
     size_t current() const;
 
@@ -89,6 +100,7 @@ protected:
      * @brief Obtiene el número actual de línea.
      *
      * @return Número de línea.
+     *
      */
     int line() const;
 
@@ -96,6 +108,7 @@ protected:
      * @brief Devuelve una referencia al código fuente original.
      *
      * @return Referencia constante a la cadena fuente.
+     *
      */
     const std::string &source() const;
 
