@@ -25,18 +25,19 @@ public:
     std::string print(const Stmt *stmt);
 
     // --- ExprVisitor ---
-    std::string visitAssignExpr(const AssignExpr &expr) const override;
-    std::string visitBinaryExpr(const BinaryExpr &expr) const override;
-    std::string visitCallExpr(const CallExpr &expr) const override;
-    std::string visitFStringExpr(const FStringExpr &expr) const override;
-    std::string visitGetExpr(const GetExpr &expr) const override;
-    std::string visitGroupingExpr(const GroupingExpr &expr) const override;
-    std::string visitListExpr(const ListExpr &expr) const override;
-    std::string visitLiteralExpr(const LiteralExpr &expr) const override;
-    std::string visitLogicalExpr(const LogicalExpr &expr) const override;
-    std::string visitRangeExpr(const RangeExpr &expr) const override;
-    std::string visitUnaryExpr(const UnaryExpr &expr) const override;
-    std::string visitVariableExpr(const VariableExpr &expr) const override;
+    std::string visit(const AssignExpr &expr) const override;
+    std::string visit(const BinaryExpr &expr) const override;
+    std::string visit(const CallExpr &expr) const override;
+    std::string visit(const FStringExpr &expr) const override;
+    std::string visit(const GetExpr &expr) const override;
+    std::string visit(const GroupingExpr &expr) const override;
+    std::string visit(const IndexExpr &expr) const override;
+    std::string visit(const ListExpr &expr) const override;
+    std::string visit(const LiteralExpr &expr) const override;
+    std::string visit(const LogicalExpr &expr) const override;
+    std::string visit(const RangeExpr &expr) const override;
+    std::string visit(const UnaryExpr &expr) const override;
+    std::string visit(const VariableExpr &expr) const override;
 
     // --- StmtVisitor ---
     std::string visitBlockStmt(const BlockStmt &stmt) const override;

@@ -9,18 +9,19 @@
 class TestExprVisitor : public ExprVisitor
 {
 public:
-    std::string visitAssignExpr(const AssignExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitBinaryExpr(const BinaryExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitFStringExpr(const FStringExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitCallExpr(const CallExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitGetExpr(const GetExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitGroupingExpr(const GroupingExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitListExpr(const ListExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitLiteralExpr(const LiteralExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitLogicalExpr(const LogicalExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitRangeExpr(const RangeExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitUnaryExpr(const UnaryExpr &) const override { return getVisitedStr(std::string(__func__)); }
-    std::string visitVariableExpr(const VariableExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const AssignExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const BinaryExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const FStringExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const CallExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const GetExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const GroupingExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const IndexExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const ListExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const LiteralExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const LogicalExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const RangeExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const UnaryExpr &) const override { return getVisitedStr(std::string(__func__)); }
+    std::string visit(const VariableExpr &) const override { return getVisitedStr(std::string(__func__)); }
 
 private:
     std::string getVisitedStr(const std::string &functionName) const;

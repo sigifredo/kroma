@@ -31,7 +31,7 @@ private:
     Token paren_;
 };
 
-inline std::string CallExpr::accept(const ExprVisitor &visitor) const { return visitor.visitCallExpr(*this); }
+inline std::string CallExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 #warning "Implementar"
 inline Value CallExpr::accept(InterpreterVisitor &) const { return Value("visitor.visitCallExpr(*this)"); }
 inline size_t CallExpr::argumentCount() const { return arguments_.size(); }

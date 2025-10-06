@@ -25,7 +25,7 @@ private:
     std::vector<std::unique_ptr<Expr>> elements_;
 };
 
-inline std::string ListExpr::accept(const ExprVisitor &visitor) const { return visitor.visitListExpr(*this); }
+inline std::string ListExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value ListExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitListExpr(*this); }
 inline const std::vector<std::unique_ptr<Expr>> &ListExpr::elements() const { return elements_; }
 

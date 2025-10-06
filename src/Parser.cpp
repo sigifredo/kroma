@@ -14,6 +14,7 @@
 #include <expressions/FStringExpr.hpp>
 #include <expressions/GetExpr.hpp>
 #include <expressions/GroupingExpr.hpp>
+#include <expressions/IndexExpr.hpp>
 #include <expressions/ListExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
@@ -78,6 +79,14 @@ std::unique_ptr<Expr> Parser::call()
         {
             Token name = consume(TokenType::IDENTIFIER, "Expect property name after '.'.");
             expr = std::make_unique<GetExpr>(std::move(expr), name);
+        }
+        else if (match({TokenType::LEFT_BRACKET}))
+        {
+            Token leftBracket = previous();
+            auto indexExpr = expression();
+
+            consume(TokenType::RIGHT_BRACKET, "Expect ']' after index");
+            expr = std::make_unique<IndexExpr>(std::move(expr), std::move(indexExpr), leftBracket);
         }
         else
         {

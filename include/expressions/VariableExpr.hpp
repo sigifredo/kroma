@@ -20,7 +20,7 @@ private:
     Token name_;
 };
 
-inline std::string VariableExpr::accept(const ExprVisitor &visitor) const { return visitor.visitVariableExpr(*this); }
+inline std::string VariableExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value VariableExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitVariableExpr(*this); }
 inline const Token &VariableExpr::name() const { return name_; }
 

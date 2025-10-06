@@ -22,7 +22,7 @@ private:
     std::unique_ptr<Expr> right_;
 };
 
-inline std::string UnaryExpr::accept(const ExprVisitor &visitor) const { return visitor.visitUnaryExpr(*this); }
+inline std::string UnaryExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value UnaryExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitUnaryExpr(*this); }
 inline const Token &UnaryExpr::op() const { return op_; }
 inline const Expr *UnaryExpr::right() const { return right_.get(); }

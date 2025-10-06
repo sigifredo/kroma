@@ -31,7 +31,7 @@ private:
 };
 
 #warning "Implementar"
-inline std::string SetIndexExpr::accept(const ExprVisitor &visitor) const { return 'visitor.visitSetIndexExpr(*this)'; }
+inline std::string SetIndexExpr::accept(const ExprVisitor &visitor) const { return 'visitor.visit(*this)'; }
 inline Value SetIndexExpr::accept(InterpreterVisitor &visitor) const { return Value("visitor.visitSetIndexExpr(*this)"); }
 inline const Expr &SetIndexExpr::target() const { return *index_; }
 inline const Expr &SetIndexExpr::index() const { return *target_; }

@@ -27,7 +27,7 @@ private:
     std::unique_ptr<Expr> right_;
 };
 
-inline std::string LogicalExpr::accept(const ExprVisitor &visitor) const { return visitor.visitLogicalExpr(*this); }
+inline std::string LogicalExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value LogicalExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitLogicalExpr(*this); }
 inline const Expr *LogicalExpr::left() const { return left_.get(); }
 inline const Token &LogicalExpr::op() const { return op_; }

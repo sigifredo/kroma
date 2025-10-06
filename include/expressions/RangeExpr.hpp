@@ -27,7 +27,7 @@ private:
     std::unique_ptr<Expr> step_;
 };
 
-inline std::string RangeExpr::accept(const ExprVisitor &visitor) const { return visitor.visitRangeExpr(*this); }
+inline std::string RangeExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value RangeExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitRangeExpr(*this); }
 inline const Expr *RangeExpr::start() const { return start_.get(); }
 inline const Expr *RangeExpr::end() const { return end_.get(); }

@@ -20,7 +20,7 @@ private:
     Value value_;
 };
 
-inline std::string LiteralExpr::accept(const ExprVisitor &visitor) const { return visitor.visitLiteralExpr(*this); }
+inline std::string LiteralExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value LiteralExpr::accept(InterpreterVisitor &) const { return value_; }
 
 inline const Value &LiteralExpr::value() const

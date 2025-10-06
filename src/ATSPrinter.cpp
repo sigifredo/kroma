@@ -9,6 +9,7 @@
 #include <expressions/FStringExpr.hpp>
 #include <expressions/GetExpr.hpp>
 #include <expressions/GroupingExpr.hpp>
+#include <expressions/IndexExpr.hpp>
 #include <expressions/ListExpr.hpp>
 #include <expressions/LiteralExpr.hpp>
 #include <expressions/LogicalExpr.hpp>
@@ -32,7 +33,7 @@ std::string ATSPrinter::print(const Stmt *stmt)
     return stmt->accept(*this);
 }
 
-std::string ATSPrinter::visitAssignExpr(const AssignExpr &expr) const
+std::string ATSPrinter::visit(const AssignExpr &expr) const
 {
     std::string result = "[assign ";
     result += expr.name().lexeme() + " = ";
@@ -41,12 +42,12 @@ std::string ATSPrinter::visitAssignExpr(const AssignExpr &expr) const
     return result;
 }
 
-std::string ATSPrinter::visitBinaryExpr(const BinaryExpr &expr) const
+std::string ATSPrinter::visit(const BinaryExpr &expr) const
 {
     return "[binary " + expr.left()->accept(*this) + " " + expr.op().lexeme() + " " + expr.right()->accept(*this) + "]";
 }
 
-std::string ATSPrinter::visitCallExpr(const CallExpr &expr) const
+std::string ATSPrinter::visit(const CallExpr &expr) const
 {
     std::string result = "[call " + expr.callee()->accept(*this);
 
@@ -59,7 +60,7 @@ std::string ATSPrinter::visitCallExpr(const CallExpr &expr) const
     return result;
 }
 
-std::string ATSPrinter::visitFStringExpr(const FStringExpr &expr) const
+std::string ATSPrinter::visit(const FStringExpr &expr) const
 {
     std::string result = "f\"";
 
@@ -75,17 +76,22 @@ std::string ATSPrinter::visitFStringExpr(const FStringExpr &expr) const
     return result;
 }
 
-std::string ATSPrinter::visitGetExpr(const GetExpr &expr) const
+std::string ATSPrinter::visit(const GetExpr &expr) const
 {
     return "[get " + expr.object()->accept(*this) + "." + expr.name().lexeme() + "]";
 }
 
-std::string ATSPrinter::visitGroupingExpr(const GroupingExpr &expr) const
+std::string ATSPrinter::visit(const GroupingExpr &expr) const
 {
     return "[group " + expr.expression()->accept(*this) + "]";
 }
 
-std::string ATSPrinter::visitListExpr(const ListExpr &expr) const
+std::string ATSPrinter::visit(const IndexExpr &expr) const
+{
+    return std::string("(index " + expr.target()->accept(*this) + " " + expr.index()->accept(*this) + ")");
+}
+
+std::string ATSPrinter::visit(const ListExpr &expr) const
 {
     std::string result("[list");
 
@@ -98,12 +104,12 @@ std::string ATSPrinter::visitListExpr(const ListExpr &expr) const
     return result;
 }
 
-std::string ATSPrinter::visitLiteralExpr(const LiteralExpr &expr) const
+std::string ATSPrinter::visit(const LiteralExpr &expr) const
 {
     return "[literal " + expr.value().toString() + "]";
 }
 
-std::string ATSPrinter::visitLogicalExpr(const LogicalExpr &expr) const
+std::string ATSPrinter::visit(const LogicalExpr &expr) const
 {
     std::string result = "[logical ";
     result += expr.left()->accept(*this);
@@ -113,7 +119,7 @@ std::string ATSPrinter::visitLogicalExpr(const LogicalExpr &expr) const
     return result;
 }
 
-std::string ATSPrinter::visitRangeExpr(const RangeExpr &expr) const
+std::string ATSPrinter::visit(const RangeExpr &expr) const
 {
     std::string result = "(range ";
 
@@ -131,12 +137,12 @@ std::string ATSPrinter::visitRangeExpr(const RangeExpr &expr) const
     return result;
 }
 
-std::string ATSPrinter::visitUnaryExpr(const UnaryExpr &expr) const
+std::string ATSPrinter::visit(const UnaryExpr &expr) const
 {
     return "[unary " + expr.op().lexeme() + " " + expr.right()->accept(*this) + "]";
 }
 
-std::string ATSPrinter::visitVariableExpr(const VariableExpr &expr) const
+std::string ATSPrinter::visit(const VariableExpr &expr) const
 {
     return expr.name().lexeme();
 }

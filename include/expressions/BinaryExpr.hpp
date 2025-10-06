@@ -29,7 +29,7 @@ private:
     std::unique_ptr<Expr> right_;
 };
 
-inline std::string BinaryExpr::accept(const ExprVisitor &visitor) const { return visitor.visitBinaryExpr(*this); }
+inline std::string BinaryExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value BinaryExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitBinaryExpr(*this); }
 inline const Expr *BinaryExpr::left() const { return left_.get(); }
 inline const Token &BinaryExpr::op() const { return op_; }

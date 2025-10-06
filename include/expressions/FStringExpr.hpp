@@ -21,7 +21,7 @@ private:
     std::vector<std::unique_ptr<Expr>> parts_;
 };
 
-inline std::string FStringExpr::accept(const ExprVisitor &visitor) const { return visitor.visitFStringExpr(*this); }
+inline std::string FStringExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value FStringExpr::accept(InterpreterVisitor &visitor) const { return visitor.visitFStringExpr(*this); }
 inline const std::vector<std::unique_ptr<Expr>> &FStringExpr::parts() const { return parts_; }
 

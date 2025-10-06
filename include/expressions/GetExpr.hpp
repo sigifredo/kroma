@@ -22,7 +22,7 @@ private:
     Token name_;
 };
 
-inline std::string GetExpr::accept(const ExprVisitor &visitor) const { return visitor.visitGetExpr(*this); }
+inline std::string GetExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 #warning "Implementar"
 inline Value GetExpr::accept(InterpreterVisitor &visitor) const { return Value("visitor.visitGetExpr(*this)"); }
 inline const Expr *GetExpr::object() const { return object_.get(); }

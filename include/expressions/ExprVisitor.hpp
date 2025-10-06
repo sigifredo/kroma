@@ -12,6 +12,7 @@ class CallExpr;
 class FStringExpr;
 class GetExpr;
 class GroupingExpr;
+class IndexExpr;
 class ListExpr;
 class LiteralExpr;
 class LogicalExpr;
@@ -25,18 +26,19 @@ public:
     ExprVisitor() = default;
     virtual ~ExprVisitor() = default;
 
-    virtual std::string visitAssignExpr(const AssignExpr &expr) const = 0;
-    virtual std::string visitBinaryExpr(const BinaryExpr &expr) const = 0;
-    virtual std::string visitCallExpr(const CallExpr &expr) const = 0;
-    virtual std::string visitFStringExpr(const FStringExpr &expr) const = 0;
-    virtual std::string visitGetExpr(const GetExpr &expr) const = 0;
-    virtual std::string visitGroupingExpr(const GroupingExpr &expr) const = 0;
-    virtual std::string visitListExpr(const ListExpr &expr) const = 0;
-    virtual std::string visitLiteralExpr(const LiteralExpr &expr) const = 0;
-    virtual std::string visitLogicalExpr(const LogicalExpr &expr) const = 0;
-    virtual std::string visitRangeExpr(const RangeExpr &expr) const = 0;
-    virtual std::string visitUnaryExpr(const UnaryExpr &expr) const = 0;
-    virtual std::string visitVariableExpr(const VariableExpr &expr) const = 0;
+    virtual std::string visit(const AssignExpr &expr) const = 0;
+    virtual std::string visit(const BinaryExpr &expr) const = 0;
+    virtual std::string visit(const CallExpr &expr) const = 0;
+    virtual std::string visit(const FStringExpr &expr) const = 0;
+    virtual std::string visit(const GetExpr &expr) const = 0;
+    virtual std::string visit(const GroupingExpr &expr) const = 0;
+    virtual std::string visit(const IndexExpr &expr) const = 0;
+    virtual std::string visit(const ListExpr &expr) const = 0;
+    virtual std::string visit(const LiteralExpr &expr) const = 0;
+    virtual std::string visit(const LogicalExpr &expr) const = 0;
+    virtual std::string visit(const RangeExpr &expr) const = 0;
+    virtual std::string visit(const UnaryExpr &expr) const = 0;
+    virtual std::string visit(const VariableExpr &expr) const = 0;
 };
 
 #endif
