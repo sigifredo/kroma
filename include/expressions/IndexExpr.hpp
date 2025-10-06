@@ -88,8 +88,8 @@ private:
 
 inline std::string IndexExpr::accept(const ExprVisitor &visitor) const { return visitor.visit(*this); }
 inline Value IndexExpr::accept(InterpreterVisitor &visitor) const { return Value(visitor.visitIndexExpr(*this)); }
-inline Expr *IndexExpr::target() const { return index_.get(); }
-inline Expr *IndexExpr::index() const { return target_.get(); }
+inline Expr *IndexExpr::target() const { return target_.get(); }
+inline Expr *IndexExpr::index() const { return index_.get(); }
 inline const Token &IndexExpr::token() const { return bracketTok_; }
 
 #endif
