@@ -1,3 +1,5 @@
+
+
 // catch2
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
@@ -66,7 +68,7 @@ TEST_CASE("RangeExpr accept method works with visitor", "[RangeExpr]")
     TestExprVisitor visitor;
     std::string result = range.accept(visitor);
 
-    REQUIRE(result == "RangeVisited");
+    REQUIRE(result == "Visited");
 }
 
 TEST_CASE("RangeExpr exposes non-null start/end and null step when omitted", "[RangeExpr]")
@@ -118,7 +120,7 @@ TEST_CASE("RangeExpr accept keeps children intact", "[RangeExpr]")
                     std::move(step));
 
     TestExprVisitor v;
-    REQUIRE(range.accept(v) == "RangeVisited");
+    REQUIRE(range.accept(v) == "Visited");
 
     REQUIRE(dynamic_cast<const LiteralExpr *>(range.start())->value().asNumber() == a);
     REQUIRE(dynamic_cast<const LiteralExpr *>(range.end())->value().asNumber() == b);
