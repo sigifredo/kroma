@@ -1,6 +1,6 @@
 | Prioridad | Implementación                                                                             | Terminado |
 | --------: | ------------------------------------------------------------------------------------------ | --------- |
-|         1 | **Modo archivo real + CLI mínimo** (`kroma run file.kro`)                                  | [x]       |
+|         1 | **Modo archivo real + CLI mínimo** (`kroma file.kro`)                                      | [x]       |
 |         2 | **`while` + `break/continue`**                                                             | []        |
 |         3 | **`for x in <range/list>` implementado como desugaring a `while`**                         | []        |
 |         4 | **Asignación a índice** `a[i] = v` (`SetIndexExpr` real)                                   | []        |
