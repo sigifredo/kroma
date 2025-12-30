@@ -4,6 +4,7 @@
 #include <ArgumentParser.hpp>
 #include <REPL.hpp>
 #include <ReplController.hpp>
+#include <SourceRunner.hpp>
 #include <Version.hpp>
 
 // std
@@ -45,6 +46,22 @@ int main(int argc, char **argv)
     else
     {
         std::cout << "Reading file: " << filename << "\n";
+
+        SourceRunner::Options opt;
+        opt.debugTokens = args.isSet("-d");
+        opt.debugAST = args.isSet("-d");
+
+        SourceRunner runner(opt, &std::cout, &std::cerr);
+
+        try
+        {
+            return runner.runFile(filename);
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << "\n";
+            return 1;
+        }
     }
 
     return 0;

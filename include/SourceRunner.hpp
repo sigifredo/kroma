@@ -12,11 +12,13 @@ class SourceRunner
 public:
     struct Options
     {
-        bool debugTokens = false;
-        bool debugAST = false;
+        bool debugTokens;
+        bool debugAST;
+
+        Options() : debugTokens(false), debugAST(false) {}
     };
 
-    explicit SourceRunner(Options opt = {}, std::ostream *out = nullptr, std::ostream *err = nullptr);
+    explicit SourceRunner(Options opt = Options{}, std::ostream *out = nullptr, std::ostream *err = nullptr);
 
     int runSource(const std::string &source);
     int runFile(const std::string &path);
