@@ -45,8 +45,6 @@ int main(int argc, char **argv)
     }
     else
     {
-        std::cout << "Reading file: " << filename << "\n";
-
         SourceRunner::Options opt;
         opt.debugTokens = args.isSet("-d");
         opt.debugAST = args.isSet("-d");
