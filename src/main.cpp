@@ -2,8 +2,8 @@
 
 // own
 #include <ArgumentParser.hpp>
-#include <DummyListener.hpp>
 #include <REPL.hpp>
+#include <ReplController.hpp>
 #include <Version.hpp>
 
 // std
@@ -35,11 +35,11 @@ int main(int argc, char **argv)
         std::cout << "Welcome to kroma!\n\n";
 
         REPL repl;
-        DummyListener dl;
+        ReplController controller;
 
-        dl.setShowDebug(args.isSet("-d"));
+        controller.setShowDebug(args.isSet("-d"));
 
-        repl.addListener(&dl);
+        repl.addListener(&controller);
         repl.run();
     }
     else

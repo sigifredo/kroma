@@ -1,7 +1,7 @@
 
 
-#ifndef DUMMYLISTENER_HPP
-#define DUMMYLISTENER_HPP
+#ifndef REPLCONTROLLER_HPP
+#define REPLCONTROLLER_HPP
 
 // own
 #include <CommandListener.hpp>
@@ -12,10 +12,10 @@
 
 class Token;
 
-class DummyListener : public CommandListener
+class ReplController : public CommandListener
 {
 public:
-    DummyListener() : hadError_(false), interpreter_(std::make_unique<Interpreter>()), showDebug_(false) {}
+    ReplController() : hadError_(false), interpreter_(std::make_unique<Interpreter>()), showDebug_(false) {}
 
     void onCommand(const std::string &command) override final;
     void setShowDebug(const bool &showDebug);
@@ -30,6 +30,6 @@ private:
     void report(const int &line, const std::string &where, const std::string &message);
 };
 
-inline void DummyListener::setShowDebug(const bool &showDebug) { showDebug_ = showDebug; }
+inline void ReplController::setShowDebug(const bool &showDebug) { showDebug_ = showDebug; }
 
 #endif
