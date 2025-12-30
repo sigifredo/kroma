@@ -11,7 +11,7 @@ set(SRC
     src/ArgumentParser.cpp
     src/ATSPrinter.cpp
     src/BaseScanner.cpp
-    src/DummyListener.cpp
+    src/ReplController.cpp
     src/Environment.cpp
     src/FStringScanner.cpp
     src/Interpreter.cpp
@@ -19,6 +19,7 @@ set(SRC
     src/Parser.cpp
     src/REPL.cpp
     src/Scanner.cpp
+    src/SourceRunner.cpp
     src/TokenType.cpp
     src/Value.cpp
 )

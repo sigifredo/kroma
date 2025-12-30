@@ -1,7 +1,7 @@
 
 
 // own
-#include <DummyListener.hpp>
+#include <ReplController.hpp>
 #include <ATSPrinter.hpp>
 #include <Parser.hpp>
 #include <Scanner.hpp>
@@ -12,7 +12,7 @@
 // std
 #include <iostream>
 
-void DummyListener::onCommand(const std::string &command)
+void ReplController::onCommand(const std::string &command)
 {
     if (!command.empty())
     {
@@ -25,7 +25,7 @@ void DummyListener::onCommand(const std::string &command)
 
             if (showDebug_)
             {
-                std::cout << "[DummyListener] Received command: " << command << std::endl;
+                std::cout << "[ReplController] Received command: " << command << std::endl;
                 debug(tokens, statements);
                 interpreter_->interpret(statements);
                 interpreter_->printVariables();
@@ -48,7 +48,7 @@ void DummyListener::onCommand(const std::string &command)
     }
 }
 
-void DummyListener::debug(const std::vector<Token> &tokens, const std::vector<std::unique_ptr<Stmt>> &stmts)
+void ReplController::debug(const std::vector<Token> &tokens, const std::vector<std::unique_ptr<Stmt>> &stmts)
 {
     ATSPrinter printer;
 
@@ -63,12 +63,12 @@ void DummyListener::debug(const std::vector<Token> &tokens, const std::vector<st
     }
 }
 
-void DummyListener::error(const int &line, const std::string &message)
+void ReplController::error(const int &line, const std::string &message)
 {
     report(line, "", message);
 }
 
-void DummyListener::report(const int &line, const std::string &where, const std::string &message)
+void ReplController::report(const int &line, const std::string &where, const std::string &message)
 {
     std::cerr << "[line " << line << "] Error -> " << where << ": " << message << std::endl;
     hadError_ = true;

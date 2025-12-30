@@ -2,8 +2,9 @@
 
 // own
 #include <ArgumentParser.hpp>
-#include <DummyListener.hpp>
 #include <REPL.hpp>
+#include <ReplController.hpp>
+#include <SourceRunner.hpp>
 #include <Version.hpp>
 
 // std
@@ -35,16 +36,30 @@ int main(int argc, char **argv)
         std::cout << "Welcome to kroma!\n\n";
 
         REPL repl;
-        DummyListener dl;
+        ReplController controller;
 
-        dl.setShowDebug(args.isSet("-d"));
+        controller.setShowDebug(args.isSet("-d"));
 
-        repl.addListener(&dl);
+        repl.addListener(&controller);
         repl.run();
     }
     else
     {
-        std::cout << "Reading file: " << filename << "\n";
+        SourceRunner::Options opt;
+        opt.debugTokens = args.isSet("-d");
+        opt.debugAST = args.isSet("-d");
+
+        SourceRunner runner(opt, &std::cout, &std::cerr);
+
+        try
+        {
+            return runner.runFile(filename);
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << "\n";
+            return 1;
+        }
     }
 
     return 0;
